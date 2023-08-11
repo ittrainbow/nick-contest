@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Input } from '@mui/material'
 import { User } from 'firebase/auth'
 
-import { Button, LocaleSwitcher } from '../UI'
+import { Button } from '../UI'
 import { selectApp, selectUser } from '../redux/selectors'
 import { UPDATE_PROFILE } from '../redux/storetypes'
 import { animateFadeOut } from '../helpers'
@@ -18,12 +18,11 @@ export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const { name, locale } = useSelector(selectUser)
+  const { name } = useSelector(selectUser)
   const { tabActive, duration } = useSelector(selectApp)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [tempName, setTempName] = useState(name)
-  const [tempLocale, setTempLocale] = useState('')
 
   // container fade animations
 
@@ -35,17 +34,16 @@ export const Profile = () => {
 
   useEffect(() => {
     inputRef.current?.focus()
-    setTempLocale(locale)
     // eslint-disable-next-line
   }, [])
 
-  const noChanges = name === tempName && locale === tempLocale
+  const noChanges = name === tempName && !!tempName.length
 
   // action handlers
 
   const handleSubmit = async () => {
     const { uid } = user as User
-    const payload = { uid, name: tempName, locale }
+    const payload = { uid, name: tempName }
 
     dispatch({ type: UPDATE_PROFILE, payload })
     dispatch(userActions.updateUser(payload))
@@ -54,23 +52,19 @@ export const Profile = () => {
 
   const handleDiscard = () => {
     animateFadeOut(containerRef)
-    setTimeout(() => {
-      dispatch(userActions.setLocale(tempLocale))
-      navigate(-1)
-    }, duration)
+    setTimeout(() => navigate(-1), duration)
   }
 
   // render styles and locales
 
-  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as LocaleType
-  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
+  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n('auth') as LocaleType
+  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n('buttons') as LocaleType
 
   return (
     <div className="container auth animate-fade-in-up" ref={containerRef}>
       <div className="auth__data">
         <div className="text-container bold">{profileHeaderMsg}</div>
         <div className="text-container">{profileLangMsg}</div>
-        <LocaleSwitcher />
         <div className="text-container">{profileNameMsg}</div>
         <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
         <Button disabled={noChanges} onClick={handleSubmit}>

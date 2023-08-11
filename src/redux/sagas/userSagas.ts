@@ -5,7 +5,6 @@ import { ActionType, IUser, IUserStore, AnswersType, IStore, BuddiesPayloadType,
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
 import { fetchStandingsSaga, createStandingsSaga } from '.'
 import { getObjectsEquality } from '../../helpers'
-import { getLocale } from '../../helpers'
 import * as TYPES from '../storetypes'
 
 type UserUpdateType = {
@@ -63,7 +62,6 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
     const user: IUser = responseUser || {
       name: displayName,
       admin: false,
-      locale: getLocale(),
       buddies: [uid]
     }
 

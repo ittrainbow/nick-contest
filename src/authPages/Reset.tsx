@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux'
 import { Input } from '@mui/material'
 
 import { ChangeInputType, LocaleType } from '../types'
-import { Button, LocaleSwitcher } from '../UI'
-import { selectApp, selectUser } from '../redux/selectors'
+import { Button } from '../UI'
+import { selectApp } from '../redux/selectors'
 import { sendPasswordReset } from '../db/auth'
 import { animateFadeOut } from '../helpers'
 import { auth } from '../db/firebase'
@@ -16,7 +16,6 @@ export const Reset = () => {
   const navigate = useNavigate()
   const [user, loading] = useAuthState(auth)
   const { tabActive, duration } = useSelector(selectApp)
-  const { locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [email, setEmail] = useState('')
@@ -60,8 +59,8 @@ export const Reset = () => {
 
   // render styles and locales
 
-  const { buttonRecoverMsg } = i18n(locale, 'buttons') as LocaleType
-  const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as LocaleType
+  const { buttonRecoverMsg } = i18n('buttons') as LocaleType
+  const { loginMsg, loginIntro, regMsg, regIntro } = i18n('auth') as LocaleType
 
   return (
     <div className="container auth animate-fade-in-up" ref={containerRef}>
@@ -76,9 +75,6 @@ export const Reset = () => {
         <div className="link-container" onClick={handleToLogin}>
           {loginIntro} <div className="link-container__inner">{loginMsg}</div>
         </div>
-      </div>
-      <div className="locale-div">
-        <LocaleSwitcher />
       </div>
     </div>
   )

@@ -1,12 +1,8 @@
-import { useSelector } from 'react-redux'
-
-import { selectUser } from '../../redux/selectors'
 import { LocaleType } from '../../types'
 import { i18n } from '../../locale'
 
 export const StandingsHeader = () => {
-  const { locale } = useSelector(selectUser)
-  const { tableNameMsg, tableCorrectMsg } = i18n(locale, 'standings') as LocaleType
+  const { tableNameMsg, tableCorrectMsg } = i18n('standings') as LocaleType
   return (
     <div className="standings__header">
       <div className="col-zero">#</div>

@@ -1,4 +1,4 @@
-export const i18n = (locale: string, component: string): { [key: string]: string } | undefined => {
+export const i18n = (component: string): { [key: string]: string } | undefined => {
   const tab0msg = 'About'
   const tab1msg = 'Profile'
   const tab2msg = 'Week'
@@ -15,8 +15,8 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const loginIntro = 'Signed up?'
   const loginMsg = 'Login'
   const regIntro = 'Not signed up yet?'
-  const regMsg = 'Signup'
-  const forgotMsg = 'Forget password'
+  const regMsg = 'SignUp'
+  const forgotMsg = 'Forget password?'
   const regNameMsg = 'Username'
   const regNameAlert = 'Check username'
   const regEmailAlert = 'Check email'

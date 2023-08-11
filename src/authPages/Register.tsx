@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
 import { ChangeInputType, IUser, LocaleType } from '../types'
 import { appActions, userActions } from '../redux/slices'
-import { Button, LocaleSwitcher } from '../UI'
-import { selectApp, selectUser } from '../redux/selectors'
 import { animateFadeOut } from '../helpers'
+import { selectApp } from '../redux/selectors'
+import { Button } from '../UI'
 import { Input } from '@mui/material'
 import { auth } from '../db/firebase'
 import { i18n } from '../locale'
@@ -18,7 +18,6 @@ export const Register = () => {
   const dispatch = useDispatch()
   const [user, loading] = useAuthState(auth)
   const { tabActive, duration } = useSelector(selectApp)
-  const { locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [email, setEmail] = useState<string>('')
@@ -62,7 +61,7 @@ export const Register = () => {
     if (name && email && password.length > 5) {
       const response = await registerWithEmailAndPassword(name, email, password)
       if (response) {
-        const user: IUser = { admin: false, locale, name, buddies: [response.uid] }
+        const user: IUser = { admin: false, name, buddies: [response.uid] }
         dispatch(userActions.setUser(user))
       }
     }
@@ -89,9 +88,9 @@ export const Register = () => {
 
   // render styles and locales
 
-  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as LocaleType
+  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n('buttons') as LocaleType
   const { loginIntro, loginMsg, regNameMsg, regNameAlert, regEmailAlert, regPasswordAlert, emailMsg, passwordMsg } =
-    i18n(locale, 'auth') as LocaleType
+    i18n('auth') as LocaleType
 
   const handleToLogin = () => {
     animateFadeOut(containerRef)
@@ -113,9 +112,6 @@ export const Register = () => {
         <div className="link-container" onClick={handleToLogin}>
           {loginIntro} <div className="link-container__inner">{loginMsg}</div>
         </div>
-      </div>
-      <div className="locale-div">
-        <LocaleSwitcher />
       </div>
     </div>
   )

@@ -2,9 +2,9 @@ import { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaCheck, FaPlus } from 'react-icons/fa'
 
-import { selectApp, selectEditor, selectLocation, selectUser } from '../../redux/selectors'
 import { ChangeInputType, FadeRefType, LocaleType, QuestionsType } from '../../types'
 import { getNewQuestionId, getObjectsEquality, animateFadeOut } from '../../helpers'
+import { selectApp, selectEditor, selectLocation } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
 import { Input, Button } from '../../UI'
 import { i18n } from '../../locale'
@@ -14,7 +14,6 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   const nameRef = useRef<HTMLInputElement>()
   const questionRef = useRef<HTMLInputElement>()
   const { duration, tabActive } = useSelector(selectApp)
-  const { locale } = useSelector(selectUser)
   const editor = useSelector(selectEditor)
   const { pathname } = useSelector(selectLocation)
   const { name, questionInWork, questionCompare } = editor
@@ -74,7 +73,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
 
   // render styles and locales
 
-  const { weekNameMsg, weekTotalMsg, weekQuestionMsg } = i18n(locale, 'editor') as LocaleType
+  const { weekNameMsg, weekTotalMsg, weekQuestionMsg } = i18n('editor') as LocaleType
 
   return (
     <div className="editor-input">

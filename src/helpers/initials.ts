@@ -2,7 +2,6 @@ import { IUserStore, WeekType, QuestionType } from '../types'
 
 export const initialUser: IUserStore = {
   name: '',
-  locale: 'ru',
   admin: false,
   buddies: [],
   uid: ''

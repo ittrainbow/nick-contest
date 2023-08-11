@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
-import { selectAbout, selectApp, selectUser } from '../redux/selectors'
+import { selectAbout, selectApp } from '../redux/selectors'
 import { animateFadeOut } from '../helpers'
 import { LocaleType } from '../types'
 import { i18n } from '../locale'
@@ -10,7 +10,6 @@ import { Button } from '../UI'
 
 export const About = () => {
   const { tabActive, duration } = useSelector(selectApp)
-  const { locale } = useSelector(selectUser)
   const about = useSelector(selectAbout)
   const containerRef = useRef<HTMLDivElement>(null)
   const aboutRef = useRef<HTMLDivElement>(null)
@@ -37,8 +36,8 @@ export const About = () => {
 
   // render styles and locales
 
-  const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
-  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg } = i18n(locale, 'about') as LocaleType
+  const { buttonDetailsMsg } = i18n('buttons') as LocaleType
+  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg } = i18n('about') as LocaleType
 
   const legend = [
     { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
@@ -47,7 +46,7 @@ export const About = () => {
     { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
   ]
 
-  const description = Object.values(about[locale])
+  const description = Object.values(about['en'])
 
   const copyright = ` ${String.fromCodePoint(0x00a9)} ${new Date().getFullYear()}`
 

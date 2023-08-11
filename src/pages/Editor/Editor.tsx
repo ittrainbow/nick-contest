@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
-import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
+import { selectApp, selectEditor, selectLocation, selectWeeks } from '../../redux/selectors'
 import { getObjectsEquality, getWeeksIDs, animateFadeOut } from '../../helpers'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
@@ -21,7 +21,6 @@ export const Editor = () => {
   const editor = useSelector(selectEditor)
   const { selectedWeek, emptyEditor } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
-  const { locale } = useSelector(selectUser)
   const { tabActive, duration } = useSelector(selectApp)
   const { questions, name, active, deadline } = editor
   const questionsRef = useRef<HTMLDivElement>(null)
@@ -96,9 +95,8 @@ export const Editor = () => {
 
   // render styles and locales
 
-  const { weekDeleteMsg } = i18n(locale, 'editor') as LocaleType
+  const { weekDeleteMsg } = i18n('editor') as LocaleType
   const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg, buttonDeleteYesMsg, buttonDeleteNoMsg } = i18n(
-    locale,
     'buttons'
   ) as LocaleType
 

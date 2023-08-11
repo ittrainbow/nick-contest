@@ -22,7 +22,7 @@ export const Standings = () => {
   const user = useSelector((store: IStore) => store.user)
   const { tabActive, duration } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
-  const { locale, uid, buddies, admin } = user
+  const { uid, buddies, admin } = user
   const containerRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
   const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
@@ -71,7 +71,7 @@ export const Standings = () => {
 
   const getCellClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
 
-  const { tablePSOne, tablePSTwo, tableHeaderhMsg, tableNoGamesMsg } = i18n(locale, 'standings') as LocaleType
+  const { tablePSOne, tablePSTwo, tableHeaderhMsg, tableNoGamesMsg } = i18n('standings') as LocaleType
 
   const getLastWeekName = () => {
     const lastWeekNumber = Number(Object.keys(results).slice(-1)[0])

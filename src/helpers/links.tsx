@@ -8,15 +8,11 @@ import {
   FaPenNib
 } from 'react-icons/fa'
 
-import { store } from '../redux/store'
 import { LocaleType } from '../types'
 import { i18n } from '../locale'
 
 export const getMenu = (admin: boolean) => {
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(
-    store.getState().user.locale,
-    'header'
-  ) as LocaleType
+  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n('header') as LocaleType
 
   const userMenu = [
     { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },

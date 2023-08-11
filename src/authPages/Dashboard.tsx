@@ -17,7 +17,7 @@ export const Dashboard = () => {
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
   const { tabActive, duration } = useSelector(selectApp)
-  const { name, admin, locale } = useSelector(selectUser)
+  const { name, admin } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
 
   // container fade animations
@@ -43,8 +43,8 @@ export const Dashboard = () => {
 
   // render styles and locales
 
-  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as LocaleType
-  const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as LocaleType
+  const { dashboardEnterMsg, dashboardAdminMsg } = i18n('auth') as LocaleType
+  const { buttonProfileMsg, buttonLogoutMsg } = i18n('buttons') as LocaleType
 
   return (
     <div className="container auth animate-fade-in-up" ref={containerRef}>

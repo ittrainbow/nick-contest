@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment/moment'
 
-import { selectEditor, selectUser } from '../../redux/selectors'
 import { ChangeInputType, LocaleType } from '../../types'
+import { selectEditor } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
 import { Input } from '../../UI'
 import { i18n } from '../../locale'
@@ -10,7 +10,6 @@ import { i18n } from '../../locale'
 export const EditorActivities = () => {
   const dispatch = useDispatch()
   const { active, deadline } = useSelector(selectEditor)
-  const { locale } = useSelector(selectUser)
 
   const handleChangeDate = (e: ChangeInputType) => {
     const { value } = e.target
@@ -29,7 +28,7 @@ export const EditorActivities = () => {
       .substring(0, 16)
   }
 
-  const { weekActivityMsg } = i18n(locale, 'editor') as LocaleType
+  const { weekActivityMsg } = i18n('editor') as LocaleType
 
   return (
     <div className="editor-activities-container">

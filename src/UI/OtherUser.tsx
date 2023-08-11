@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 
-import { selectApp, selectUser } from '../redux/selectors'
 import { FadeRefType, LocaleType } from '../types'
+import { selectApp } from '../redux/selectors'
 import { appActions } from '../redux/slices'
 import { animateFadeOut } from '../helpers'
 import { i18n } from '../locale'
@@ -13,7 +13,6 @@ type OtherUserPropsType = {
 export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
   const dispatch = useDispatch()
   const { otherUserName, isItYou, duration } = useSelector(selectApp)
-  const { locale } = useSelector(selectUser)
 
   const handleDiscard = () => {
     animateFadeOut(containerRef)
@@ -24,7 +23,7 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
     }, duration)
   }
 
-  const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser') as LocaleType
+  const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n('otheruser') as LocaleType
 
   return isItYou ? null : (
     <div>

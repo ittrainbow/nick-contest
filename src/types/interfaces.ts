@@ -37,7 +37,6 @@ export interface ITools {
 
 export interface IUser {
   admin: boolean
-  locale: string
   name: string
   adminAsPlayer?: boolean
   buddies: string[]

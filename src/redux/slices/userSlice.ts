@@ -10,24 +10,16 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<IUser>) {
-      const { admin, locale, name, adminAsPlayer, buddies } = action.payload
+      const { admin, name, adminAsPlayer, buddies } = action.payload
       state.admin = admin
-      state.locale = locale
       state.name = name
       state.adminAsPlayer = adminAsPlayer
       state.buddies = buddies
     },
 
     updateUser(state, action: PayloadAction<{ [key: string]: string }>) {
-      const { name, locale } = action.payload
+      const { name } = action.payload
       state.name = name
-      state.locale = locale
-    },
-
-    setLocale(state, action: PayloadAction<string>) {
-      const { payload } = action
-      localStorage.setItem('packContestLocale', payload)
-      state.locale = payload
     },
 
     setAdminAsPlayer(state, action: PayloadAction<boolean>) {
