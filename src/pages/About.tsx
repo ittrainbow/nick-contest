@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
-import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
 import { selectAbout, selectApp } from '../redux/selectors'
 import { i18n, LocaleType } from '../locale'
 import { animateFadeOut } from '../helpers'
 import { Button } from '../UI'
+import { icon1, icon2, icon3 } from '../helpers/icons'
 
 export const About = () => {
   const { tabActive, duration } = useSelector(selectApp)
@@ -36,13 +36,12 @@ export const About = () => {
   // render styles and locales
 
   const { buttonDetailsMsg } = i18n('buttons') as LocaleType
-  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg } = i18n('about') as LocaleType
+  const { aboutAwayMsg, aboutTieMsg, aboutHomeMsg, aboutLegend } = i18n('about') as LocaleType
 
   const legend = [
-    { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
-    { icon: <FaBan className="FaBan" />, text: aboutNoMsg },
-    { icon: <FaArrowUp className="FaArrowUp" />, text: aboutOverMsg },
-    { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
+    { icon: icon1, text: aboutAwayMsg },
+    { icon: icon2, text: aboutTieMsg },
+    { icon: icon3, text: aboutHomeMsg }
   ]
 
   const description = Object.values(about['en'])
@@ -58,20 +57,23 @@ export const About = () => {
           {description.map((el, index) => {
             const classes = `about__paragraph` + (index === 8 ? ' bold' : '')
 
-            return index < 9 ? (
+            return (
               <div key={index} className={classes}>
                 {!index ? null : el}
               </div>
-            ) : null
+            )
           })}
+          <div className="about__paragraph">
+            <div>{aboutLegend}</div>
+          </div>
           {legend.map(({ icon, text }, index) => (
-            <div key={index} className="legend">
-              <div className="legend__icon">{icon}</div>- {text}
+            <div className="legend">
+              <div className="legend__icon">{icon}</div>
+              <div key={index} className="legend__description">
+                {text}
+              </div>
             </div>
           ))}
-          <div className="about__paragraph">
-            <div>{description[9]}</div>
-          </div>
           <hr />
           <div className="about__paragraph copyright">
             <a href="https://t.me/packersnews">Green 19</a>

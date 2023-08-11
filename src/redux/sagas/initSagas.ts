@@ -10,6 +10,7 @@ import { createStandingsSaga } from '.'
 function* fetchAboutSaga() {
   try {
     const about: IAbout = yield call(getDBCollection, 'about')
+    console.log(100, about)
     yield put(aboutActions.setAbout(about))
   } catch (error) {
     if (error instanceof Error) {

@@ -5,8 +5,7 @@ import { IAbout } from '../../types'
 type AboutLocaleType = { [key: string]: string }
 
 const initialState: IAbout = {
-  ru: {} as AboutLocaleType,
-  ua: {} as AboutLocaleType
+  en: {} as AboutLocaleType
 }
 
 export const aboutSlice = createSlice({
@@ -14,9 +13,8 @@ export const aboutSlice = createSlice({
   initialState,
   reducers: {
     setAbout(state, action: PayloadAction<IAbout>) {
-      const { ru, ua } = action.payload
-      state.ru = ru
-      state.ua = ua
+      const { en } = action.payload
+      state.en = en
     }
   }
 })

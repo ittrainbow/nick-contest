@@ -84,14 +84,14 @@ export const i18n = (component: string): LocaleType | undefined => {
   const otherUser2msg = `You're looking at profile of `
   const otherUser3msg = 'Answers for the games that not started yet are hidden'
 
-  const aboutYesMsg = 'Answer YES'
-  const aboutNoMsg = 'Answer NO'
-  const aboutOverMsg = 'Answer OVER'
-  const aboutUnderMsg = 'Answer UNDER'
+  const aboutAwayMsg = 'Away team (mentioned former) wins'
+  const aboutTieMsg = 'No winner after overtime'
+  const aboutHomeMsg = 'Home team (mentioned latter) wins'
+  const aboutLegend = 'So, you can pick one of this options:'
 
   switch (component) {
     case 'about':
-      return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg }
+      return { aboutAwayMsg, aboutTieMsg, aboutHomeMsg, aboutLegend }
 
     case 'header':
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
