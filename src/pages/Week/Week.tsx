@@ -4,7 +4,6 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { animateWeekFadeOut } from '../../helpers'
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { OtherUser, Button, Switch } from '../../UI'
@@ -14,10 +13,11 @@ import { i18n, LocaleType } from '../../locale'
 import { IStore, WeekType } from '../../types'
 import { useCancelFade } from '../../hooks/useCancelFade'
 import { useChanges } from '../../hooks/useChanges'
+import { useWeekFade } from '../../hooks/useWeekFade'
 
 export const Week = () => {
   const dispatch = useDispatch()
-  const { selectedWeek, currentWeek, isItYou, tabActive, duration } = useSelector(selectApp)
+  const { selectedWeek, currentWeek, isItYou, duration } = useSelector(selectApp)
   const { admin, adminAsPlayer, uid } = useSelector(selectUser)
   const answers = useSelector((store: IStore) => store.answers)
   const results = useSelector((store: IStore) => store.results)
@@ -31,10 +31,7 @@ export const Week = () => {
 
   // container fade animations
 
-  useEffect(() => {
-    animateWeekFadeOut(containerRef)
-  }, [tabActive])
-
+  useWeekFade({ ref: containerRef })
   useCancelFade(drawCancel, cancelRef, setDrawCancel)
 
   // helpers
@@ -46,12 +43,12 @@ export const Week = () => {
       const newOutdated = new Date().getTime() > deadline
       newOutdated !== outdated && setOutdated(newOutdated)
     }, 1000)
-    return () => clearInterval(interval) 
+    return () => clearInterval(interval)
     // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    outdated && handleDiscard() 
+    outdated && handleDiscard()
     // eslint-disable-next-line
   }, [outdated])
 

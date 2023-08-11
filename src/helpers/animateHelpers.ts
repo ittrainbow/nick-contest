@@ -16,14 +16,3 @@ export const animateFadeOut = (ref: FadeRefType) => {
   }, duration + 10)
 }
 
-export const animateWeekFadeOut = (ref: FadeRefType) => {
-  const { pathname } = store.getState().router.location
-  const { tabActive } = store.getState().app
-
-  const weekWithId = pathname.includes('week') && pathname.length > 6
-  if ((tabActive === 3 && !weekWithId) || (tabActive === 2 && weekWithId)) {
-    animateFadeOut(ref)
-  } else if ([0, 1, 4, 5, 6].indexOf(tabActive) > -1) {
-    animateFadeOut(ref)
-  }
-}
