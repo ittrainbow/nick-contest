@@ -10,6 +10,7 @@ import { i18n, LocaleType } from '../locale'
 import { animateFadeOut } from '../helpers'
 import { ChangeInputType } from '../types'
 import { Button } from '../UI'
+import { useFadeOut } from '../hooks/useFadeOut'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -22,9 +23,7 @@ export const Login = () => {
 
   // container fade animations
 
-  useEffect(() => {
-    tabActive !== 1 && animateFadeOut(containerRef)
-  }, [tabActive])
+  useFadeOut({ ref: containerRef, condition: tabActive !== 1 })
 
   // helpers
 

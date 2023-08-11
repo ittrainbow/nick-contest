@@ -12,6 +12,7 @@ import { userActions } from '../redux/slices'
 import { i18n, LocaleType } from '../locale'
 import { animateFadeOut } from '../helpers'
 import { auth } from '../db'
+import { useFadeOut } from '../hooks/useFadeOut'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -25,9 +26,7 @@ export const Profile = () => {
 
   // container fade animations
 
-  useEffect(() => {
-    tabActive !== 1 && animateFadeOut(containerRef)
-  }, [tabActive])
+  useFadeOut({ ref: containerRef, condition: tabActive !== 1 })
 
   // helpers
 

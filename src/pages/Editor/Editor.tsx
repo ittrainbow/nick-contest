@@ -12,6 +12,7 @@ import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 import * as TYPES from '../../redux/storetypes'
 import { i18n, LocaleType } from '../../locale'
 import { Button } from '../../UI'
+import { useFadeOut } from '../../hooks/useFadeOut'
 
 export const Editor = () => {
   const dispatch = useDispatch()
@@ -47,10 +48,10 @@ export const Editor = () => {
     if (tabActive === 6) {
       dispatch(editorActions.clearQuestionInWork())
       setTimeout(() => dispatch(editorActions.clearEditor()), duration)
-    } else if (tabActive < 5) {
-      animateFadeOut(containerRef)
     } // eslint-disable-next-line
   }, [tabActive])
+
+  useFadeOut({ ref: containerRef, condition: tabActive < 5 })
 
   const saveBtnDisabled = !anyChanges || !name || !Object.keys(questions).length
 

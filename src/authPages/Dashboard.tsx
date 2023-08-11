@@ -10,6 +10,7 @@ import { Button } from '../UI'
 import { logout } from '../db/auth'
 import { auth } from '../db'
 import { i18n, LocaleType } from '../locale'
+import { useFadeOut } from '../hooks/useFadeOut'
 
 export const Dashboard = () => {
   const dispatch = useDispatch()
@@ -21,9 +22,7 @@ export const Dashboard = () => {
 
   // container fade animations
 
-  useEffect(() => {
-    tabActive !== 1 && animateFadeOut(containerRef)
-  }, [tabActive])
+  useFadeOut({ ref: containerRef, condition: tabActive !== 1 })
 
   // action handlers
 
