@@ -6,7 +6,7 @@ import { i18n, LocaleType } from '../locale'
 import { animateFadeOut } from '../helpers'
 import { Button } from '../UI'
 import { icon1, icon2, icon3 } from '../helpers/icons'
-import { useFadeOut } from '../hooks/useFadeOut'
+import { useFade } from '../hooks/useFade'
 
 export const About = () => {
   const { tabActive, duration } = useSelector(selectApp)
@@ -17,7 +17,7 @@ export const About = () => {
 
   // container fade animations
 
-  useFadeOut({ ref: containerRef, condition: tabActive !== 0 })
+  useFade({ ref: containerRef, condition: tabActive !== 0 })
 
   // action handlers
 

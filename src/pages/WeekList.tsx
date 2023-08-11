@@ -1,12 +1,12 @@
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
-import { animateFadeOut, animateSwitchWeekList } from '../helpers'
+import { animateFadeOut } from '../helpers'
 import { appActions, editorActions } from '../redux/slices'
 import { OtherUser } from '../UI'
-import { useFadeOut } from '../hooks/useFadeOut'
+import { useFade } from '../hooks/useFade'
 import { useListFade } from '../hooks/useListFade'
 
 export const WeekList = () => {
@@ -25,7 +25,7 @@ export const WeekList = () => {
   const drawAnimation = thirdToFifth || fifthToThird
   
   useListFade({ ref: containerRef, drawAnimation })
-  useFadeOut({ ref: containerRef, condition: tabActive > 0 && tabActive % 2 === 0 })
+  useFade({ ref: containerRef, condition: tabActive > 0 && tabActive % 2 === 0 })
 
   // action handlers
 

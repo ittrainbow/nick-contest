@@ -11,7 +11,7 @@ import { animateFadeOut } from '../helpers'
 import { ChangeInputType } from '../types'
 import { auth } from '../db/firebase'
 import { Button } from '../UI'
-import { useFadeOut } from '../hooks/useFadeOut'
+import { useFade } from '../hooks/useFade'
 
 export const Reset = () => {
   const navigate = useNavigate()
@@ -23,7 +23,7 @@ export const Reset = () => {
 
   // container fade animations
 
-  useFadeOut({ ref: containerRef, condition: tabActive !== 1 })
+  useFade({ ref: containerRef, condition: tabActive !== 1 })
 
   // helpers
 
