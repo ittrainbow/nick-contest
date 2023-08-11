@@ -1,0 +1,30 @@
+@import './vars';
+
+input {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: $row-height;
+  box-sizing: border-box;
+  flex-grow: 1;
+  font-family: $fonts;
+  font-size: 15px;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid $base-border;
+  margin: auto;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.short {
+  text-align: center;
+  padding: 0 0 3px;
+}
+
+.timer {
+  cursor: pointer;
+}

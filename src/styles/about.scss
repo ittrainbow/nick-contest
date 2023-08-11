@@ -1,0 +1,49 @@
+@import './vars';
+
+.about {
+  &__container {
+    padding-left: 10px;
+  }
+
+  &__paragraph {
+    padding: 0 0 8px;
+    text-align: justify;
+  }
+}
+
+.legend {
+  display: flex;
+  padding: 0 0 8px;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.copyright {
+  text-align: center;
+}
+
+.FaArrowDown,
+.FaArrowUp,
+.FaCheck,
+.FaBan {
+  padding: 0.1em 0.3em 0 0;
+}
+
+.FaArrowDown {
+  color: $base-red;
+}
+
+.FaArrowUp {
+  color: $base-green-active;
+}
+
+.FaCheck {
+  color: $base-green-active;
+}
+
+.FaBan {
+  color: $base-red;
+}
