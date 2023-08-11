@@ -1,9 +1,8 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectAbout, selectApp } from '../redux/selectors'
 import { i18n, LocaleType } from '../locale'
-import { animateFadeOut } from '../helpers'
 import { Button } from '../UI'
 import { icon1, icon2, icon3 } from '../helpers/icons'
 import { useFade } from '../hooks/useFade'

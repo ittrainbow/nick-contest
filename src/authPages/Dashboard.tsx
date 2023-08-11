@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'

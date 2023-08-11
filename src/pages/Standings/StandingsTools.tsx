@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { selectApp, selectTools } from '../../redux/selectors'
@@ -11,22 +11,15 @@ import { Button, Switch } from '../../UI'
 import { Input } from '@mui/material'
 
 type ToolsPropsType = {
-  fadeOutTools: boolean
   tableRef: FadeRefType
 }
 
-export const StandingsTools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
+export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
   const dispatch = useDispatch()
   const { showOneWeek, showBuddies, standingsSearch, showTools } = useSelector(selectTools)
   const { mobile, duration } = useSelector(selectApp)
   const toolsRef = useRef<HTMLDivElement>(null)
   const [showBuddiesLocal, setShowBuddiesLocal] = useState<boolean>(showBuddies)
-
-  // animate tools
-
-  useEffect(() => {
-    !fadeOutTools && animateFadeOut(toolsRef)
-  }, [fadeOutTools])
 
   // action handlers
 

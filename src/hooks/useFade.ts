@@ -24,6 +24,6 @@ export const useFade = ({ ref, condition = true }: UseFadeTypeProps) => {
         list?.remove('animate-fade-out-left')
         list?.add('animate-fade-in-up')
       }, duration + 10)
-    }
+    } // eslint-disable-next-line
   }, [tabActive])
 }

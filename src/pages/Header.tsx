@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectUser, selectLocation } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
-import { getMenu } from '../helpers/links'
+import { getMenu } from '../helpers'
 
 export const Header = () => {
   const navigate = useNavigate()
