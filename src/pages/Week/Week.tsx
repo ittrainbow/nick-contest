@@ -7,11 +7,11 @@ import 'react-toastify/dist/ReactToastify.css'
 import { animateWeekCancel, getWeekChangesStatus, animateWeekFadeOut } from '../../helpers'
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
-import { IStore, LocaleType, WeekType } from '../../types'
 import { OtherUser, Button, Switch } from '../../UI'
 import { WeekQuestion, WeekCountdown } from '.'
 import * as TYPES from '../../redux/storetypes'
-import { i18n } from '../../locale'
+import { i18n, LocaleType } from '../../locale'
+import { IStore, WeekType } from '../../types'
 
 export const Week = () => {
   const dispatch = useDispatch()

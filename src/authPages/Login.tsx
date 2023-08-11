@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux'
 import { Input } from '@mui/material'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
-import { ChangeInputType, LocaleType } from '../types'
-import { animateFadeOut } from '../helpers'
-import { Button } from '../UI'
 import { selectApp } from '../redux/selectors'
-import { i18n } from '../locale'
+import { i18n, LocaleType } from '../locale'
+import { animateFadeOut } from '../helpers'
+import { ChangeInputType } from '../types'
+import { Button } from '../UI'
 
 export const Login = () => {
   const navigate = useNavigate()

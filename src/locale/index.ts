@@ -1,4 +1,6 @@
-export const i18n = (component: string): { [key: string]: string } | undefined => {
+export type LocaleType = { [key: string]: string }
+
+export const i18n = (component: string): LocaleType | undefined => {
   const tab0msg = 'About'
   const tab1msg = 'Profile'
   const tab2msg = 'Week'

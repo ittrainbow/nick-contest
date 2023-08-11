@@ -4,14 +4,14 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
-import { ChangeInputType, IUser, LocaleType } from '../types'
 import { appActions, userActions } from '../redux/slices'
-import { animateFadeOut } from '../helpers'
+import { ChangeInputType, IUser } from '../types'
 import { selectApp } from '../redux/selectors'
-import { Button } from '../UI'
+import { i18n, LocaleType } from '../locale'
+import { animateFadeOut } from '../helpers'
 import { Input } from '@mui/material'
 import { auth } from '../db/firebase'
-import { i18n } from '../locale'
+import { Button } from '../UI'
 
 export const Register = () => {
   const navigate = useNavigate()

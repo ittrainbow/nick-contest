@@ -9,10 +9,10 @@ import {
   UserCredential
 } from 'firebase/auth'
 
-import { db, auth } from './firebase'
-import { IUser, LocaleType } from '../types'
-import { i18n } from '../locale'
+import { i18n, LocaleType } from '../locale'
 import { appActions } from '../redux/slices'
+import { db, auth } from './firebase'
+import { IUser } from '../types'
 
 const googleProvider = new GoogleAuthProvider()
 

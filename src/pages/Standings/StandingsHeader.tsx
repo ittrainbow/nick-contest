@@ -1,5 +1,4 @@
-import { LocaleType } from '../../types'
-import { i18n } from '../../locale'
+import { i18n, LocaleType } from '../../locale'
 
 export const StandingsHeader = () => {
   const { tableNameMsg, tableCorrectMsg } = i18n('standings') as LocaleType
