@@ -2,12 +2,13 @@ import { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaCheck, FaPlus } from 'react-icons/fa'
 
-import { getNewQuestionId, getObjectsEquality, animateFadeOut } from '../../helpers'
 import { selectApp, selectEditor, selectLocation } from '../../redux/selectors'
 import { ChangeInputType, FadeRefType, QuestionsType } from '../../types'
+import { getNewQuestionId, getObjectsEquality } from '../../helpers'
 import { editorActions } from '../../redux/slices'
 import { i18n, LocaleType } from '../../locale'
 import { Input, Button } from '../../UI'
+import { useFade } from '../../hooks'
 
 export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) => {
   const dispatch = useDispatch()
@@ -18,6 +19,10 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   const { pathname } = useSelector(selectLocation)
   const { name, questionInWork, questionCompare } = editor
   const { question, total, id } = questionInWork
+
+  // animate
+
+  const { triggerFade } = useFade({ ref: questionsRef })
 
   // helpers
 
@@ -60,7 +65,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
     const { questions } = editor
     const { id } = questionInWork
     if (question && total) {
-      questionsRef && animateFadeOut(questionsRef)
+      triggerFade()
       setTimeout(() => {
         const setId = id === null ? getNewQuestionId(questions) : (id as number)
         const obj: QuestionsType = structuredClone(questions)

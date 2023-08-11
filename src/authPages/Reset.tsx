@@ -7,11 +7,10 @@ import { Input } from '@mui/material'
 import { sendPasswordReset } from '../db/auth'
 import { selectApp } from '../redux/selectors'
 import { i18n, LocaleType } from '../locale'
-import { animateFadeOut } from '../helpers'
 import { ChangeInputType } from '../types'
 import { auth } from '../db/firebase'
+import { useFade } from '../hooks'
 import { Button } from '../UI'
-import { useFade } from '../hooks/useFade'
 
 export const Reset = () => {
   const navigate = useNavigate()
@@ -23,7 +22,11 @@ export const Reset = () => {
 
   // container fade animations
 
-  useFade({ ref: containerRef, condition: tabActive !== 1 })
+  const { triggerFade } = useFade({ ref: containerRef })
+
+  useEffect(() => {
+    tabActive !== 1 && triggerFade()
+  }, [tabActive, triggerFade])
 
   // helpers
 
@@ -47,12 +50,12 @@ export const Reset = () => {
   }
 
   const handleToRegister = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => navigate('/register'), duration)
   }
 
   const handleToLogin = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => navigate('/login'), duration)
   }
 

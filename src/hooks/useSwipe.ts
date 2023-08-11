@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectUser } from '../redux/selectors'
 import { appActions } from '../redux/slices'
-import { swipeHelper, getMenu } from '../helpers'
+import { swipeHelper } from '../helpers'
+import { useMenu } from './useMenu'
 
 export const useSwipe = () => {
+  const menu = useMenu()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { tabActive, duration, editor } = useSelector(selectApp)
@@ -36,7 +38,6 @@ export const useSwipe = () => {
 
         swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
 
-        const menu = getMenu(admin)
         newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
         newTabActive === 4 && editor && dispatch(appActions.setEditor(false))
         dispatch(appActions.setTabActive(newTabActive))

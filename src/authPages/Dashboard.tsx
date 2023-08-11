@@ -1,16 +1,15 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 
 import { answersActions, compareActions, userActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
-import { animateFadeOut } from '../helpers'
-import { Button } from '../UI'
-import { logout } from '../db/auth'
-import { auth } from '../db'
 import { i18n, LocaleType } from '../locale'
-import { useFade } from '../hooks/useFade'
+import { logout } from '../db/auth'
+import { useFade } from '../hooks'
+import { Button } from '../UI'
+import { auth } from '../db'
 
 export const Dashboard = () => {
   const dispatch = useDispatch()
@@ -22,7 +21,11 @@ export const Dashboard = () => {
 
   // container fade animations
 
-  useFade({ ref: containerRef, condition: tabActive !== 1 })
+  const { triggerFade } = useFade({ ref: containerRef })
+
+  useEffect(() => {
+    tabActive !== 1 && triggerFade()
+  }, [tabActive, triggerFade])
 
   // action handlers
 
@@ -35,7 +38,7 @@ export const Dashboard = () => {
   }
 
   const handleNavigate = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => navigate('/profile'), duration)
   }
 

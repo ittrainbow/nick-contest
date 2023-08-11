@@ -7,10 +7,9 @@ import { Input } from '@mui/material'
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 import { selectApp } from '../redux/selectors'
 import { i18n, LocaleType } from '../locale'
-import { animateFadeOut } from '../helpers'
 import { ChangeInputType } from '../types'
+import { useFade } from '../hooks'
 import { Button } from '../UI'
-import { useFade } from '../hooks/useFade'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -23,7 +22,11 @@ export const Login = () => {
 
   // container fade animations
 
-  useFade({ ref: containerRef, condition: tabActive !== 1 })
+  const { triggerFade } = useFade({ ref: containerRef })
+
+  useEffect(() => {
+    tabActive !== 1 && triggerFade()
+  }, [tabActive, triggerFade])
 
   // helpers
 
@@ -65,12 +68,12 @@ export const Login = () => {
   }
 
   const handleToRegister = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => navigate('/register'), duration)
   }
 
   const handleToReset = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => navigate('/reset'), duration)
   }
 

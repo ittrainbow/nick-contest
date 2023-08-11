@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { selectApp, selectEditor, selectLocation, selectWeeks } from '../../redux/selectors'
-import { getObjectsEquality, getWeeksIDs, animateFadeOut } from '../../helpers'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
+import { getObjectsEquality, getWeeksIDs } from '../../helpers'
 import * as TYPES from '../../redux/storetypes'
 import { i18n, LocaleType } from '../../locale'
+import { useFade } from '../../hooks'
 import { Button } from '../../UI'
-import { useFade } from '../../hooks/useFade'
 
 export const Editor = () => {
   const dispatch = useDispatch()
@@ -29,12 +29,16 @@ export const Editor = () => {
 
   // container fade animations
 
+  const { triggerFade } = useFade({ ref: containerRef })
+
   useEffect(() => {
-    const fromEditListToEmpty = pathname.length > 7 && tabActive === 6
-    const fromEmptyToEditList = pathname.length < 8 && tabActive === 5
-    const editorInnerSwitch = fromEditListToEmpty || fromEmptyToEditList
-    editorInnerSwitch && animateFadeOut(containerRef)
-  }, [pathname, tabActive])
+    const fromUserTabsToEmpty = !pathname.includes('editor') && tabActive === 6
+    const fromListToEmpty = pathname.includes('editor/') && tabActive !== 5
+    const conditions = tabActive < 5 || fromUserTabsToEmpty || fromListToEmpty
+
+    conditions && triggerFade()
+    // eslint-disable-next-line
+  }, [tabActive])
 
   // helpers
 
@@ -50,8 +54,6 @@ export const Editor = () => {
       setTimeout(() => dispatch(editorActions.clearEditor()), duration)
     } // eslint-disable-next-line
   }, [tabActive])
-
-  useFade({ ref: containerRef, condition: tabActive < 5 })
 
   const saveBtnDisabled = !anyChanges || !name || !Object.keys(questions).length
 
@@ -85,8 +87,7 @@ export const Editor = () => {
   const handleCancelEditor = () => {
     dispatch(appActions.setEmptyEditor(false))
     dispatch(appActions.setTabActive(5))
-
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => {
       dispatch(editorActions.clearEditor())
       navigate('/calendar')

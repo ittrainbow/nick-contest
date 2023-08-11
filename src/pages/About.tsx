@@ -1,11 +1,11 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectAbout, selectApp } from '../redux/selectors'
-import { i18n, LocaleType } from '../locale'
-import { Button } from '../UI'
 import { icon1, icon2, icon3 } from '../helpers/icons'
-import { useFade } from '../hooks/useFade'
+import { i18n, LocaleType } from '../locale'
+import { useFade } from '../hooks'
+import { Button } from '../UI'
 
 export const About = () => {
   const { tabActive, duration } = useSelector(selectApp)
@@ -16,7 +16,11 @@ export const About = () => {
 
   // container fade animations
 
-  useFade({ ref: containerRef, condition: tabActive !== 0 })
+  const { triggerFade } = useFade({ ref: containerRef })
+
+  useEffect(() => {
+    tabActive !== 0 && triggerFade()
+  }, [tabActive, triggerFade])
 
   // action handlers
 

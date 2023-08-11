@@ -8,7 +8,7 @@ import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 import { appActions, userActions } from './redux/slices'
 import { selectApp } from './redux/selectors'
 import { initialRedirects } from './helpers'
-import { useSwipe } from './hooks/useSwipe'
+import { useSwipe } from './hooks'
 import { Header } from './pages'
 import { auth } from './db'
 

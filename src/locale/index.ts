@@ -13,7 +13,6 @@ export const i18n = (component: string): LocaleType | undefined => {
   const dashboardAdminMsg = 'You are admin'
   const profileHeaderMsg = 'Change profile'
   const profileNameMsg = 'Change username'
-  const profileLangMsg = 'Change language'
   const loginIntro = 'Signed up?'
   const loginMsg = 'Login'
   const regIntro = 'Not signed up yet?'
@@ -143,7 +142,6 @@ export const i18n = (component: string): LocaleType | undefined => {
         dashboardAdminMsg,
         profileHeaderMsg,
         profileNameMsg,
-        profileLangMsg,
         loginMsg,
         loginIntro,
         regMsg,

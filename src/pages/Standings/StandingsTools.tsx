@@ -1,14 +1,14 @@
 import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Input } from '@mui/material'
 
 import { selectApp, selectTools } from '../../redux/selectors'
 import { ChangeInputType, FadeRefType } from '../../types'
 import { toolsActions } from '../../redux/slices'
 import { i18n, LocaleType } from '../../locale'
-import { animateFadeOut } from '../../helpers'
 import { Button, Switch } from '../../UI'
+import { useFade } from '../../hooks'
 
-import { Input } from '@mui/material'
 
 type ToolsPropsType = {
   tableRef: FadeRefType
@@ -20,6 +20,8 @@ export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
   const { mobile, duration } = useSelector(selectApp)
   const toolsRef = useRef<HTMLDivElement>(null)
   const [showBuddiesLocal, setShowBuddiesLocal] = useState<boolean>(showBuddies)
+
+  const { triggerFade } = useFade({ ref: tableRef })
 
   // action handlers
 
@@ -40,7 +42,7 @@ export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
 
   const handleSwitchBuddies = () => {
     const value = !showBuddies
-    showTools && animateFadeOut(tableRef)
+    showTools && triggerFade()
     setShowBuddiesLocal(value)
     setTimeout(() => dispatch(toolsActions.switchShowBuddies()), duration)
     localStorage.setItem('packContestFavList', value.toString())

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectUser, selectLocation } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
-import { getMenu } from '../helpers'
+import { useMenu } from '../hooks'
 
 export const Header = () => {
   const navigate = useNavigate()
@@ -45,7 +45,7 @@ export const Header = () => {
     return id === tabActive ? 'header__tab-active' : 'header__tab'
   }
 
-  const menu = getMenu(admin)
+  const menu = useMenu()
 
   return (
     <div className="header">

@@ -5,14 +5,13 @@ import { useNavigate } from 'react-router-dom'
 import { Input } from '@mui/material'
 import { User } from 'firebase/auth'
 
-import { Button } from '../UI'
 import { selectApp, selectUser } from '../redux/selectors'
 import { UPDATE_PROFILE } from '../redux/storetypes'
 import { userActions } from '../redux/slices'
 import { i18n, LocaleType } from '../locale'
-import { animateFadeOut } from '../helpers'
+import { useFade } from '../hooks'
+import { Button } from '../UI'
 import { auth } from '../db'
-import { useFade } from '../hooks/useFade'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -26,7 +25,11 @@ export const Profile = () => {
 
   // container fade animations
 
-  useFade({ ref: containerRef, condition: tabActive !== 1 })
+  const { triggerFade } = useFade({ ref: containerRef })
+
+  useEffect(() => {
+    tabActive !== 1 && triggerFade()
+  }, [tabActive, triggerFade])
 
   // helpers
 
@@ -49,20 +52,19 @@ export const Profile = () => {
   }
 
   const handleDiscard = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => navigate(-1), duration)
   }
 
   // render styles and locales
 
-  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n('auth') as LocaleType
+  const { profileHeaderMsg, profileNameMsg } = i18n('auth') as LocaleType
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n('buttons') as LocaleType
 
   return (
     <div className="container auth animate-fade-in-up" ref={containerRef}>
       <div className="auth__data">
         <div className="text-container bold">{profileHeaderMsg}</div>
-        <div className="text-container">{profileLangMsg}</div>
         <div className="text-container">{profileNameMsg}</div>
         <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
         <Button disabled={noChanges} onClick={handleSubmit}>
