@@ -69,11 +69,9 @@ export const About = () => {
             <div>{aboutLegend}</div>
           </div>
           {legend.map(({ icon, text }, index) => (
-            <div className="legend">
+            <div key={index} className="legend">
               <div className="legend__icon">{icon}</div>
-              <div key={index} className="legend__description">
-                {text}
-              </div>
+              <div>{text}</div>
             </div>
           ))}
           <hr />
