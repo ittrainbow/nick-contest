@@ -8,7 +8,7 @@ import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
 import { OtherUser, Button, Switch } from '../../UI'
 import { useChanges, useFade } from '../../hooks'
-import { WeekQuestion, WeekCountdown } from '.'
+import { WeekQuestion } from '.'
 import * as TYPES from '../../redux/storetypes'
 import { i18n, LocaleType } from '../../locale'
 import { IStore, WeekType } from '../../types'
@@ -25,8 +25,7 @@ export const Week = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const cancelRef = useRef<HTMLDivElement>(null)
   const [drawCancel, setDrawCancel] = useState<boolean>(false)
-  const { name, questions, deadline } = weeks[selectedWeek] || ({} as WeekType)
-  const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
+  const { name, questions } = weeks[selectedWeek] || ({} as WeekType)
 
   const gotChanges = useChanges()
 
@@ -53,18 +52,6 @@ export const Week = () => {
   useEffect(() => {
     setTimeout(() => setDrawCancel(!!gotChanges), duration)
   }, [gotChanges, duration])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newOutdated = new Date().getTime() > deadline
-      if (newOutdated && !outdated) {
-        setOutdated(newOutdated)
-        handleDiscard()
-      }
-    }, 1000)
-    return () => clearInterval(interval)
-    // eslint-disable-next-line
-  }, [])
 
   // action handlers
 
@@ -104,16 +91,18 @@ export const Week = () => {
       </div>
       <OtherUser containerRef={containerRef} />
       <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
-      <WeekCountdown />
       {questions &&
         Object.keys(questions)
+          .sort((a: string, b: string) => {
+            return questions[Number(a)].deadline - questions[Number(b)].deadline
+          })
           .map((el) => Number(el))
           .map((id, index) => (
             <div key={index}>
               <WeekQuestion id={id} />
             </div>
           ))}
-      <Button onClick={handleSubmit} disabled={!gotChanges || (outdated && !adm)} className="week-button">
+      <Button onClick={handleSubmit} disabled={!gotChanges && !adm} className="week-button">
         {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
       </Button>
       {drawCancel ? (

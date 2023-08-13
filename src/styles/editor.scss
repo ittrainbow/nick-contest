@@ -2,6 +2,7 @@
 
 .editor-input {
   width: 100%;
+  margin-bottom: 5px;
 }
 
 .editor-form {
@@ -65,29 +66,20 @@
   color: $base-red;
 }
 
-.editor-activities-container {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  max-height: $row-height;
-}
-
 .editor-datetime {
   flex-grow: 1;
 }
 
 .editor-checkbox {
   display: flex;
-  width: 110px;
-  align-items: center;
-  border: 1px solid $base-border;
-  border-radius: 5px;
+  flex-direction: row;
   padding: 0 5px;
+  float: right;
+  margin-bottom: 15px;
 
   &__pad {
     display: flex;
     align-items: center;
-    flex-grow: 1;
     padding: 4px;
   }
 
@@ -95,6 +87,7 @@
     height: 18px;
     cursor: pointer;
     padding: 5px;
+    min-width: 20px;
   }
 }
 

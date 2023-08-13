@@ -8561,6 +8561,13 @@ react-is@^18.0.0, react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-nfl-logos@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-nfl-logos/-/react-nfl-logos-1.0.3.tgz#be5b91df143d3ad321b150f91ba4a58031d29733"
+  integrity sha512-Fo9uLHJlEZo8XSNpatt19WH0oFFvwHv7AaY7gNd1JoAbLkFdYvvNy3vx9oMIjTn4iiQC6WMBUkmPt9Q1toNGzQ==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-redux@^8.1.2:
   version "8.1.2"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-8.1.2.tgz#9076bbc6b60f746659ad6d51cb05de9c5e1e9188"

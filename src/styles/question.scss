@@ -3,7 +3,7 @@
 .question {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   margin: 0 0 3px;
   height: 43px;
   padding: 3px 5px;
@@ -25,6 +25,16 @@
     display: flex;
     align-items: center;
     padding: 3px;
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  &__teams {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
   }
 
   &__actions {
@@ -48,13 +58,14 @@
 }
 
 .yn {
-  height: 32px;
+  height: 36px;
   font-size: 26px;
-  width: 40px;
+  width: 42px;
   padding: 2px;
   transition: 0.22s ease-in-out;
   background-color: $base-itembg;
   border: none;
+  transition: 0.22s ease-in-out;
 
   &__container {
     display: grid;
@@ -82,7 +93,7 @@
 
 .yn-black {
   background-color: $base-itembg-slight;
-  border: 1px solid $base-border-light;
+  opacity: 1;
 }
 
 .yn-dark {
@@ -91,4 +102,5 @@
 
 .yn-grey {
   color: $base-question-grey;
+  opacity: 0.5;
 }

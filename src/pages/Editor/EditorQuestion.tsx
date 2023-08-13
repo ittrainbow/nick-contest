@@ -1,5 +1,6 @@
 import { FaEdit, FaTrashAlt, FaBan } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
+import moment from 'moment/moment'
 
 import { selectApp, selectEditor } from '../../redux/selectors'
 import { FadeRefType, QuestionsType } from '../../types'
@@ -12,19 +13,35 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   const dispatch = useDispatch()
   const { questions, questionInWork } = useSelector(selectEditor)
   const { duration } = useSelector(selectApp)
-  const { question, total } = questions[id]
+  const { away, home, deadline } = questions[id]
 
   // animate
 
   const { triggerFade } = useFade({ ref: questionsRef })
 
+  // helpers
+
+  const drawDeadline = (deadline: number) =>
+    moment(deadline)
+      .format()
+      .substring(4, 16)
+      .split('T')
+      .join(' ')
+      .replace('-07-', ' Jul ')
+      .replace('-08-', ' Aug ')
+      .replace('-09-', ' Sep ')
+      .replace('-10-', ' Oct ')
+      .replace('-11-', ' Nov ')
+      .replace('-12-', ' Dec ')
+      .replace('-01-', ' Jan ')
+
   // action handlers
 
   const handleEditQuestion = (id: number) => {
     triggerFade()
-    const { question, total } = questions[id]
-    dispatch(editorActions.setQuestionInWork({ question, total, id }))
-    dispatch(editorActions.setQuestionCompare({ question, total, id }))
+    const { away, home, total, deadline } = questions[id]
+    dispatch(editorActions.setQuestionInWork({ away, home, total, id, deadline }))
+    dispatch(editorActions.setQuestionCompare({ away, home, total, id, deadline }))
   }
 
   const handleDeleteQuestion = (id: number) => {
@@ -43,8 +60,9 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   return (
     <div className="editor-question">
       <div className="editor-question__desc">
-        {question}: {total}
+        {away} @ {home}
       </div>
+      <div>{drawDeadline(deadline)}</div>
       <div className="editor-question__buttons">
         {id === questionInWork.id ? (
           <FaBan className="editor-question__edit editor-btn__green faBan" onClick={handleClearQuestion} />

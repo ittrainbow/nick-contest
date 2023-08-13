@@ -7,7 +7,6 @@ const initialState: IEditor = {
   questions: {},
   name: '',
   active: false,
-  deadline: new Date().getTime(),
   questionInWork: emptyQuestion,
   questionCompare: {} as QuestionType
 }
@@ -17,11 +16,10 @@ export const editorSlice = createSlice({
   initialState,
   reducers: {
     setEditor(state, action: PayloadAction<WeekType>) {
-      const { questions, name, active, deadline } = action.payload
+      const { questions, name, active } = action.payload
       state.questions = questions
       state.name = name
       state.active = active
-      state.deadline = deadline
     },
 
     updateEditorQuestions(state, action: PayloadAction<QuestionsType>) {
@@ -30,10 +28,6 @@ export const editorSlice = createSlice({
 
     updateEditorName(state, action: PayloadAction<string>) {
       state.name = action.payload
-    },
-
-    updateEditorDeadline(state, action: PayloadAction<number>) {
-      state.deadline = action.payload
     },
 
     updateEditorActive(state, action: PayloadAction<boolean>) {
@@ -50,6 +44,10 @@ export const editorSlice = createSlice({
 
     clearQuestionInWork(state) {
       state.questionInWork = emptyQuestion
+    },
+
+    clearQuestionInWorkWithDeadline(state, action: PayloadAction<number>) {
+      state.questionInWork = { ...emptyQuestion, deadline: action.payload }
     },
 
     clearEditor() {

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectAbout, selectApp } from '../redux/selectors'
-import { icon1, icon2, icon3 } from '../helpers/icons'
+import { icon1, icon2 } from '../helpers/icons'
 import { i18n, LocaleType } from '../locale'
 import { useFade } from '../hooks'
 import { Button } from '../UI'
@@ -38,12 +38,11 @@ export const About = () => {
   // render styles and locales
 
   const { buttonDetailsMsg } = i18n('buttons') as LocaleType
-  const { aboutAwayMsg, aboutTieMsg, aboutHomeMsg, aboutLegend } = i18n('about') as LocaleType
+  const { aboutAwayMsg, aboutHomeMsg, aboutLegend } = i18n('about') as LocaleType
 
   const legend = [
     { icon: icon1, text: aboutAwayMsg },
-    { icon: icon2, text: aboutTieMsg },
-    { icon: icon3, text: aboutHomeMsg }
+    { icon: icon2, text: aboutHomeMsg }
   ]
 
   const description = Object.values(about['en'])

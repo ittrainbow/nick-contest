@@ -22,7 +22,7 @@ export const Editor = () => {
   const { selectedWeek, emptyEditor } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
   const { tabActive, duration } = useSelector(selectApp)
-  const { questions, name, active, deadline } = editor
+  const { questions, name, active } = editor
   const questionsRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
@@ -46,7 +46,7 @@ export const Editor = () => {
     const changes = emptyEditor ? !!Object.keys(questions).length : !getObjectsEquality(editor, weeks[selectedWeek])
     setAnyChanges(changes)
     // eslint-disable-next-line
-  }, [questions, name, active, deadline])
+  }, [questions, name, active])
 
   useEffect(() => {
     if (tabActive === 6) {
@@ -61,7 +61,8 @@ export const Editor = () => {
 
   const handleSubmit = async () => {
     const id = selectedWeek
-    dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: editor } })
+    const { active, name, questions } = editor
+    dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: { active, name, questions } } })
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
     dispatch(weeksActions.updateWeeks({ week: editor, id }))
     dispatch(appActions.setSelectedWeek(selectedWeek ? selectedWeek + 1 : 0))
@@ -106,9 +107,13 @@ export const Editor = () => {
       <EditorInputs questionsRef={questionsRef} />
 
       <div className="animate-fade-in-up" ref={questionsRef}>
-        {Object.keys(questions).map((el) => (
-          <EditorQuestion key={el} id={Number(el)} questionsRef={questionsRef} />
-        ))}
+        {Object.keys(questions)
+          .sort((a: string, b: string) => {
+            return questions[Number(a)].deadline - questions[Number(b)].deadline
+          })
+          .map((el) => (
+            <EditorQuestion key={Math.random()} id={Number(el)} questionsRef={questionsRef} />
+          ))}
         <hr />
         <EditorActivities />
         <div className="editor-form">

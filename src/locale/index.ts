@@ -78,25 +78,26 @@ export const i18n = (component: string): LocaleType | undefined => {
   const weekTotalMsg = 'Total'
   const weekActivityMsg = 'Active'
   const weekDeleteMsg = 'Delete week'
+  const weekAwayMsg = 'Away team'
+  const weekHomeMsg = 'Home team'
 
   const otherUser1msg = 'Press this pad to go back to your profile'
   const otherUser2msg = `You're now looking at profile of `
   const otherUser3msg = 'Answers for the games that not started yet are hidden'
 
-  const aboutAwayMsg = 'Away team (mentioned former) wins'
-  const aboutTieMsg = 'No winner after overtime'
-  const aboutHomeMsg = 'Home team (mentioned latter) wins'
-  const aboutLegend = 'So, you can pick one of this options:'
+  const aboutLegend = 'You can pick one of this options:'
+  const aboutAwayMsg = 'Away team (mentioned former) wins.'
+  const aboutHomeMsg = 'Home team (mentioned latter) wins.'
 
   switch (component) {
     case 'about':
-      return { aboutAwayMsg, aboutTieMsg, aboutHomeMsg, aboutLegend }
+      return { aboutAwayMsg, aboutHomeMsg, aboutLegend }
 
     case 'header':
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
 
     case 'editor': {
-      return { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg, weekDeleteMsg }
+      return { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg, weekDeleteMsg, weekAwayMsg, weekHomeMsg }
     }
 
     case 'otheruser':

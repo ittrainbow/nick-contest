@@ -12,12 +12,13 @@ export const initialRedirects = ['/', '/userpage', '/week', 'season', '/standing
 export const emptyWeek: WeekType = {
   questions: {},
   name: '',
-  active: false,
-  deadline: new Date().getTime()
+  active: false
 }
 
 export const emptyQuestion: QuestionType = {
-  question: '',
-  total: '',
-  id: null
+  home: '',
+  away: '',
+  total: '1',
+  id: null,
+  deadline: new Date().getTime()
 }

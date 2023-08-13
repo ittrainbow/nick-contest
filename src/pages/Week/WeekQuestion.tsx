@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux'
 
+import { getAnswersResults, getDeadline, getLogo } from '../../helpers'
 import { resultsActions, answersActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { IStore, YesNoHandlePropsType } from '../../types'
-import { icon1, icon2, icon3 } from '../../helpers/icons'
-import { getAnswersResults } from '../../helpers'
+// import { icon1, icon2 } from '../../helpers/icons'
 import { Button } from '../../UI'
 
 export const WeekQuestion = ({ id }: { id: number }) => {
@@ -14,8 +14,8 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   const results = useSelector((store: IStore) => store.results)
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
   const { admin, adminAsPlayer, uid } = useSelector(selectUser)
-  const { questions, deadline } = weeks[selectedWeek]
-  const { question, total } = questions[id]
+  const { questions } = weeks[selectedWeek]
+  const { away, home, deadline } = questions[id]
 
   // helpers
 
@@ -97,27 +97,26 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   return (
     <div className={getQuestionClass(id)}>
       <div className="question__desc">
-        {question.trim()}
-        {total !== '1' ? `: ${total}` : null}
+        <div className="question__teams">
+          <div>
+            {away.trim()} @ {home.trim()}
+          </div>
+        </div>
+        {getDeadline(deadline)}
+        {/* {total !== '1' ? `: ${total}` : null} */}
       </div>
       <div className="question__actions">
         <Button
           className={getButtonClass(id, 1)}
           onClick={() => handleClick({ value: 1, id, activity: getActivity(id) })}
         >
-          {icon1}
+          {getLogo(away)}
         </Button>
         <Button
           className={getButtonClass(id, 2)}
           onClick={() => handleClick({ value: 2, id, activity: getActivity(id) })}
         >
-          {icon2}
-        </Button>
-        <Button
-          className={getButtonClass(id, 3)}
-          onClick={() => handleClick({ value: 3, id, activity: getActivity(id) })}
-        >
-          {icon3}
+          {getLogo(home)}
         </Button>
       </div>
     </div>

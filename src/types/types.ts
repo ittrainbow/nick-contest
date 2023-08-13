@@ -3,9 +3,11 @@ import { IAnswers, IPlayers } from '.'
 export type FadeRefType = React.RefObject<HTMLDivElement>
 
 export type QuestionType = {
-  question: string
+  home: string
+  away: string
   total: string
   id?: number | null
+  deadline: number
 }
 export type QuestionsType = { [key: number]: QuestionType }
 
@@ -39,7 +41,6 @@ export type ResultsUpdateType = {
 
 export type WeekType = {
   active: boolean
-  deadline: number
   name: string
   questions: QuestionsType
 }

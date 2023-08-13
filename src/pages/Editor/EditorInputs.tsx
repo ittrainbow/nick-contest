@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaCheck, FaPlus } from 'react-icons/fa'
+import moment from 'moment/moment'
 
 import { selectApp, selectEditor, selectLocation } from '../../redux/selectors'
 import { ChangeInputType, FadeRefType, QuestionsType } from '../../types'
@@ -18,7 +19,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   const editor = useSelector(selectEditor)
   const { pathname } = useSelector(selectLocation)
   const { name, questionInWork, questionCompare } = editor
-  const { question, total, id } = questionInWork
+  const { home, away, total, id, deadline } = questionInWork
 
   // animate
 
@@ -35,8 +36,14 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
     questionInWork.id !== null && questionRef.current?.focus()
   }, [questionInWork])
 
+  const getDeadline = (deadline: number) => {
+    return moment(deadline || new Date().getTime())
+      .format()
+      .substring(0, 16)
+  }
+
   const questionButtonDisabled = getObjectsEquality(questionInWork, questionCompare)
-  const totalBtnDisabled = !question || !total || questionButtonDisabled
+  const totalBtnDisabled = !home || !away || !total || questionButtonDisabled
 
   // action handlers
 
@@ -45,32 +52,41 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
     dispatch(editorActions.updateEditorName(value))
   }
 
-  const handleSetQuestion = (e: ChangeInputType) => {
+  const handleSetAway = (e: ChangeInputType) => {
     const { value } = e.target
-    const question = value.substring(0, 120)
-    const data = { ...questionInWork, question }
+    const away = value.substring(0, 120)
+    const data = { ...questionInWork, away }
 
     dispatch(editorActions.setQuestionInWork(data))
   }
 
-  const handleChangeTotal = (e: ChangeInputType) => {
+  const handleSetHome = (e: ChangeInputType) => {
     const { value } = e.target
-    const data = { ...questionInWork, total: value }
+    const home = value.substring(0, 120)
+    const data = { ...questionInWork, home }
+
+    dispatch(editorActions.setQuestionInWork(data))
+  }
+
+  const handleChangeDate = (e: ChangeInputType) => {
+    const { value } = e.target
+    const deadline = new Date(value).getTime()
+    const data = { ...questionInWork, deadline }
 
     dispatch(editorActions.setQuestionInWork(data))
   }
 
   const handleAddQuestion = () => {
-    const { question, total } = questionInWork
+    const { home, away } = questionInWork
     const { questions } = editor
-    const { id } = questionInWork
-    if (question && total) {
+    const { id, deadline } = questionInWork
+    if (!!home.length && !!away.length) {
       triggerFade()
       setTimeout(() => {
         const setId = id === null ? getNewQuestionId(questions) : (id as number)
         const obj: QuestionsType = structuredClone(questions)
         obj[setId] = questionInWork
-        dispatch(editorActions.clearQuestionInWork())
+        dispatch(editorActions.clearQuestionInWorkWithDeadline(deadline))
         dispatch(editorActions.updateEditorQuestions(obj))
       }, duration)
     }
@@ -78,14 +94,24 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
 
   // render styles and locales
 
-  const { weekNameMsg, weekTotalMsg, weekQuestionMsg } = i18n('editor') as LocaleType
+  const { weekNameMsg, weekAwayMsg, weekHomeMsg } = i18n('editor') as LocaleType
 
   return (
     <div className="editor-input">
       <Input onChange={handleChangeName} inputRef={nameRef} placeholder={weekNameMsg} value={name} />
       <div className="editor-form">
-        <Input inputRef={questionRef} onChange={handleSetQuestion} placeholder={weekQuestionMsg} value={question} />
-        <Input onChange={handleChangeTotal} value={total} type="number" placeholder={weekTotalMsg} />
+        <Input inputRef={questionRef} onChange={handleSetAway} placeholder={weekAwayMsg} value={away} />
+        <Input inputRef={questionRef} onChange={handleSetHome} placeholder={weekHomeMsg} value={home} />
+      </div>
+      <div className="editor-form">
+        <div className="editor-datetime">
+          <Input
+            type="datetime-local"
+            value={getDeadline(deadline)}
+            className={'timer'}
+            onChange={handleChangeDate}
+          />
+        </div>
         <Button className="editor-small" onClick={handleAddQuestion} disabled={totalBtnDisabled}>
           {id !== null ? <FaCheck /> : <FaPlus />}
         </Button>
