@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { selectApp, selectUser, selectLocation } from '../redux/selectors'
+import { selectApp, selectLocation } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
 import { useMenu } from '../hooks'
 
@@ -9,7 +9,6 @@ export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { mobile, tabActive, nextWeek, currentWeek, editor, duration } = useSelector(selectApp)
-  const { admin } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
 
   // container fade animations

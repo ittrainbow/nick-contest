@@ -36,7 +36,7 @@ export const Week = () => {
   const cancelFade = useFade({ ref: cancelRef })
 
   useEffect(() => {
-    cancelFade.triggerFade()
+    !gotChanges && cancelFade.triggerFade()
   }, [gotChanges, cancelFade])
 
   useEffect(() => {
@@ -53,7 +53,6 @@ export const Week = () => {
   useEffect(() => {
     setTimeout(() => setDrawCancel(!!gotChanges), duration)
   }, [gotChanges, duration])
-
 
   useEffect(() => {
     const interval = setInterval(() => {

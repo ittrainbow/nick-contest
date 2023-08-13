@@ -2,13 +2,11 @@ import { useRef, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { BsGearFill } from 'react-icons/bs'
-import { FaStar } from 'react-icons/fa'
 
 import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
+import { StandingsTools, StandingsHeader, StandingsArrows, StandingsRow } from '.'
 import { appActions, toolsActions, userActions } from '../../redux/slices'
-import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
-import { StandingsTools, StandingsHeader, StandingsArrows } from '.'
-import { getTableRowParams } from '../../helpers'
+import { FETCH_OTHER_USER } from '../../redux/storetypes'
 import { i18n, LocaleType } from '../../locale'
 import { useFade } from '../../hooks'
 import { OtherUser } from '../../UI'
@@ -66,15 +64,9 @@ export const Standings = () => {
     }
   }
 
-  const handleAddRemoveBuddy = (uid: string) => {
-    !!user.name.length && dispatch({ type: SET_BUDDIES, payload: { buddyUid: uid, buddies } })
-  }
-
   // render styles and locales
 
   const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
-
-  const getCellClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
 
   const { tablePSOne, tablePSTwo, tableHeaderhMsg, tableNoGamesMsg } = i18n('standings') as LocaleType
 
@@ -98,34 +90,10 @@ export const Standings = () => {
             <StandingsHeader />
             {Object.values(showOneWeek ? week : season)
               .filter((el) => el.name.toLowerCase().includes(standingsSearch.toLowerCase()))
-              .filter((el) => {
-                return showBuddies ? buddies.includes(el.uid) : el
-              })
+              .filter((el) => (showBuddies ? buddies.includes(el.uid) : el))
               .map((el, index) => {
-                const { name, answers, correct, ninety, position, uid } = getTableRowParams(el)
-                const buddy = buddies?.includes(uid)
-                return (
-                  <div key={index} className="standings__header">
-                    <div className={getCellClass('col-zero', index)}>{position}</div>
-                    <div
-                      className={getCellClass('col-one', index)}
-                      onClick={() => handleAddRemoveBuddy(uid)}
-                      style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
-                    >
-                      <FaStar />
-                    </div>
-                    <div
-                      className={getCellClass('col-two', index)}
-                      onClick={() => handleClickOnUser(name, el.uid)}
-                      style={{ fontWeight: user.uid === uid ? 600 : '' }}
-                    >
-                      {user.uid === uid ? user.name : name}
-                    </div>
-                    <div className={getCellClass('col-three', index)}>{answers}</div>
-                    <div className={getCellClass('col-four', index)}>{correct}</div>
-                    <div className={getCellClass('col-five', index)}>{showOneWeek ? '-' : ninety}</div>
-                  </div>
-                )
+                const even = index % 2 === 0
+                return <StandingsRow el={el} even={even} key={index} fade={containerFade.triggerFade} />
               })}
             <div className="tierline">{tablePSOne}</div>
             <div className="tierline">{tablePSTwo}</div>

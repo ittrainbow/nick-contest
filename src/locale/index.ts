@@ -79,8 +79,8 @@ export const i18n = (component: string): LocaleType | undefined => {
   const weekActivityMsg = 'Active'
   const weekDeleteMsg = 'Delete week'
 
-  const otherUser1msg = 'Back to your profile'
-  const otherUser2msg = `You're looking at profile of `
+  const otherUser1msg = 'Press this pad to go back to your profile'
+  const otherUser2msg = `You're now looking at profile of `
   const otherUser3msg = 'Answers for the games that not started yet are hidden'
 
   const aboutAwayMsg = 'Away team (mentioned former) wins'

@@ -9,7 +9,6 @@ import { i18n, LocaleType } from '../../locale'
 import { Button, Switch } from '../../UI'
 import { useFade } from '../../hooks'
 
-
 type ToolsPropsType = {
   tableRef: FadeRefType
 }

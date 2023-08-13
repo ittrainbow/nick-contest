@@ -1,9 +1,9 @@
-import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { resultsActions, answersActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { IStore, YesNoHandlePropsType } from '../../types'
+import { icon1, icon2, icon3 } from '../../helpers/icons'
 import { getAnswersResults } from '../../helpers'
 import { Button } from '../../UI'
 
@@ -101,20 +101,24 @@ export const WeekQuestion = ({ id }: { id: number }) => {
         {total !== '1' ? `: ${total}` : null}
       </div>
       <div className="question__actions">
-        <div className="yn__container">
-          <Button
-            className={getButtonClass(id, 1)}
-            onClick={() => handleClick({ value: 1, id, activity: getActivity(id) })}
-          >
-            {total === '1' ? <FaCheck /> : <FaArrowUp />}
-          </Button>
-          <Button
-            className={getButtonClass(id, 2)}
-            onClick={() => handleClick({ value: 2, id, activity: getActivity(id) })}
-          >
-            {total === '1' ? <FaBan /> : <FaArrowDown />}
-          </Button>
-        </div>
+        <Button
+          className={getButtonClass(id, 1)}
+          onClick={() => handleClick({ value: 1, id, activity: getActivity(id) })}
+        >
+          {icon1}
+        </Button>
+        <Button
+          className={getButtonClass(id, 2)}
+          onClick={() => handleClick({ value: 2, id, activity: getActivity(id) })}
+        >
+          {icon2}
+        </Button>
+        <Button
+          className={getButtonClass(id, 3)}
+          onClick={() => handleClick({ value: 3, id, activity: getActivity(id) })}
+        >
+          {icon3}
+        </Button>
       </div>
     </div>
   )

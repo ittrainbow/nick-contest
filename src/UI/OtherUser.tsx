@@ -33,8 +33,8 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
         <div className="otheruser__text">
           {otherUser2msg}
           <b>{otherUserName}</b>
-          {otherUser3msg}
         </div>
+        <div className="otheruser__text">{otherUser3msg}</div>
       </button>
     </div>
   )
