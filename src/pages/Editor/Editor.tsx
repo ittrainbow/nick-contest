@@ -53,7 +53,8 @@ export const Editor = () => {
     if (tabActive === 6) {
       dispatch(editorActions.clearQuestionInWork())
       setTimeout(() => dispatch(editorActions.clearEditor()), duration)
-    } // eslint-disable-next-line
+    }
+    // eslint-disable-next-line
   }, [tabActive])
 
   const saveBtnDisabled = !anyChanges || !name || !Object.keys(questions).length

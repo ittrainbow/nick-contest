@@ -79,7 +79,6 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   // render styles and locales
 
   const getButtonClass = (id: number, buttonNumber: number) => {
-    // const activity = getActivity(id)
     const result = results[selectedWeek] && results[selectedWeek][id]
 
     const thisButton = activity === buttonNumber
@@ -116,8 +115,6 @@ export const WeekQuestion = ({ id }: { id: number }) => {
 
     return styles.join(' ')
   }
-
-  // const activity = getActivity(id)
 
   return (
     <div className={getQuestionClass(id)}>
