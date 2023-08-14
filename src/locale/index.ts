@@ -72,6 +72,7 @@ export const i18n = (component: string): LocaleType | undefined => {
   const tableSearchMsg = 'Find player'
   const tableHeaderhMsg = 'after '
   const tableNoGamesMsg = 'Standings'
+  const tableAnswersMsg = 'Answers'
 
   const weekNameMsg = 'Week name'
   const weekQuestionMsg = 'Game'
@@ -116,7 +117,8 @@ export const i18n = (component: string): LocaleType | undefined => {
         tableAllSeasonMsg,
         tableHeaderhMsg,
         tableSearchMsg,
-        tableNoGamesMsg
+        tableNoGamesMsg,
+        tableAnswersMsg
       }
 
     case 'ticks':

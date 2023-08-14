@@ -122,14 +122,11 @@
   }
 }
 
-.col-three {
-  min-width: 41px;
-}
-
+.col-three,
 .col-four,
 .col-five {
-  width: 9%;
-  min-width: 41px;
+  width: 10%;
+  min-width: 60px;
 }
 
 .col-four {

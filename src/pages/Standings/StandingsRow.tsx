@@ -39,7 +39,7 @@ export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
     !!user.name.length && dispatch({ type: SET_BUDDIES, payload: { buddyUid: uid, buddies } })
   }
 
-  const { name, answers, correct, position, uid, ninety } = getTableRowParams(el)
+  const { name, answers, correct, position, uid } = getTableRowParams(el)
   const buddy = buddies?.includes(uid)
 
   return (
@@ -61,7 +61,7 @@ export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
       </div>
       <div className={`col-three ${even ? 'standings__dark' : ''}`}>{answers}</div>
       <div className={`col-four ${even ? 'standings__dark' : ''}`}>{correct}</div>
-      <div className={`col-five ${even ? 'standings__dark' : ''}`}>{ninety}</div>
+      {/* <div className={`col-five ${even ? 'standings__dark' : ''}`}>{ninety}</div> */}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
@@ -23,35 +23,24 @@ export const Week = () => {
   const weeks = useSelector((store: IStore) => store.weeks)
   const compare = useSelector((store: IStore) => store.compare)
   const containerRef = useRef<HTMLDivElement>(null)
-  const cancelRef = useRef<HTMLDivElement>(null)
-  const [drawCancel, setDrawCancel] = useState<boolean>(false)
   const { name, questions } = weeks[selectedWeek] || ({} as WeekType)
 
   const gotChanges = useChanges()
 
   // container fade animations
 
-  const containerFade = useFade({ ref: containerRef })
-  const cancelFade = useFade({ ref: cancelRef })
-
-  useEffect(() => {
-    !gotChanges && cancelFade.triggerFade()
-  }, [gotChanges, cancelFade])
+  const { triggerFade } = useFade({ ref: containerRef })
 
   useEffect(() => {
     const fromSeasonList = pathname.includes('week/') && tabActive !== 3
     const fromCurrentWeek = !pathname.includes('week/') && tabActive !== 2
-    if (fromSeasonList || fromCurrentWeek) containerFade.triggerFade()
+    if (fromSeasonList || fromCurrentWeek) triggerFade()
     // eslint-disable-next-line
-  }, [tabActive, containerFade])
+  }, [tabActive, triggerFade])
 
   // helpers
 
   const adm = admin && !adminAsPlayer
-
-  useEffect(() => {
-    setTimeout(() => setDrawCancel(!!gotChanges), duration)
-  }, [gotChanges, duration])
 
   // action handlers
 
@@ -68,8 +57,8 @@ export const Week = () => {
   }
 
   const handleDiscard = () => {
-    dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
     admin && dispatch(resultsActions.updateResults({ results: compare.results, selectedWeek }))
+    dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
   }
 
   const handleAdminAsPlayer = () => {
@@ -102,16 +91,14 @@ export const Week = () => {
               <WeekQuestion id={id} />
             </div>
           ))}
-      <Button onClick={handleSubmit} disabled={!gotChanges && !adm} className="week-button">
-        {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
-      </Button>
-      {drawCancel ? (
-        <div className="animate-fade-in-up" ref={cancelRef}>
-          <Button onClick={handleDiscard} className="week-button">
-            {buttonCancelMsg}
-          </Button>
-        </div>
-      ) : null}
+      <div className="week-buttons">
+        <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button">
+          {buttonCancelMsg}
+        </Button>
+        <Button onClick={handleSubmit} disabled={!gotChanges} className="week-button">
+          {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
+        </Button>
+      </div>
     </div>
   ) : null
 }

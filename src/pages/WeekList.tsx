@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
+import { selectApp, selectLocation, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
 import { useFade } from '../hooks'
 import { OtherUser } from '../UI'
@@ -11,7 +11,6 @@ export const WeekList = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { editor, isItYou, tabActive, duration } = useSelector(selectApp)
-  const { admin } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
   const weeks = useSelector(selectWeeks)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -48,7 +47,7 @@ export const WeekList = () => {
       {showOtherUserBar && <OtherUser containerRef={containerRef} />}
       {Object.keys(weeks)
         .map((el) => Number(el))
-        .filter((el) => weeks[el].active || editor || admin)
+        .filter((el) => weeks[el].active || editor)
         .sort((a, b) => b - a)
         .map((el) => {
           const { name } = weeks[el]

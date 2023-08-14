@@ -1,11 +1,5 @@
 import { IFetchObject, IUserStandings, TableCreatorType } from '../types'
 
-export const getTableObject = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
-  const total = ((ansTotal / resultsTotal) * 100).toFixed(0) + '%'
-  const correct = ansTotal ? ansCorrect / ansTotal : 0
-  return { total, correct }
-}
-
 export const getTable = ({ answers, players, results, fullSeason }: TableCreatorType) => {
   const userList = Object.keys(players)
   const object: IFetchObject<IUserStandings> = {}
@@ -34,14 +28,22 @@ export const getTable = ({ answers, players, results, fullSeason }: TableCreator
             })
       })
 
-    const { correct } = getTableObject(ansTotal, ansCorrect, resultsTotal)
+    const correct = ansTotal ? ansCorrect / ansTotal : 0
     object[el] = { name, uid, ansTotal, ansCorrect, resultsTotal, correct, position: '' }
   })
 
   const array: IUserStandings[] = Object.keys(object).map((el) => object[el])
 
   const table = array.sort((a: IUserStandings, b: IUserStandings) => {
-    return a.correct < b.correct ? 1 : a.correct > b.correct ? -1 : 0
+    return a.ansCorrect < b.ansCorrect
+      ? 1
+      : a.ansCorrect > b.ansCorrect
+      ? -1
+      : a.correct < b.correct
+      ? 1
+      : a.correct > b.correct
+      ? -1
+      : 0
   })
 
   table.forEach((_, index) => {

@@ -14,6 +14,12 @@
   }
 }
 
+.week-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
 .week-button {
   margin: 0 0 5px 0;
 }

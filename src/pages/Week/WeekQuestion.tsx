@@ -22,7 +22,8 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   // helpers
 
   const handleDiscard = () => {
-    const getOldAnswer = compare.answers[selectedWeek][id]
+    const active = compare.answers
+    const getOldAnswer = (active[selectedWeek] && active[selectedWeek][id]) || 0
     const discardAnswersData = structuredClone(answers)
     discardAnswersData[uid][selectedWeek][id] = getOldAnswer
 
@@ -124,12 +125,12 @@ export const WeekQuestion = ({ id }: { id: number }) => {
           {away.trim()} @ {home.trim()}
         </div>
         <div className="question__deadline" style={{ opacity: outdated ? 0.5 : 1 }}>
-          at {getDeadline(deadline)}
+          {getDeadline(deadline)}
         </div>
         {/* {total !== '1' ? `: ${total}` : null} */}
       </div>
       <div className="question__actions">
-        <div style={{ filter: activity !== 1 || adm ? 'grayscale(100%)' : '' }}>
+        <div style={{ filter: activity !== 1 || adm ? 'grayscale(100%)' : '', transition: '.22s ease-in-out' }}>
           <Button className={getButtonClass(id, 1)} onClick={() => handleClick({ value: 1, id, activity })}>
             {getLogo(away)}
           </Button>

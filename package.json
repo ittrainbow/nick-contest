@@ -23,7 +23,6 @@
     "react-app": "^1.1.2",
     "react-confirm-alert": "^3.0.6",
     "react-countdown": "^2.3.5",
-    "react-country-flag": "^3.1.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
