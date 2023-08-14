@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { answersActions, compareActions, userActions } from '../redux/slices'

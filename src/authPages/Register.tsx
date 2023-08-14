@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'

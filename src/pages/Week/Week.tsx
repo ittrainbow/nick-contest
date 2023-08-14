@@ -8,10 +8,10 @@ import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
 import { OtherUser, Button, Switch } from '../../UI'
 import { useChanges, useFade } from '../../hooks'
-import { WeekQuestion } from '.'
 import * as TYPES from '../../redux/storetypes'
 import { i18n, LocaleType } from '../../locale'
 import { IStore, WeekType } from '../../types'
+import { WeekQuestion } from '.'
 
 export const Week = () => {
   const dispatch = useDispatch()
@@ -92,11 +92,11 @@ export const Week = () => {
             </div>
           ))}
       <div className="week-buttons">
-        <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button">
-          {buttonCancelMsg}
-        </Button>
         <Button onClick={handleSubmit} disabled={!gotChanges} className="week-button">
           {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
+        </Button>
+        <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button">
+          {buttonCancelMsg}
         </Button>
       </div>
     </div>

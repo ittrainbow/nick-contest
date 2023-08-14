@@ -7,12 +7,13 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { selectApp, selectEditor, selectLocation, selectWeeks } from '../../redux/selectors'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
-import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 import { getObjectsEquality, getWeeksIDs } from '../../helpers'
+import { EditorInputs, EditorQuestion } from '.'
 import * as TYPES from '../../redux/storetypes'
 import { i18n, LocaleType } from '../../locale'
+import { ChangeInputType } from '../../types'
+import { Button, Input } from '../../UI'
 import { useFade } from '../../hooks'
-import { Button } from '../../UI'
 
 export const Editor = () => {
   const dispatch = useDispatch()
@@ -95,9 +96,14 @@ export const Editor = () => {
     }, duration)
   }
 
+  const handleChangeActivity = (e: ChangeInputType) => {
+    const { checked } = e.target
+    dispatch(editorActions.updateEditorActive(checked))
+  }
+
   // render styles and locales
 
-  const { weekDeleteMsg } = i18n('editor') as LocaleType
+  const { weekDeleteMsg, weekActivityMsg } = i18n('editor') as LocaleType
   const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg, buttonDeleteYesMsg, buttonDeleteNoMsg } = i18n(
     'buttons'
   ) as LocaleType
@@ -115,8 +121,16 @@ export const Editor = () => {
             <EditorQuestion key={Math.random()} id={Number(el)} questionsRef={questionsRef} />
           ))}
         <hr />
-        <EditorActivities />
-        <div className="editor-form">
+        <div className="editor-bottom">
+          <div className="editor-checkbox">
+            <div className="editor-checkbox__pad">{weekActivityMsg}</div>
+            <Input
+              type="checkbox"
+              checked={active}
+              className={'editor-checkbox__box'}
+              onChange={handleChangeActivity}
+            />
+          </div>
           <Button disabled={saveBtnDisabled} onClick={handleSubmit}>
             {buttonSaveMsg}
           </Button>

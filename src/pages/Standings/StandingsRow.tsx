@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
 import { FaStar } from 'react-icons/fa'
-import { IUserStandings } from '../../types'
-import { getTableRowParams } from '../../helpers'
-import { appActions, userActions } from '../../redux/slices'
-import { selectApp, selectUser } from '../../redux/selectors'
+
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
+import { selectApp, selectUser } from '../../redux/selectors'
+import { appActions, userActions } from '../../redux/slices'
+import { getTableRowParams } from '../../helpers'
+import { IUserStandings } from '../../types'
 
 type StandingsRowType = {
   el: IUserStandings

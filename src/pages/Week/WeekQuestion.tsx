@@ -13,11 +13,11 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   const answers = useSelector((store: IStore) => store.answers)
   const compare = useSelector((store: IStore) => store.compare)
   const results = useSelector((store: IStore) => store.results)
-  const [outdated, setOutdated] = useState<boolean>(false)
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
   const { admin, adminAsPlayer, uid } = useSelector(selectUser)
   const { questions } = weeks[selectedWeek]
   const { away, home, deadline } = questions[id]
+  const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
 
   // helpers
 
@@ -25,6 +25,8 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     const active = compare.answers
     const getOldAnswer = (active[selectedWeek] && active[selectedWeek][id]) || 0
     const discardAnswersData = structuredClone(answers)
+    if (!discardAnswersData[uid]) discardAnswersData[uid] = {}
+    if (!discardAnswersData[uid][selectedWeek]) discardAnswersData[uid][selectedWeek] = {}
     discardAnswersData[uid][selectedWeek][id] = getOldAnswer
 
     dispatch(answersActions.updateAnswers({ answers: discardAnswersData[uid], uid }))
@@ -32,9 +34,8 @@ export const WeekQuestion = ({ id }: { id: number }) => {
 
   useEffect(() => {
     const getOutdated = () => {
-      const newOutdated = new Date().getTime() > deadline
-      if (newOutdated !== outdated) {
-        setOutdated(newOutdated)
+      if (new Date().getTime() > deadline && !outdated) {
+        setOutdated(true)
         handleDiscard()
       }
     }
@@ -42,11 +43,10 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     const interval = setInterval(() => getOutdated(), 5000)
     return () => clearInterval(interval)
     // eslint-disable-next-line
-  }, [outdated])
+  }, [outdated, selectedWeek])
 
   const adm = admin && !adminAsPlayer
   const buttonData = adm ? results : answers[isItYou ? uid : otherUserUID]
-  const writeAllowed = adm || (!adm && !outdated)
 
   const activity =
     ((!isItYou && outdated) || isItYou) && buttonData && buttonData[selectedWeek] ? buttonData[selectedWeek][id] : 0
@@ -54,8 +54,9 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   // action handlers
 
   const handleClick = (props: YesNoHandlePropsType) => {
-    const onTime = new Date().getTime() < deadline || adm
-    if (writeAllowed && isItYou && onTime && uid) {
+    const userOnTimeOrAdmin = new Date().getTime() < deadline || adm
+
+    if (isItYou && uid && userOnTimeOrAdmin) {
       const { value, id, activity } = props
       const data = structuredClone(adm ? results : answers[uid]) || {}
       if (!data[selectedWeek]) data[selectedWeek] = {}

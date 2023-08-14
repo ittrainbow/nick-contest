@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 
-import { FadeRefType } from '../types'
 import { selectApp } from '../redux/selectors'
+import { FadeRefType } from '../types'
 
 export const useFade = ({ ref }: { ref: FadeRefType }) => {
   const { duration } = useSelector(selectApp)
