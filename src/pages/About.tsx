@@ -45,7 +45,7 @@ export const About = () => {
     <div
       className="container flexcol animate-fade-in-up"
       ref={containerRef}
-      style={{ height: `calc(100% - ${mobile ? '60px' : '92px'})` }}
+      style={{ height: `calc(100% - ${mobile ? '90px' : '122px'})` }}
     >
       <div className="about-paragraph">{description[0]}</div>
       <div className="about-button">
@@ -64,7 +64,8 @@ export const About = () => {
               )
             })}
           </div>
-          <div className="about-copyright">
+          <div className="about-copyright" style={{ marginBottom: mobile ? '15px' : '' }}>
+            <hr />
             <a href="https://t.me/packersnews">Green 19</a>
             {copyright}
           </div>
