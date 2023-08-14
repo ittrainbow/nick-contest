@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { selectApp, selectUser } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
+import { selectApp, selectUser } from '../redux/selectors'
 import { swipeHelper } from '../helpers'
 import { useMenu } from './useMenu'
 

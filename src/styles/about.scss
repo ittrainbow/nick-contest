@@ -1,23 +1,29 @@
 @import './vars';
 
-.about {
-  &__paragraph {
-    padding: 5px 0;
-    font-size: 15px;
-    text-align: justify;
-  }
-
-  &__legend {
-    display: flex;
-    box-sizing: border-box;
-    flex-direction: column;
-  }
-
-  &__button {
-    margin: 5px 0;
-  }
+.about-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
 }
 
-.copyright {
+.about-button {
+  margin: 10px 0;
+}
+
+.about-description {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 10px;
+}
+
+.about-paragraph,
+.about-copyright {
+  font-size: 15px;
+  text-align: justify;
+}
+
+.about-copyright {
   text-align: center;
 }

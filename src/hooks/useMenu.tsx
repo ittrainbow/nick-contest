@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux'
 import {
   FaInfoCircle,
   FaUserAlt,
@@ -8,9 +9,8 @@ import {
   FaPenNib
 } from 'react-icons/fa'
 
-import { i18n, LocaleType } from '../locale'
-import { useSelector } from 'react-redux'
 import { selectUser } from '../redux/selectors'
+import { i18n, LocaleType } from '../locale'
 
 export const useMenu = () => {
   const { admin } = useSelector(selectUser)

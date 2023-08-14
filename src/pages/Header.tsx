@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { selectApp, selectLocation } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
+import { selectApp, selectLocation } from '../redux/selectors'
 import { useMenu } from '../hooks'
 
 export const Header = () => {
