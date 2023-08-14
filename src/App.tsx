@@ -21,7 +21,7 @@ export const App = () => {
   useSwipe()
 
   useEffect(() => {
-    const lastTab = Number(localStorage.getItem('packContestLastTab') || 1)
+    const lastTab = Number(localStorage.getItem('contestLastTab') || 1)
     dispatch({ type: INIT_APP })
     dispatch(appActions.setMobile(isMobile))
     dispatch(appActions.setTabActive(lastTab))
@@ -37,7 +37,7 @@ export const App = () => {
         payload: { user, emailReg }
       })
 
-      const lastTab = Number(localStorage.getItem('packContestLastTab'))
+      const lastTab = Number(localStorage.getItem('contestLastTab'))
       navigate(initialRedirects[lastTab])
       dispatch(appActions.setTabActive(lastTab))
       lastTab === 5 && dispatch(appActions.setEditor(true))

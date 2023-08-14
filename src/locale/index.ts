@@ -38,7 +38,7 @@ export const i18n = (component: string): LocaleType | undefined => {
   const buttonRegisterMsg = 'Signup'
   const buttonRegisterGoogleMsg = 'Google signup'
   const buttonLoginMsg = 'Login'
-  const buttonLoginGoogleMsg = 'Googel login'
+  const buttonLoginGoogleMsg = 'Googel Login'
   const buttonRecoverMsg = 'Send recovery email'
   const buttonDeleteYesMsg = 'Yes'
   const buttonDeleteNoMsg = 'No'
@@ -85,13 +85,9 @@ export const i18n = (component: string): LocaleType | undefined => {
   const otherUser2msg = `You're now looking at profile of `
   const otherUser3msg = 'Answers for the games that not started yet are hidden'
 
-  const aboutLegend = 'You can pick one of this options:'
-  const aboutAwayMsg = 'Away team (mentioned former) wins.'
-  const aboutHomeMsg = 'Home team (mentioned latter) wins.'
-
   switch (component) {
     case 'about':
-      return { aboutAwayMsg, aboutHomeMsg, aboutLegend }
+      return
 
     case 'header':
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }

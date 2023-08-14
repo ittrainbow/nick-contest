@@ -15,8 +15,8 @@ export const Login = () => {
   const navigate = useNavigate()
   const [user, loading, error] = useAuthState(auth)
   const { tabActive, duration } = useSelector(selectApp)
-  const [password, setPassword] = useState<string>(localStorage.getItem('packContestPassword') || '')
-  const [email, setEmail] = useState<string>(localStorage.getItem('packContestEmail') || '')
+  const [password, setPassword] = useState<string>(localStorage.getItem('contestPassword') || '')
+  const [email, setEmail] = useState<string>(localStorage.getItem('contestEmail') || '')
   const [emailValid, setEmailValid] = useState<boolean>(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -62,8 +62,8 @@ export const Login = () => {
   }
 
   const handleEmailLogin = async () => {
-    localStorage.setItem('packContestEmail', email)
-    localStorage.setItem('packContestPassword', password)
+    localStorage.setItem('contestEmail', email)
+    localStorage.setItem('contestPassword', password)
     await logInWithEmailAndPassword(email, password)
   }
 

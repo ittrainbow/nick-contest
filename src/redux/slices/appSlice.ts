@@ -82,7 +82,7 @@ export const appSlice = createSlice({
 
     setTabActive(state, action: PayloadAction<number>) {
       const id = action.payload
-      localStorage.setItem('packContestLastTab', id.toString())
+      localStorage.setItem('contestLastTab', id.toString())
       state.tabActive = id
     },
 

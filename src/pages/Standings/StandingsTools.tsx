@@ -26,7 +26,7 @@ export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
 
   const handleSwitchShowOneWeek = () => {
     const value = !showOneWeek
-    localStorage.setItem('packContestOneWeek', value.toString())
+    localStorage.setItem('contestOneWeek', value.toString())
     dispatch(toolsActions.switchShowOneWeek())
   }
 
@@ -44,7 +44,7 @@ export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
     showTools && triggerFade()
     setShowBuddiesLocal(value)
     setTimeout(() => dispatch(toolsActions.switchShowBuddies()), duration)
-    localStorage.setItem('packContestFavList', value.toString())
+    localStorage.setItem('contestFavList', value.toString())
   }
 
   // render styles and locales

@@ -4,8 +4,8 @@ import { ITools } from '../../types'
 
 const initialState: ITools = {
   showTools: false,
-  showBuddies: localStorage.getItem('packContestFavList') === 'true',
-  showOneWeek: localStorage.getItem('packContestOneWeek') === 'true',
+  showBuddies: localStorage.getItem('contestFavList') === 'true',
+  showOneWeek: localStorage.getItem('contestOneWeek') === 'true',
   standingsSearch: ''
 }
 

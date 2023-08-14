@@ -120,7 +120,6 @@ function* submitResultsSaga(action: ActionType<SubmitResultsType>) {
 
 function* submitAnswersSaga(action: ActionType<SubmitAnswersType>) {
   const { answers, uid, toaster, selectedWeek, firstData } = action.payload
-  console.log(100, answers)
 
   yield put(appActions.setLoading(true))
   try {

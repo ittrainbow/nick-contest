@@ -3,7 +3,7 @@
 .question {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
   margin: 0 0 3px;
   height: 43px;
   padding: 3px 5px;
@@ -35,6 +35,15 @@
     flex-direction: row;
     align-items: center;
     gap: 5px;
+    padding-top: 1px;
+  }
+
+  &__deadline {
+    transition: 0.22s ease-in-out;
+    font-size: 12px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1px;
   }
 
   &__actions {
@@ -43,12 +52,12 @@
   }
 
   &__red {
-    border: 1px solid $base-question-red;
+    border: 1.5px solid $base-question-red;
     border-left-width: 0.32rem;
   }
 
   &__green {
-    border: 1px solid $base-question-green;
+    border: 1.5px solid $base-question-green;
     border-left-width: 0.32rem;
   }
 
@@ -88,11 +97,11 @@
 
 .yn-black,
 .yn-dark {
+  background-color: $base-itembg-slight;
   color: $base-black;
 }
 
 .yn-black {
-  background-color: $base-itembg-slight;
   opacity: 1;
 }
 
