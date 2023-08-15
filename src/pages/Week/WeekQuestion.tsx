@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { getAnswersResults, getDeadline, getLogo } from '../../helpers'
+import { getAnswersResults, getDeadline, getLogo, getResultFromScore } from '../../helpers'
 import { resultsActions, answersActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { IStore } from '../../types'
@@ -93,16 +93,16 @@ export const WeekQuestion = ({ id }: { id: number }) => {
 
   // render styles and locales
 
-  const getScoreResult = () => {
-    const [away, home] = score.split('-').map((el) => Number(el))
-    if (away > home) return 1
-    if (away < home) return 2
-    return 0
-  }
+  // const getScoreResult = () => {
+  //   const [away, home] = score.split('-').map((el) => Number(el))
+  //   if (away > home) return 1
+  //   if (away < home) return 2
+  //   return 0
+  // }
 
   const getButtonClass = (id: number, buttonNumber: number) => {
     const resultsResult = results[selectedWeek] && results[selectedWeek][id]
-    const result = score.length > 0 ? getScoreResult() : resultsResult
+    const result = score.length > 0 ? getResultFromScore(score) : resultsResult
 
     const thisButton = activity === buttonNumber
     const correct = result && activity === result
@@ -125,12 +125,11 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     const { answer } = getAnswersResults(answers, results, selectedWeek, getUid, id)
 
     const resultsResult = results[selectedWeek] && results[selectedWeek][id]
-    const result = score.length > 0 ? getScoreResult() : resultsResult
+    const result = score.length > 0 ? getResultFromScore(score) : resultsResult
 
     const allowedStyles = (!isItYou && outdated) || isItYou
 
     if (outdated && result && answer) {
-      console.log(100, away, home, answer, result, answer === result)
       const style = result === answer ? 'question__green' : 'question__red'
       styles.push(style)
     }
@@ -148,7 +147,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
 
   const drawDeadline = () => {
     return (
-      <div className="question__deadline" style={{ opacity: outdated ? 0.3 : 1 }}>
+      <div className="question__deadline" style={{ color: outdated ? 'darkred' : '' }}>
         {getDeadline(deadline)}
       </div>
     )

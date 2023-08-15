@@ -1,4 +1,5 @@
 import { IUserStandings, IAnswers, IPlayers, AnswersType, IWeeks } from '../types'
+import { getResultFromScore } from './scoresHelpers'
 
 type TableCreatorType = {
   answers: IAnswers
@@ -23,35 +24,26 @@ export const getTable = ({ answers, players, results, fullSeason, weeks }: Table
     const { name } = players[el]
     const lastWeek = Number(Object.keys(results).splice(-1))
     const ans = answers && answers[el] ? answers[el] : {}
-    // console.log(100, weeks)
-    // console.log(101, Object.keys(weeks))
     Object.keys(weeks)
       .map((el) => Number(el))
       .filter((el) => {
         return fullSeason ? el >= 0 : el === lastWeek
       })
       .forEach((el) => {
-        // console.log(102, el)
         const subAns = ans ? ans[el] : null
-        // console.log(103, weeks[el].questions)
         weeks[el] &&
           Object.keys(weeks[el].questions)
             .map((el) => Number(el))
             .forEach((i) => {
-              const score = weeks[el].questions[i].score
-              // console.log(104, score)
-              const [away, home] = score.split('-').map((el) => Number(el))
-              const result = away > home ? 1 : away < home ? 2 : 0
-              console.log(105, score.length > 0)
-              score.length > 0 && resultsTotal++
-              console.log(106, resultsTotal)
+              const { score } = weeks[el].questions[i]
+              const result = getResultFromScore(score)
+              !!score.length && result > 0 && resultsTotal++
               subAns && subAns[i] && ansTotal++
               subAns && subAns[i] && subAns[i] === result && ansCorrect++
             })
       })
 
     const correct = ansTotal ? ansCorrect / ansTotal : 0
-    console.log(107, name, resultsTotal)
     object[el] = { name, uid, ansTotal, ansCorrect, resultsTotal, correct, position: '' }
   })
 
