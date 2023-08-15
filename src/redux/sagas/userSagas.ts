@@ -1,8 +1,8 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 
 import { writeDBDocument, getDBDocument, updateDBDocument, deleteDBDocument, getDBCollection } from '../../db'
-import { ActionType, IUser, IUserStore, AnswersType, IStore, BuddiesPayloadType, IPlayers } from '../../types'
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
+import { ActionType, IUser, IUserStore, AnswersType, IStore, IPlayers } from '../../types'
 import { fetchStandingsSaga, createStandingsSaga } from '.'
 import { getObjectsEquality } from '../../helpers'
 import * as TYPES from '../storetypes'
@@ -11,6 +11,11 @@ type UserUpdateType = {
   locale: 'ua' | 'ru'
   name: string
   uid: string
+}
+
+type BuddiesPayloadType = {
+  buddies: string[]
+  buddyUid: string
 }
 
 type SubmitResultsType = {

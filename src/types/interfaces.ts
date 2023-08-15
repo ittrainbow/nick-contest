@@ -17,17 +17,6 @@ export interface IApp {
   duration: number
 }
 
-export interface IRouter {
-  location: {
-    pathname: string
-    search: string
-    hash: string
-    state: string | null
-    key: string
-  }
-  action: 'PUSH' | 'PULL'
-}
-
 export interface ITools {
   showTools: boolean
   showBuddies: boolean
@@ -64,10 +53,6 @@ export interface IWeeks {
   [key: number]: WeekType
 }
 
-export interface IFetchObject<T> {
-  [key: number | string]: T
-}
-
 export interface IUserStandings {
   ansCorrect: number
   ansTotal: number
@@ -76,10 +61,6 @@ export interface IUserStandings {
   position: number | string
   correct: number
   uid: string
-}
-
-export interface IStandings {
-  [key: string]: IUserStandings[]
 }
 
 export interface IEditor extends WeekType {
