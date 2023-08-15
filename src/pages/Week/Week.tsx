@@ -91,14 +91,16 @@ export const Week = () => {
               <WeekQuestion id={id} />
             </div>
           ))}
-      <div className="week-buttons">
-        <Button onClick={handleSubmit} disabled={!gotChanges} className="week-button">
-          {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
-        </Button>
-        <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button">
-          {buttonCancelMsg}
-        </Button>
-      </div>
+      {isItYou ? (
+        <div className="week-buttons">
+          <Button onClick={handleSubmit} disabled={!gotChanges} className="week-button">
+            {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
+          </Button>
+          <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button">
+            {buttonCancelMsg}
+          </Button>
+        </div>
+      ) : null}
     </div>
   ) : null
 }

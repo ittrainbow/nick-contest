@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getAnswersResults, getDeadline, getLogo } from '../../helpers'
@@ -6,9 +7,11 @@ import { resultsActions, answersActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { IStore, YesNoHandlePropsType } from '../../types'
 import { Button } from '../../UI'
+import { auth } from '../../db'
 
 export const WeekQuestion = ({ id }: { id: number }) => {
   const dispatch = useDispatch()
+  const [user] = useAuthState(auth)
   const weeks = useSelector((store: IStore) => store.weeks)
   const answers = useSelector((store: IStore) => store.answers)
   const compare = useSelector((store: IStore) => store.compare)
@@ -58,7 +61,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   const handleClick = (props: YesNoHandlePropsType) => {
     const userOnTimeOrAdmin = new Date().getTime() < deadline || adm
 
-    if (isItYou && uid && userOnTimeOrAdmin) {
+    if (isItYou && user && userOnTimeOrAdmin) {
       const { value, id, activity } = props
       const newValue = value === activity ? 0 : value
 
