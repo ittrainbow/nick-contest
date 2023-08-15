@@ -1,6 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { AnswersUpdateType, IAnswers, SingleAnswerDeleteType, SingleAnswerUpdateType } from '../../types'
+import { AnswersType, IAnswers } from '../../types'
+
+type AnswersUpdateType = {
+  answers: AnswersType
+  uid: string
+}
+
+type SingleAnswerUpdateType = {
+  selectedWeek: number
+  id: number
+  uid: string
+  answer: number
+}
+
+type SingleAnswerDeleteType = {
+  selectedWeek: number
+  id: number
+  uid: string
+}
 
 const initialState = {} as IAnswers
 

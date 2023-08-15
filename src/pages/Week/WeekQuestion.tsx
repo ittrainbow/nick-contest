@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getAnswersResults, getDeadline, getLogo } from '../../helpers'
 import { resultsActions, answersActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
-import { AnswersType, IStore, QuestionsType, WeekType, YesNoHandlePropsType } from '../../types'
+import { IStore, YesNoHandlePropsType } from '../../types'
 import { Button } from '../../UI'
 
 export const WeekQuestion = ({ id }: { id: number }) => {
@@ -31,7 +31,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
 
   useEffect(() => {
     setOutdated(new Date().getTime() > deadline)
-  }, [selectedWeek])
+  }, [selectedWeek, deadline])
 
   useEffect(() => {
     const getOutdated = () => {

@@ -1,6 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { AnswersType, ResultsUpdateType, SingleResultDeleteType, SingleResultUpdateType } from '../../types'
+import { AnswersType } from '../../types'
+
+type ResultsUpdateType = {
+  results: AnswersType
+  selectedWeek: number
+}
+
+type SingleResultUpdateType = {
+  selectedWeek: number
+  id: number
+  uid: string
+  answer: number
+}
+
+type SingleResultDeleteType = {
+  selectedWeek: number
+  id: number
+  uid: string
+}
 
 const initialState = {} as AnswersType
 

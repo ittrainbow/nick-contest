@@ -29,42 +29,6 @@ export type AnswersType = {
   }
 }
 
-export type AnswersUpdateType = {
-  answers: AnswersType
-  uid: string
-}
-
-export type SingleAnswerUpdateType = {
-  selectedWeek: number
-  id: number
-  uid: string
-  answer: number
-}
-
-export type SingleAnswerDeleteType = {
-  selectedWeek: number
-  id: number
-  uid: string
-}
-
-export type SingleResultUpdateType = {
-  selectedWeek: number
-  id: number
-  uid: string
-  answer: number
-}
-
-export type SingleResultDeleteType = {
-  selectedWeek: number
-  id: number
-  uid: string
-}
-
-export type ResultsUpdateType = {
-  results: AnswersType
-  selectedWeek: number
-}
-
 export type WeekType = {
   active: boolean
   name: string
