@@ -147,7 +147,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
 
   const drawDeadline = () => {
     return (
-      <div className="question__deadline" style={{ color: outdated ? 'darkred' : '' }}>
+      <div className="question__deadline" style={{ color: outdated ? 'darkred' : '', opacity: activity > 0 ? 0.8 : 0.4 }}>
         {getDeadline(deadline)}
       </div>
     )
