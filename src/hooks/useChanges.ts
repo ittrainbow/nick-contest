@@ -9,8 +9,7 @@ export const useChanges = () => {
   const answers = useSelector(selectAnswers)
   const compare = useSelector(selectCompare)
   const dataToCompare = admin && !adminAsPlayer ? results : answers
-
-  if (!!Object.keys(dataToCompare).length) {
+  if (dataToCompare) {
     const userChanges = !getObjectsEquality(answers[uid], compare.answers)
     const adminChanges = admin ? !getObjectsEquality(results, compare.results) : false
     const isAdmin = admin && !adminAsPlayer

@@ -61,9 +61,9 @@ export const Week = () => {
     dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
   }
 
-  const handleAdminAsPlayer = () => {
-    dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
-  }
+  // const handleAdminAsPlayer = () => {
+  //   dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
+  // }
 
   // render styles and locales
 
@@ -74,9 +74,9 @@ export const Week = () => {
     <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
-        {admin && isItYou ? (
+        {/* {admin && isItYou ? (
           <Switch onChange={handleAdminAsPlayer} checked={adminAsPlayer} messageOn={playerMsg} messageOff={adminMsg} />
-        ) : null}
+        ) : null} */}
       </div>
       <OtherUser containerRef={containerRef} />
       <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />

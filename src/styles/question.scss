@@ -38,11 +38,17 @@
     padding-top: 1px;
   }
 
+  &__deadline,
+  &__score {
+    display: flex;
+    justify-content: center;
+    width: 70px;
+    align-items: center;
+  }
+
   &__deadline {
     transition: 0.22s ease-in-out;
     font-size: 12px;
-    justify-content: center;
-    align-items: center;
     padding-top: 1px;
     white-space: nowrap;
   }
@@ -91,10 +97,14 @@
 
 .yn-correct {
   color: $base-question-green;
+  background-color: $base-itembg-active;
+  color: $base-black;
 }
 
 .yn-wrong {
   color: $base-question-red;
+  background-color: $base-itembg-active;
+  color: $base-black;
 }
 
 .yn-black,

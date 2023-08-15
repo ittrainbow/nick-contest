@@ -19,6 +19,7 @@ export const emptyQuestion: QuestionType = {
   home: '',
   away: '',
   total: '1',
-  id: null,
-  deadline: new Date().getTime()
+  // id: null,
+  deadline: new Date().getTime(),
+  score: ''
 }

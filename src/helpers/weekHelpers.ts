@@ -21,8 +21,8 @@ export const getAnswersResults = (
   id: number
 ) => {
   const res = results[selectedWeek] ? results[selectedWeek][id] : 0
-  const ans = answers[uid] && answers[uid][selectedWeek] ? answers[uid][selectedWeek][id] : 0
-  return { ans, res }
+  const answer = answers[uid] && answers[uid][selectedWeek] ? answers[uid][selectedWeek][id] : 0
+  return { answer, res }
 }
 
 export const getDeadline = (deadline: number) =>

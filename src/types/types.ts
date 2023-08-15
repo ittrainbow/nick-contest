@@ -4,6 +4,7 @@ export type QuestionType = {
   total: string
   id?: number | null
   deadline: number
+  score: string
 }
 
 export type AnswersType = {
