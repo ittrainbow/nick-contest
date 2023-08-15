@@ -34,6 +34,32 @@ export type AnswersUpdateType = {
   uid: string
 }
 
+export type SingleAnswerUpdateType = {
+  selectedWeek: number
+  id: number
+  uid: string
+  answer: number
+}
+
+export type SingleAnswerDeleteType = {
+  selectedWeek: number
+  id: number
+  uid: string
+}
+
+export type SingleResultUpdateType = {
+  selectedWeek: number
+  id: number
+  uid: string
+  answer: number
+}
+
+export type SingleResultDeleteType = {
+  selectedWeek: number
+  id: number
+  uid: string
+}
+
 export type ResultsUpdateType = {
   results: AnswersType
   selectedWeek: number

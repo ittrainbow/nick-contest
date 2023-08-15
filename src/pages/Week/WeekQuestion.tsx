@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getAnswersResults, getDeadline, getLogo } from '../../helpers'
 import { resultsActions, answersActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
-import { IStore, YesNoHandlePropsType } from '../../types'
+import { AnswersType, IStore, QuestionsType, WeekType, YesNoHandlePropsType } from '../../types'
 import { Button } from '../../UI'
 
 export const WeekQuestion = ({ id }: { id: number }) => {
@@ -22,28 +22,30 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   // helpers
 
   const handleDiscard = () => {
-    const active = compare.answers
-    const getOldAnswer = (active[selectedWeek] && active[selectedWeek][id]) || 0
-    const discardAnswersData = structuredClone(answers)
-    if (!discardAnswersData[uid]) discardAnswersData[uid] = {}
-    if (!discardAnswersData[uid][selectedWeek]) discardAnswersData[uid][selectedWeek] = {}
-    discardAnswersData[uid][selectedWeek][id] = getOldAnswer
+    const oldAnswer = compare.answers[selectedWeek] && compare.answers[selectedWeek][id]
 
-    dispatch(answersActions.updateAnswers({ answers: discardAnswersData[uid], uid }))
+    oldAnswer
+      ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: oldAnswer }))
+      : dispatch(answersActions.deleteSingleAnswer({ selectedWeek, uid, id }))
   }
 
   useEffect(() => {
+    setOutdated(new Date().getTime() > deadline)
+  }, [selectedWeek])
+
+  useEffect(() => {
     const getOutdated = () => {
-      if (new Date().getTime() > deadline && !outdated) {
+      if (!outdated && new Date().getTime() > deadline) {
         setOutdated(true)
         handleDiscard()
       }
     }
+
     getOutdated()
     const interval = setInterval(() => getOutdated(), 5000)
     return () => clearInterval(interval)
     // eslint-disable-next-line
-  }, [outdated, selectedWeek])
+  }, [selectedWeek, outdated])
 
   const adm = admin && !adminAsPlayer
   const buttonData = adm ? results : answers[isItYou ? uid : otherUserUID]
@@ -58,21 +60,19 @@ export const WeekQuestion = ({ id }: { id: number }) => {
 
     if (isItYou && uid && userOnTimeOrAdmin) {
       const { value, id, activity } = props
-      const data = structuredClone(adm ? results : answers[uid]) || {}
-      if (!data[selectedWeek]) data[selectedWeek] = {}
-      if (value === activity) {
-        if (Object.keys(data[selectedWeek]).length === 1) {
-          delete data[selectedWeek]
-        } else {
-          delete data[selectedWeek][id]
-        }
-      } else {
-        data[selectedWeek][id] = value
+      const newValue = value === activity ? 0 : value
+
+      if (!adm) {
+        !!newValue
+          ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: newValue }))
+          : dispatch(answersActions.deleteSingleAnswer({ selectedWeek, uid, id }))
       }
 
-      adm
-        ? dispatch(resultsActions.updateResults({ results: data, selectedWeek }))
-        : dispatch(answersActions.updateAnswers({ answers: data, uid }))
+      if (adm) {
+        !!newValue
+          ? dispatch(resultsActions.updateSingleResult({ selectedWeek, uid, id, answer: newValue }))
+          : dispatch(resultsActions.deleteSingleResult({ selectedWeek, uid, id }))
+      }
     }
   }
 
@@ -122,13 +122,13 @@ export const WeekQuestion = ({ id }: { id: number }) => {
         <div className="question__teams">
           {away.trim()} @ {home.trim()}
         </div>
-        <div className="question__deadline" style={{ opacity: outdated ? 0.5 : 1 }}>
+        <div className="question__deadline" style={{ opacity: outdated ? 0.3 : 1 }}>
           {getDeadline(deadline)}
         </div>
         {/* {total !== '1' ? `: ${total}` : null} */}
       </div>
       <div className="question__actions">
-        <div style={{ filter: activity !== 1 || adm ? 'grayscale(100%)' : '', transition: '.22s ease-in-out' }}>
+        <div style={{ filter: activity !== 1 || adm ? 'grayscale(100%)' : '' }}>
           <Button className={getButtonClass(id, 1)} onClick={() => handleClick({ value: 1, id, activity })}>
             {getLogo(away)}
           </Button>
