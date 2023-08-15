@@ -63,7 +63,7 @@ export const useSwipe = () => {
       document.removeEventListener('touchend', listenerEnd)
     }
     // eslint-disable-next-line
-  }, [tabActive, admin])
+  }, [tabActive, admin, selectedWeek])
 
   return
 }
