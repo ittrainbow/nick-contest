@@ -60,9 +60,10 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   return (
     <div className="editor-question">
       <div className="editor-question__desc">
-        {away} @ {home} {score}
+        {away} @ {home}
       </div>
-      <div>{drawDeadline(deadline)}</div>
+      <div className="editor-question__score">{score}</div>
+      <div className="editor-question__date">{drawDeadline(deadline)}</div>
       <div className="editor-question__buttons">
         {id === questionInWork.id ? (
           <FaBan className="editor-question__edit editor-btn__green faBan" onClick={handleClearQuestion} />
