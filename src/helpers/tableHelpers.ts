@@ -4,7 +4,6 @@ import { getResultFromScore } from './scoresHelpers'
 type TableCreatorType = {
   answers: IAnswers
   players: IPlayers
-  results: AnswersType
   fullSeason: boolean
   weeks: IWeeks
 }
@@ -13,7 +12,7 @@ type FetchObjectType<T> = {
   [key: number | string]: T
 }
 
-export const getTable = ({ answers, players, results, fullSeason, weeks }: TableCreatorType) => {
+export const getTable = ({ answers, players, fullSeason, weeks }: TableCreatorType) => {
   const userList = Object.keys(players)
   const object: FetchObjectType<IUserStandings> = {}
   userList.forEach((el) => {
@@ -22,7 +21,7 @@ export const getTable = ({ answers, players, results, fullSeason, weeks }: Table
     let resultsTotal = 0
     const uid = el
     const { name } = players[el]
-    const lastWeek = Number(Object.keys(results).splice(-1))
+    const lastWeek = Number(Object.keys(weeks).splice(-1))
     const ans = answers && answers[el] ? answers[el] : {}
     Object.keys(weeks)
       .map((el) => Number(el))

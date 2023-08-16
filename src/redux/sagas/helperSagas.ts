@@ -1,17 +1,16 @@
 import { select, put, call } from 'redux-saga/effects'
 
-import { IUserStandings, AnswersType, IStore, IAnswers, IPlayers, IWeeks } from '../../types'
+import { IUserStandings, IStore, IAnswers, IPlayers, IWeeks } from '../../types'
 import { standingsActions } from '../slices'
 import { getDBCollection } from '../../db'
 import { getTable } from '../../helpers'
 
 export function* createStandingsSaga(players: IPlayers) {
-  const results: AnswersType = yield select((store: IStore) => store.results)
   const weeks: IWeeks = yield select((store: IStore) => store.weeks)
   const answers: IAnswers = yield call(getDBCollection, 'answers')
 
-  const seasonArray: IUserStandings[] = getTable({ answers, players, results, fullSeason: true, weeks })
-  const weekArray: IUserStandings[] = getTable({ answers, players, results, fullSeason: false, weeks })
+  const seasonArray: IUserStandings[] = getTable({ answers, players, fullSeason: true, weeks })
+  const weekArray: IUserStandings[] = getTable({ answers, players, fullSeason: false, weeks })
   const season = Object.assign({}, seasonArray)
   const week = Object.assign({}, weekArray)
 

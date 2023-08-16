@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { getAnswersResults, getDeadline, getLogo, getResultFromScore } from '../../helpers'
-import { resultsActions, answersActions } from '../../redux/slices'
+import { getAnswers, getDeadline, getLogo, getResultFromScore } from '../../helpers'
 import { selectApp, selectUser } from '../../redux/selectors'
+import { answersActions } from '../../redux/slices'
 import { IStore } from '../../types'
 import { Button } from '../../UI'
 import { auth } from '../../db'
@@ -21,7 +21,6 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   const weeks = useSelector((store: IStore) => store.weeks)
   const answers = useSelector((store: IStore) => store.answers)
   const compare = useSelector((store: IStore) => store.compare)
-  const results = useSelector((store: IStore) => store.results)
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
   const { admin, adminAsPlayer, uid } = useSelector(selectUser)
   const { questions } = weeks[selectedWeek]
@@ -57,13 +56,8 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   }, [selectedWeek, outdated])
 
   const adm = admin && !adminAsPlayer
-  const buttonData = adm ? results : answers[isItYou ? uid : otherUserUID]
-
-  // const activity = (): number => {
-  //   return ((!isItYou && outdated) || isItYou) && buttonData && buttonData[selectedWeek]
-  //     ? buttonData[selectedWeek][id]
-  //     : 0
-  // }
+  const buttonData = answers[isItYou ? uid : otherUserUID]
+  const result = getResultFromScore(score)
 
   const activity =
     ((!isItYou && outdated) || isItYou) && buttonData && buttonData[selectedWeek] ? buttonData[selectedWeek][id] : 0
@@ -77,36 +71,18 @@ export const WeekQuestion = ({ id }: { id: number }) => {
       const { value, id, activity } = props
       const newValue = value === activity ? 0 : value
 
-      if (!adm) {
-        !!newValue
-          ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: newValue }))
-          : dispatch(answersActions.deleteSingleAnswer({ selectedWeek, uid, id }))
-      }
-
-      if (adm) {
-        !!newValue
-          ? dispatch(resultsActions.updateSingleResult({ selectedWeek, uid, id, answer: newValue }))
-          : dispatch(resultsActions.deleteSingleResult({ selectedWeek, uid, id }))
-      }
+      !!newValue
+        ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: newValue }))
+        : dispatch(answersActions.deleteSingleAnswer({ selectedWeek, uid, id }))
     }
   }
 
   // render styles and locales
 
-  // const getScoreResult = () => {
-  //   const [away, home] = score.split('-').map((el) => Number(el))
-  //   if (away > home) return 1
-  //   if (away < home) return 2
-  //   return 0
-  // }
-
-  const getButtonClass = (id: number, buttonNumber: number) => {
-    const resultsResult = results[selectedWeek] && results[selectedWeek][id]
-    const result = score.length > 0 ? getResultFromScore(score) : resultsResult
-
+  const getButtonClass = (buttonNumber: number) => {
     const thisButton = activity === buttonNumber
-    const correct = result && activity === result
-    const wrong = result && activity !== result
+    const correct = result > 0 && activity === result
+    const wrong = result > 0 && activity !== result
 
     if (thisButton) {
       if (adm) return 'yn yn-black'
@@ -122,14 +98,10 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     const getUid = isItYou ? uid : otherUserUID
     const week = answers[getUid] && answers[getUid][selectedWeek]
     const styles = ['question']
-    const { answer } = getAnswersResults(answers, results, selectedWeek, getUid, id)
-
-    const resultsResult = results[selectedWeek] && results[selectedWeek][id]
-    const result = score.length > 0 ? getResultFromScore(score) : resultsResult
-
+    const answer = getAnswers(answers, selectedWeek, getUid, id)
     const allowedStyles = (!isItYou && outdated) || isItYou
 
-    if (outdated && result && answer) {
+    if (outdated && result > 0 && answer) {
       const style = result === answer ? 'question__green' : 'question__red'
       styles.push(style)
     }
@@ -147,7 +119,10 @@ export const WeekQuestion = ({ id }: { id: number }) => {
 
   const drawDeadline = () => {
     return (
-      <div className="question__deadline" style={{ color: outdated ? 'darkred' : '', opacity: activity > 0 ? 0.8 : 0.4 }}>
+      <div
+        className="question__deadline"
+        style={{ color: outdated ? 'darkred' : '', opacity: activity > 0 ? 0.8 : 0.4 }}
+      >
         {getDeadline(deadline)}
       </div>
     )
@@ -164,12 +139,12 @@ export const WeekQuestion = ({ id }: { id: number }) => {
       </div>
       <div className="question__actions">
         <div style={{ filter: activity !== 1 || adm ? 'grayscale(100%)' : '' }}>
-          <Button className={getButtonClass(id, 1)} onClick={() => handleClick({ value: 1, id, activity: activity })}>
+          <Button className={getButtonClass(1)} onClick={() => handleClick({ value: 1, id, activity: activity })}>
             {getLogo(away)}
           </Button>
         </div>
         <div style={{ filter: activity !== 2 || adm ? 'grayscale(100%)' : '' }}>
-          <Button className={getButtonClass(id, 2)} onClick={() => handleClick({ value: 2, id, activity: activity })}>
+          <Button className={getButtonClass(2)} onClick={() => handleClick({ value: 2, id, activity: activity })}>
             {getLogo(home)}
           </Button>
         </div>

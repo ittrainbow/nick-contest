@@ -19,10 +19,6 @@ function* setNextAndCurrentWeeksSaga() {
 function* submitWeekSaga(action: ActionType<WeekUpdateType>) {
   const { payload } = action
   const { id, week } = payload
-  // console.log(week.questions)
-  // Object.keys(week.questions).forEach((el) => {
-  //   delete week.questions[Number(el)].id
-  // })
   yield put(appActions.setLoading(true))
   try {
     yield call(writeDBDocument, 'weeks', id, week)
@@ -41,7 +37,6 @@ function* deleteWeekSaga(action: ActionType<number>) {
   yield put(appActions.setLoading(true))
   try {
     yield call(deleteDBDocument, 'weeks', weekId)
-    yield call(deleteDBDocument, 'results', weekId)
     yield call(setNextAndCurrentWeeksSaga)
     yield put(editorActions.clearEditor())
   } catch (error) {

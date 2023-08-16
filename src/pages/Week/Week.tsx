@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { answersActions, resultsActions, userActions } from '../../redux/slices'
+import { answersActions } from '../../redux/slices'
 import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
 import { OtherUser, Button, Switch } from '../../UI'
 import { useChanges, useFade } from '../../hooks'
@@ -19,7 +19,6 @@ export const Week = () => {
   const { admin, adminAsPlayer, uid } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
   const answers = useSelector((store: IStore) => store.answers)
-  const results = useSelector((store: IStore) => store.results)
   const weeks = useSelector((store: IStore) => store.weeks)
   const compare = useSelector((store: IStore) => store.compare)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -50,22 +49,12 @@ export const Week = () => {
     const toastFailure = () => toast.error(failureMsg)
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
 
-    const type = adm ? TYPES.SUBMIT_RESULTS : TYPES.SUBMIT_ANSWERS
-    const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
-
-    dispatch({ type, payload })
+    dispatch({ type: TYPES.SUBMIT_ANSWERS, payload: { selectedWeek, answers, uid, toaster, firstData } })
   }
 
   const handleDiscard = () => {
-    admin && dispatch(resultsActions.updateResults({ results: compare.results, selectedWeek }))
     dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
   }
-
-  // const handleAdminAsPlayer = () => {
-  //   dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
-  // }
-
-  // render styles and locales
 
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n('buttons') as LocaleType
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n('week') as LocaleType

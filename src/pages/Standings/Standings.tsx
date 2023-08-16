@@ -13,8 +13,6 @@ import { IStore } from '../../types'
 export const Standings = () => {
   const dispatch = useDispatch()
   const { showTools, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
-  const results = useSelector((store: IStore) => store.results)
-  const weeks = useSelector((store: IStore) => store.weeks)
   const user = useSelector((store: IStore) => store.user)
   const { tabActive, duration } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
@@ -52,19 +50,13 @@ export const Standings = () => {
 
   const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
 
-  const { tablePSOne, tablePSTwo, tableHeaderhMsg, tableNoGamesMsg } = i18n('standings') as LocaleType
-
-  const getLastWeekName = () => {
-    const lastWeekNumber = Number(Object.keys(results).slice(-1)[0])
-    const lastWeekName = !isNaN(lastWeekNumber) && weeks[lastWeekNumber].name.split('.')[1]
-    return lastWeekName ? tableHeaderhMsg + lastWeekName : tableNoGamesMsg
-  }
+  const { tablePSOne, tablePSTwo, tableStandings } = i18n('standings') as LocaleType
 
   return (
     <>
       <div className="container animate-fade-in-up" ref={containerRef}>
         <div className="standings-top-container">
-          <div className="standings-top-container__title">{getLastWeekName()}</div>
+          <div className="standings-top-container__title">{tableStandings}</div>
           <BsGearFill onClick={handleSwitchTools} className={getGearClass} />
         </div>
         <div ref={bodyRef}>

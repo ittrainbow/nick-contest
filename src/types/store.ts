@@ -21,7 +21,6 @@ export interface IStore {
   standings: IStandings
   user: IUserStore
   answers: IAnswers
-  results: AnswersType
   weeks: IWeeks
   compare: IAnswers
   editor: IEditor

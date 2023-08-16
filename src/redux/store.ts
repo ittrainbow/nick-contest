@@ -25,7 +25,6 @@ export const store: ToolkitStore = configureStore({
     standings: slices.standingsSlice.reducer,
     user: slices.userSlice.reducer,
     answers: slices.answersSlice.reducer,
-    results: slices.resultsSlice.reducer,
     weeks: slices.weeksSlice.reducer,
     compare: slices.compareSlice.reducer,
     editor: slices.editorSlice.reducer,

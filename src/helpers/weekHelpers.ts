@@ -13,16 +13,13 @@ export const getWeeksIDs = (weeks: WeeksType) => {
   return { currentWeek, nextWeek }
 }
 
-export const getAnswersResults = (
+export const getAnswers = (
   answers: IAnswers,
-  results: AnswersType,
   selectedWeek: number,
   uid: string,
   id: number
 ) => {
-  const res = results[selectedWeek] ? results[selectedWeek][id] : 0
-  const answer = answers[uid] && answers[uid][selectedWeek] ? answers[uid][selectedWeek][id] : 0
-  return { answer, res }
+  return answers[uid] && answers[uid][selectedWeek] ? answers[uid][selectedWeek][id] : 0
 }
 
 export const getDeadline = (deadline: number) =>

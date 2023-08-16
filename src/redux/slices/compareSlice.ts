@@ -19,8 +19,7 @@ export const compareSlice = createSlice({
   reducers: {
     setCompare(_, action: PayloadAction<CompareType>) {
       const answers = action.payload.answers || {}
-      const results = action.payload.results || {}
-      return { answers, results }
+      return { answers }
     },
 
     updateCompare(state, action: PayloadAction<UpdateCompareType>) {

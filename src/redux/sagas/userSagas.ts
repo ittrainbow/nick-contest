@@ -1,10 +1,10 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 
-import { writeDBDocument, getDBDocument, updateDBDocument, deleteDBDocument, getDBCollection } from '../../db'
-import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
+import { writeDBDocument, getDBDocument, updateDBDocument, getDBCollection } from '../../db'
 import { ActionType, IUser, IUserStore, AnswersType, IStore, IPlayers } from '../../types'
-import { fetchStandingsSaga, createStandingsSaga } from '.'
+import { appActions, answersActions, userActions, compareActions } from '../slices'
 import { getObjectsEquality } from '../../helpers'
+import { createStandingsSaga } from '.'
 import * as TYPES from '../storetypes'
 
 type UserUpdateType = {
@@ -16,12 +16,6 @@ type UserUpdateType = {
 type BuddiesPayloadType = {
   buddies: string[]
   buddyUid: string
-}
-
-type SubmitResultsType = {
-  results: AnswersType
-  toaster: (value: boolean) => void
-  selectedWeek: number
 }
 
 type SubmitAnswersType = {
@@ -71,7 +65,6 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
     }
 
     const answers: AnswersType = yield call(getDBDocument, 'answers', uid)
-    const results: AnswersType = yield select((store: IStore) => store.results)
 
     if (!responseUser || emailReg) {
       const players: IPlayers = yield call(getDBCollection, 'users')
@@ -85,42 +78,13 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
       yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
     }
 
-    yield put(compareActions.setCompare({ answers, results }))
+    yield put(compareActions.setCompare({ answers }))
     yield put(answersActions.updateAnswers({ answers, uid }))
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
     }
   }
-}
-
-function* submitResultsSaga(action: ActionType<SubmitResultsType>) {
-  const { results, selectedWeek, toaster } = action.payload
-  const data = results[selectedWeek]
-  yield put(appActions.setLoading(true))
-
-  try {
-    if (data) {
-      yield call(writeDBDocument, 'results', selectedWeek, results[selectedWeek])
-    } else {
-      yield call(deleteDBDocument, 'results', selectedWeek)
-    }
-
-    yield put(resultsActions.setResults(results))
-
-    const response: AnswersType = yield call(getDBDocument, 'results', selectedWeek)
-    const saveSuccess: boolean = yield call(getObjectsEquality, response, results[selectedWeek])
-    yield put(compareActions.updateCompare({ data: response, id: 'results' }))
-    yield call(fetchStandingsSaga)
-    yield call(toaster, saveSuccess)
-  } catch (error) {
-    yield toaster(false)
-    if (error instanceof Error) {
-      yield put(appActions.setError(error.message))
-    }
-  }
-
-  yield put(appActions.setLoading(false))
 }
 
 function* submitAnswersSaga(action: ActionType<SubmitAnswersType>) {
@@ -180,7 +144,6 @@ function* setBuddiesSaga(action: ActionType<BuddiesPayloadType>) {
 export function* userSaga() {
   yield takeEvery(TYPES.UPDATE_PROFILE, updateProfileSaga)
   yield takeEvery(TYPES.USER_LOGIN, userLoginSaga)
-  yield takeEvery(TYPES.SUBMIT_RESULTS, submitResultsSaga)
   yield takeEvery(TYPES.SUBMIT_ANSWERS, submitAnswersSaga)
   yield takeEvery(TYPES.FETCH_OTHER_USER, fetchOtherUserSaga)
   yield takeEvery(TYPES.SET_BUDDIES, setBuddiesSaga)
