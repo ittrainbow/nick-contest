@@ -22,8 +22,6 @@ export const Standings = () => {
   const tableRef = useRef<HTMLDivElement>(null)
   const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
 
-  // container fade animations
-
   const containerFade = useFade({ ref: containerRef })
   const bodyFade = useFade({ ref: bodyRef })
 
@@ -31,22 +29,16 @@ export const Standings = () => {
     tabActive !== 4 && containerFade.triggerFade()
   }, [tabActive, containerFade])
 
-  // helpers
-
   useEffect(() => {
     showTools && dispatch(toolsActions.setShowTools(false))
     // eslint-disable-next-line
   }, [])
-
-  // action handlers
 
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
     bodyFade.triggerFade()
     setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
   }
-
-  // render styles and locales
 
   const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
 

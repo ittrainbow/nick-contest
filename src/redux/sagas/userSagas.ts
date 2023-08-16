@@ -115,8 +115,11 @@ function* submitAnswersSaga(action: ActionType<SubmitAnswersType>) {
 function* fetchOtherUserSaga(action: ActionType<string>) {
   const uid = action.payload
   try {
-    const response: AnswersType = yield call(getDBDocument, 'answers', uid)
-    yield put(answersActions.updateAnswers({ answers: response, uid }))
+    const otherUserAnswers: AnswersType = yield select((store) => store.answers[uid])
+    if (!otherUserAnswers) {
+      const response: AnswersType = yield call(getDBDocument, 'answers', uid)
+      yield put(answersActions.updateAnswers({ answers: response, uid }))
+    }
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))

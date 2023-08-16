@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { FaStar } from 'react-icons/fa'
 
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
-import { selectApp, selectUser } from '../../redux/selectors'
+import { selectAnswers, selectApp, selectUser } from '../../redux/selectors'
 import { getTableRowParams } from '../../helpers'
 import { appActions } from '../../redux/slices'
-import { IUserStandings } from '../../types'
+import { AnswersType, IUserStandings } from '../../types'
 
 type StandingsRowType = {
   el: IUserStandings
@@ -18,6 +18,7 @@ export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector(selectUser)
+  const answers = useSelector(selectAnswers)
   const { duration } = useSelector(selectApp)
   const { buddies } = user
 
@@ -28,7 +29,7 @@ export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
       setTimeout(() => {
         const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
         dispatch(appActions.setOtherUserFromStandings(otherUser))
-        dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
+        !answers[otherUserUID] && dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
         navigate('/season')
       }, duration)
     }
@@ -38,7 +39,7 @@ export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
     !!user.name.length && dispatch({ type: SET_BUDDIES, payload: { buddyUid: uid, buddies } })
   }
 
-  const { name, answers, correct, position, uid } = getTableRowParams(el)
+  const { name, userAnswers, correct, position, uid } = getTableRowParams(el)
   const buddy = buddies?.includes(uid)
 
   return (
@@ -58,7 +59,7 @@ export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
       >
         {name}
       </div>
-      <div className={`col-three ${even ? 'standings__dark' : ''}`}>{answers}</div>
+      <div className={`col-three ${even ? 'standings__dark' : ''}`}>{userAnswers}</div>
       <div className={`col-four ${even ? 'standings__dark' : ''}`}>{correct}</div>
     </div>
   )
