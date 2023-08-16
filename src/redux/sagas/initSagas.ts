@@ -1,7 +1,7 @@
 import { take, all, call, put } from 'redux-saga/effects'
 
 import { appActions, aboutActions, weeksActions } from '../slices'
-import { IAbout, IWeeks, AnswersType, IPlayers } from '../../types'
+import { IAbout, IWeeks, IPlayers } from '../../types'
 import { getWeeksIDs } from '../../helpers'
 import { getDBCollection } from '../../db'
 import { INIT_APP } from '../storetypes'

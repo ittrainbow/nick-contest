@@ -6,17 +6,17 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { answersActions } from '../../redux/slices'
 import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
-import { OtherUser, Button, Switch } from '../../UI'
 import { useChanges, useFade } from '../../hooks'
 import * as TYPES from '../../redux/storetypes'
 import { i18n, LocaleType } from '../../locale'
 import { IStore, WeekType } from '../../types'
+import { OtherUser, Button } from '../../UI'
 import { WeekQuestion } from '.'
 
 export const Week = () => {
   const dispatch = useDispatch()
   const { selectedWeek, currentWeek, isItYou, duration, tabActive } = useSelector(selectApp)
-  const { admin, adminAsPlayer, uid } = useSelector(selectUser)
+  const { uid } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
   const answers = useSelector((store: IStore) => store.answers)
   const weeks = useSelector((store: IStore) => store.weeks)
@@ -37,10 +37,6 @@ export const Week = () => {
     // eslint-disable-next-line
   }, [tabActive, triggerFade])
 
-  // helpers
-
-  const adm = admin && !adminAsPlayer
-
   // action handlers
 
   const handleSubmit = async () => {
@@ -53,11 +49,11 @@ export const Week = () => {
   }
 
   const handleDiscard = () => {
-    dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
+    dispatch(answersActions.updateAnswers({ answers: compare, uid }))
   }
 
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n('buttons') as LocaleType
-  const { successMsg, failureMsg, playerMsg, adminMsg } = i18n('week') as LocaleType
+  const { successMsg, failureMsg } = i18n('week') as LocaleType
 
   return currentWeek > -1 ? (
     <div className="container animate-fade-in-up" ref={containerRef}>

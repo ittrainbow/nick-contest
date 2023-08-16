@@ -24,11 +24,11 @@ export const signInWithGoogle = async () => {
       const { uid } = response.user
       const name = response.user.displayName || 'username'
       const docs = await getDoc(doc(db, 'users', uid))
-      const googleAuth = async () => {
+      const googleAuthCreateUserInDB = async () => {
         const user = { name, admin: false, buddies: [uid] }
         await setDoc(doc(db, 'users', uid), user)
       }
-      docs.data() === undefined && googleAuth()
+      docs.data() === undefined && googleAuthCreateUserInDB()
       const user = docs.data() as IUser
       appActions.setLoading(false)
       return { user, uid }

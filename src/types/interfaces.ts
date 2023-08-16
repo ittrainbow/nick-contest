@@ -27,7 +27,6 @@ export interface ITools {
 export interface IUser {
   admin: boolean
   name: string
-  adminAsPlayer?: boolean
   buddies: string[]
 }
 

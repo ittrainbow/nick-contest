@@ -1,4 +1,4 @@
-import { IUserStandings, IAnswers, IPlayers, AnswersType, IWeeks } from '../types'
+import { IUserStandings, IAnswers, IPlayers, IWeeks } from '../types'
 import { getResultFromScore } from './scoresHelpers'
 
 type TableCreatorType = {

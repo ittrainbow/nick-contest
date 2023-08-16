@@ -1,6 +1,6 @@
 import moment from 'moment/moment'
 
-import { WeeksType, IAnswers, AnswersType } from '../types'
+import { WeeksType, IAnswers } from '../types'
 
 export const getWeeksIDs = (weeks: WeeksType) => {
   const arr = Object.keys(weeks).map((el) => Number(el))

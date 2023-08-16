@@ -30,8 +30,6 @@ export type ActionType<T> = {
 
 export type ChangeInputType = React.ChangeEvent<HTMLInputElement>
 
-export type InputRefType = HTMLInputElement
-
 export type QuestionsType = { [key: number]: QuestionType }
 
 export type FadeRefType = React.RefObject<HTMLDivElement>

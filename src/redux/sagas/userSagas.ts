@@ -1,8 +1,8 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 
 import { writeDBDocument, getDBDocument, updateDBDocument, getDBCollection } from '../../db'
-import { ActionType, IUser, IUserStore, AnswersType, IStore, IPlayers } from '../../types'
 import { appActions, answersActions, userActions, compareActions } from '../slices'
+import { ActionType, IUser, IUserStore, AnswersType, IPlayers } from '../../types'
 import { getObjectsEquality } from '../../helpers'
 import { createStandingsSaga } from '.'
 import * as TYPES from '../storetypes'
@@ -75,10 +75,10 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
     const gotOnRegister: string = yield select((store) => store.user.name)
 
     if (!gotOnRegister) {
-      yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
+      yield put(userActions.setUser(user))
     }
 
-    yield put(compareActions.setCompare({ answers }))
+    yield put(compareActions.setCompare(answers))
     yield put(answersActions.updateAnswers({ answers, uid }))
   } catch (error) {
     if (error instanceof Error) {
@@ -99,7 +99,7 @@ function* submitAnswersSaga(action: ActionType<SubmitAnswersType>) {
     }
 
     const response: AnswersType = yield call(getDBDocument, 'answers', uid)
-    yield put(compareActions.updateCompare({ data: answers[uid], id: 'answers' }))
+    yield put(compareActions.setCompare(answers[uid]))
 
     const saveSuccess: boolean = yield call(getObjectsEquality, response, answers[uid])
     yield call(toaster, saveSuccess)
@@ -127,7 +127,7 @@ function* fetchOtherUserSaga(action: ActionType<string>) {
 function* setBuddiesSaga(action: ActionType<BuddiesPayloadType>) {
   const user: IUserStore = yield select((store) => store.user)
   const { buddyUid, buddies } = action.payload
-  const { uid, adminAsPlayer, ...newUser } = user
+  const { uid, ...newUser } = user
   const newBuddies = buddies.includes(buddyUid) ? buddies.filter((el) => el !== buddyUid) : [...buddies, buddyUid]
   newUser.buddies = newBuddies
 

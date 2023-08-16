@@ -58,14 +58,6 @@ export const appSlice = createSlice({
       state.isItYou = action.payload
     },
 
-    setOtherUserName(state, action: PayloadAction<string>) {
-      state.otherUserName = action.payload
-    },
-
-    setOtherUserUID(state, action: PayloadAction<string>) {
-      state.otherUserUID = action.payload
-    },
-
     clearOtherUser(state) {
       state.otherUserName = ''
       state.otherUserUID = ''

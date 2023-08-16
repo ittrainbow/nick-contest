@@ -22,7 +22,7 @@ export interface IStore {
   user: IUserStore
   answers: IAnswers
   weeks: IWeeks
-  compare: IAnswers
+  compare: AnswersType
   editor: IEditor
   router: IRouter
   tools: ITools

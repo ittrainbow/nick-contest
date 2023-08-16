@@ -22,7 +22,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   const answers = useSelector((store: IStore) => store.answers)
   const compare = useSelector((store: IStore) => store.compare)
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
-  const { admin, adminAsPlayer, uid } = useSelector(selectUser)
+  const { admin, uid } = useSelector(selectUser)
   const { questions } = weeks[selectedWeek]
   const { away, home, deadline, score } = questions[id]
   const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
@@ -30,7 +30,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   // helpers
 
   const handleDiscard = () => {
-    const oldAnswer = compare.answers[selectedWeek] && compare.answers[selectedWeek][id]
+    const oldAnswer = compare[selectedWeek] && compare[selectedWeek][id]
 
     oldAnswer
       ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: oldAnswer }))
@@ -55,7 +55,6 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     // eslint-disable-next-line
   }, [selectedWeek, outdated])
 
-  const adm = admin && !adminAsPlayer
   const buttonData = answers[isItYou ? uid : otherUserUID]
   const result = getResultFromScore(score)
 
@@ -65,7 +64,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   // action handlers
 
   const handleClick = (props: YesNoHandlePropsType) => {
-    const userOnTimeOrAdmin = new Date().getTime() < deadline || adm
+    const userOnTimeOrAdmin = new Date().getTime() < deadline || admin
 
     if (isItYou && user && userOnTimeOrAdmin) {
       const { value, id, activity } = props
@@ -85,10 +84,10 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     const wrong = result > 0 && activity !== result
 
     if (thisButton) {
-      if (adm) return 'yn yn-black'
+      // if (admin) return 'yn yn-black'
       if (!outdated && isItYou) return 'yn yn-black'
-      if (outdated && !adm && correct) return 'yn yn-correct'
-      if (outdated && !adm && wrong) return 'yn yn-wrong'
+      if (outdated && correct) return 'yn yn-correct'
+      if (outdated && wrong) return 'yn yn-wrong'
       if (outdated) return 'yn yn-dark'
     }
     return 'yn yn-grey'
@@ -106,7 +105,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
       styles.push(style)
     }
 
-    if (allowedStyles && !adm && week && week[id] > 0) {
+    if (allowedStyles && week && week[id] > 0) {
       styles.push('question__grey')
     }
 
@@ -138,12 +137,12 @@ export const WeekQuestion = ({ id }: { id: number }) => {
         {/* {total !== '1' ? `: ${total}` : null} */}
       </div>
       <div className="question__actions">
-        <div style={{ filter: activity !== 1 || adm ? 'grayscale(100%)' : '' }}>
+        <div style={{ filter: activity !== 1 ? 'grayscale(100%)' : '' }}>
           <Button className={getButtonClass(1)} onClick={() => handleClick({ value: 1, id, activity: activity })}>
             {getLogo(away)}
           </Button>
         </div>
-        <div style={{ filter: activity !== 2 || adm ? 'grayscale(100%)' : '' }}>
+        <div style={{ filter: activity !== 2 ? 'grayscale(100%)' : '' }}>
           <Button className={getButtonClass(2)} onClick={() => handleClick({ value: 2, id, activity: activity })}>
             {getLogo(home)}
           </Button>

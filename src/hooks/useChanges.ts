@@ -8,7 +8,7 @@ export const useChanges = () => {
   const answers = useSelector(selectAnswers)
   const compare = useSelector(selectCompare)
   if (answers) {
-    const userChanges = !getObjectsEquality(answers[uid], compare.answers)
+    const userChanges = !getObjectsEquality(answers[uid], compare)
     return userChanges
   }
 
