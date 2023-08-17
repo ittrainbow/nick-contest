@@ -19,7 +19,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   const editor = useSelector(selectEditor)
   const { pathname } = useSelector(selectLocation)
   const { name, questionInWork, questionCompare } = editor
-  const { home, away, total, id, deadline } = questionInWork
+  const { home, away, total, id, deadline, score } = questionInWork
 
   // animate
 
@@ -68,6 +68,14 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
     dispatch(editorActions.setQuestionInWork(data))
   }
 
+  const handleSetScore = (e: ChangeInputType) => {
+    const { value } = e.target
+    const score = value.substring(0, 120)
+    const data = { ...questionInWork, score }
+
+    dispatch(editorActions.setQuestionInWork(data))
+  }
+
   const handleChangeDate = (e: ChangeInputType) => {
     const { value } = e.target
     const deadline = new Date(value).getTime()
@@ -77,15 +85,16 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   }
 
   const handleAddQuestion = () => {
-    const { home, away } = questionInWork
+    const { home, away, id, deadline } = questionInWork
     const { questions } = editor
-    const { id, deadline } = questionInWork
     if (!!home.length && !!away.length) {
       triggerFade()
       setTimeout(() => {
+        const questionToWrite = { ...questionInWork }
+        delete questionToWrite.id
         const setId = id === null ? getNewQuestionId(questions) : (id as number)
         const obj: QuestionsType = structuredClone(questions)
-        obj[setId] = questionInWork
+        obj[setId] = questionToWrite
         dispatch(editorActions.clearQuestionInWorkWithDeadline(deadline))
         dispatch(editorActions.updateEditorQuestions(obj))
       }, duration)
@@ -94,7 +103,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
 
   // render styles and locales
 
-  const { weekNameMsg, weekAwayMsg, weekHomeMsg } = i18n('editor') as LocaleType
+  const { weekNameMsg, weekAwayMsg, weekHomeMsg, weekScoreMsg } = i18n('editor') as LocaleType
 
   return (
     <div className="editor-input">
@@ -102,15 +111,11 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
       <div className="editor-form">
         <Input inputRef={questionRef} onChange={handleSetAway} placeholder={weekAwayMsg} value={away} />
         <Input inputRef={questionRef} onChange={handleSetHome} placeholder={weekHomeMsg} value={home} />
+        <Input inputRef={questionRef} onChange={handleSetScore} placeholder={weekScoreMsg} value={score} />
       </div>
       <div className="editor-form">
         <div className="editor-datetime">
-          <Input
-            type="datetime-local"
-            value={getDeadline(deadline)}
-            className={'timer'}
-            onChange={handleChangeDate}
-          />
+          <Input type="datetime-local" value={getDeadline(deadline)} className={'timer'} onChange={handleChangeDate} />
         </div>
         <Button className="editor-small" onClick={handleAddQuestion} disabled={totalBtnDisabled}>
           {id !== null ? <FaCheck /> : <FaPlus />}

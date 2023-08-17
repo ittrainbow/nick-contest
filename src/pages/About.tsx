@@ -65,7 +65,6 @@ export const About = () => {
             })}
           </div>
           <div className="about-copyright" style={{ marginBottom: mobile ? '15px' : '' }}>
-            <hr />
             <a href="https://t.me/packersnews">Green 19</a>
             {copyright}
           </div>

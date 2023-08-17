@@ -1,6 +1,6 @@
 import moment from 'moment/moment'
 
-import { WeeksType, IAnswers, AnswersType } from '../types'
+import { WeeksType, IAnswers } from '../types'
 
 export const getWeeksIDs = (weeks: WeeksType) => {
   const arr = Object.keys(weeks).map((el) => Number(el))
@@ -13,16 +13,13 @@ export const getWeeksIDs = (weeks: WeeksType) => {
   return { currentWeek, nextWeek }
 }
 
-export const getAnswersResults = (
+export const getAnswers = (
   answers: IAnswers,
-  results: AnswersType,
   selectedWeek: number,
   uid: string,
   id: number
 ) => {
-  const res = results[selectedWeek] ? results[selectedWeek][id] : 0
-  const ans = answers[uid] && answers[uid][selectedWeek] ? answers[uid][selectedWeek][id] : 0
-  return { ans, res }
+  return answers[uid] && answers[uid][selectedWeek] ? answers[uid][selectedWeek][id] : 0
 }
 
 export const getDeadline = (deadline: number) =>

@@ -4,6 +4,7 @@ export type QuestionType = {
   total: string
   id?: number | null
   deadline: number
+  score: string
 }
 
 export type AnswersType = {
@@ -28,8 +29,6 @@ export type ActionType<T> = {
 }
 
 export type ChangeInputType = React.ChangeEvent<HTMLInputElement>
-
-export type InputRefType = HTMLInputElement
 
 export type QuestionsType = { [key: number]: QuestionType }
 

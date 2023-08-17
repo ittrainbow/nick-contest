@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { getAnswersResults, getDeadline, getLogo } from '../../helpers'
-import { resultsActions, answersActions } from '../../redux/slices'
-import { selectApp, selectUser } from '../../redux/selectors'
-import { IStore } from '../../types'
+import { selectAnswers, selectApp, selectCompare, selectUser, selectWeeks } from '../../redux/selectors'
+import { getAnswers, getDeadline, getLogo, getResultFromScore } from '../../helpers'
+import { answersActions } from '../../redux/slices'
 import { Button } from '../../UI'
 import { auth } from '../../db'
 
@@ -18,25 +17,14 @@ type YesNoHandlePropsType = {
 export const WeekQuestion = ({ id }: { id: number }) => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const weeks = useSelector((store: IStore) => store.weeks)
-  const answers = useSelector((store: IStore) => store.answers)
-  const compare = useSelector((store: IStore) => store.compare)
-  const results = useSelector((store: IStore) => store.results)
+  const weeks = useSelector(selectWeeks)
+  const answers = useSelector(selectAnswers)
+  const compare = useSelector(selectCompare)
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
-  const { admin, adminAsPlayer, uid } = useSelector(selectUser)
+  const { uid } = useSelector(selectUser)
   const { questions } = weeks[selectedWeek]
-  const { away, home, deadline } = questions[id]
+  const { away, home, deadline, score } = questions[id]
   const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
-
-  // helpers
-
-  const handleDiscard = () => {
-    const oldAnswer = compare.answers[selectedWeek] && compare.answers[selectedWeek][id]
-
-    oldAnswer
-      ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: oldAnswer }))
-      : dispatch(answersActions.deleteSingleAnswer({ selectedWeek, uid, id }))
-  }
 
   useEffect(() => {
     setOutdated(new Date().getTime() > deadline)
@@ -49,81 +37,69 @@ export const WeekQuestion = ({ id }: { id: number }) => {
         handleDiscard()
       }
     }
-
     getOutdated()
     const interval = setInterval(() => getOutdated(), 5000)
     return () => clearInterval(interval)
     // eslint-disable-next-line
   }, [selectedWeek, outdated])
 
-  const adm = admin && !adminAsPlayer
-  const buttonData = adm ? results : answers[isItYou ? uid : otherUserUID]
-
-  const activity =
-    ((!isItYou && outdated) || isItYou) && buttonData && buttonData[selectedWeek] ? buttonData[selectedWeek][id] : 0
-
-  // action handlers
+  const buttonData = answers[isItYou ? uid : otherUserUID]
+  const drawActivity = (!isItYou && outdated) || isItYou
+  const result = getResultFromScore(score)
+  const activity = drawActivity && buttonData && buttonData[selectedWeek] ? buttonData[selectedWeek][id] : 0
 
   const handleClick = (props: YesNoHandlePropsType) => {
-    const userOnTimeOrAdmin = new Date().getTime() < deadline || adm
-
-    if (isItYou && user && userOnTimeOrAdmin) {
+    if (isItYou && user && new Date().getTime() < deadline) {
       const { value, id, activity } = props
       const newValue = value === activity ? 0 : value
-
-      if (!adm) {
-        !!newValue
-          ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: newValue }))
-          : dispatch(answersActions.deleteSingleAnswer({ selectedWeek, uid, id }))
-      }
-
-      if (adm) {
-        !!newValue
-          ? dispatch(resultsActions.updateSingleResult({ selectedWeek, uid, id, answer: newValue }))
-          : dispatch(resultsActions.deleteSingleResult({ selectedWeek, uid, id }))
-      }
+      !!newValue
+        ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: newValue }))
+        : dispatch(answersActions.deleteSingleAnswer({ selectedWeek, uid, id }))
     }
   }
 
-  // render styles and locales
+  const handleDiscard = () => {
+    const oldAnswer = compare[selectedWeek] && compare[selectedWeek][id]
 
-  const getButtonClass = (id: number, buttonNumber: number) => {
-    const result = results[selectedWeek] && results[selectedWeek][id]
+    oldAnswer
+      ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: oldAnswer }))
+      : dispatch(answersActions.deleteSingleAnswer({ selectedWeek, uid, id }))
+  }
 
-    const thisButton = activity === buttonNumber
-    const correct = result && activity === result
-    const wrong = result && activity !== result
+  const getButtonClass = (button: number) => {
+    const thisButton = activity === button
+    const correct = result > 0 && activity === result
+    const wrong = result > 0 && activity !== result
 
     if (thisButton) {
-      if (adm) return 'yn yn-black'
-      if (!outdated && isItYou) return 'yn yn-black'
-      if (outdated && !adm && correct) return 'yn yn-correct'
-      if (outdated && !adm && wrong) return 'yn yn-wrong'
-      if (outdated) return 'yn yn-dark'
+      if (!outdated && isItYou) return 'yn yn__black'
+      if (outdated && correct) return 'yn yn__correct'
+      if (outdated && wrong) return 'yn yn__wrong'
+      if (outdated) return 'yn yn__dark'
     }
-    return 'yn yn-grey'
+    return 'yn yn__grey'
   }
 
   const getQuestionClass = (id: number) => {
+    const styles = ['question']
     const getUid = isItYou ? uid : otherUserUID
     const week = answers[getUid] && answers[getUid][selectedWeek]
-    const styles = ['question']
-    const { ans, res } = getAnswersResults(answers, results, selectedWeek, getUid, id)
-
-    const drawPlayerStyles = adminAsPlayer || !admin
+    const answer = getAnswers(answers, selectedWeek, getUid, id)
     const allowedStyles = (!isItYou && outdated) || isItYou
 
-    if (drawPlayerStyles && outdated && res && ans) {
-      const style = res === ans ? 'question__green' : 'question__red'
-      styles.push(style)
-    }
-
-    if (allowedStyles && !adm && week && week[id] > 0) {
-      styles.push('question__grey')
-    }
+    outdated && result > 0 && answer && styles.push(result === answer ? 'result-class__green' : 'result-class__red')
+    allowedStyles && week && week[id] > 0 && styles.push('result-class__grey')
 
     return styles.join(' ')
   }
+
+  const drawScore = () => <div className="question__info__score">{score}</div>
+
+  const drawDeadline = () => (
+    <div className="question__info__deadline" style={{ color: outdated ? 'darkred' : '' }}>
+      {getDeadline(deadline)}
+    </div>
+  )
 
   return (
     <div className={getQuestionClass(id)}>
@@ -131,19 +107,16 @@ export const WeekQuestion = ({ id }: { id: number }) => {
         <div className="question__teams">
           {away.trim()} @ {home.trim()}
         </div>
-        <div className="question__deadline" style={{ opacity: outdated ? 0.3 : 1 }}>
-          {getDeadline(deadline)}
-        </div>
-        {/* {total !== '1' ? `: ${total}` : null} */}
+        <div className="question__info">{score.length > 0 ? drawScore() : drawDeadline()}</div>
       </div>
       <div className="question__actions">
-        <div style={{ filter: activity !== 1 || adm ? 'grayscale(100%)' : '' }}>
-          <Button className={getButtonClass(id, 1)} onClick={() => handleClick({ value: 1, id, activity })}>
+        <div style={{ filter: activity !== 1 ? 'grayscale(100%)' : '' }}>
+          <Button className={getButtonClass(1)} onClick={() => handleClick({ value: 1, id, activity: activity })}>
             {getLogo(away)}
           </Button>
         </div>
-        <div style={{ filter: activity !== 2 || adm ? 'grayscale(100%)' : '' }}>
-          <Button className={getButtonClass(id, 2)} onClick={() => handleClick({ value: 2, id, activity })}>
+        <div style={{ filter: activity !== 2 ? 'grayscale(100%)' : '' }}>
+          <Button className={getButtonClass(2)} onClick={() => handleClick({ value: 2, id, activity: activity })}>
             {getLogo(home)}
           </Button>
         </div>

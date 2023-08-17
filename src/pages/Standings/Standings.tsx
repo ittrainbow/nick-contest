@@ -2,20 +2,17 @@ import { useRef, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { BsGearFill } from 'react-icons/bs'
 
+import { selectApp, selectStandings, selectTools, selectUser } from '../../redux/selectors'
 import { StandingsTools, StandingsHeader, StandingsArrows, StandingsRow } from '.'
-import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
 import { i18n, LocaleType } from '../../locale'
 import { useFade } from '../../hooks'
 import { OtherUser } from '../../UI'
-import { IStore } from '../../types'
 
 export const Standings = () => {
   const dispatch = useDispatch()
   const { showTools, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
-  const results = useSelector((store: IStore) => store.results)
-  const weeks = useSelector((store: IStore) => store.weeks)
-  const user = useSelector((store: IStore) => store.user)
+  const user = useSelector(selectUser)
   const { tabActive, duration } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
   const { buddies } = user
@@ -24,8 +21,6 @@ export const Standings = () => {
   const tableRef = useRef<HTMLDivElement>(null)
   const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
 
-  // container fade animations
-
   const containerFade = useFade({ ref: containerRef })
   const bodyFade = useFade({ ref: bodyRef })
 
@@ -33,14 +28,10 @@ export const Standings = () => {
     tabActive !== 4 && containerFade.triggerFade()
   }, [tabActive, containerFade])
 
-  // helpers
-
   useEffect(() => {
     showTools && dispatch(toolsActions.setShowTools(false))
     // eslint-disable-next-line
   }, [])
-
-  // action handlers
 
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
@@ -48,23 +39,15 @@ export const Standings = () => {
     setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
   }
 
-  // render styles and locales
-
   const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
 
-  const { tablePSOne, tablePSTwo, tableHeaderhMsg, tableNoGamesMsg } = i18n('standings') as LocaleType
-
-  const getLastWeekName = () => {
-    const lastWeekNumber = Number(Object.keys(results).slice(-1)[0])
-    const lastWeekName = !isNaN(lastWeekNumber) && weeks[lastWeekNumber].name.split('.')[1]
-    return lastWeekName ? tableHeaderhMsg + lastWeekName : tableNoGamesMsg
-  }
+  const { tablePSOne, tablePSTwo, tableStandings } = i18n('standings') as LocaleType
 
   return (
     <>
       <div className="container animate-fade-in-up" ref={containerRef}>
         <div className="standings-top-container">
-          <div className="standings-top-container__title">{getLastWeekName()}</div>
+          <div className="standings-top-container__title">{tableStandings}</div>
           <BsGearFill onClick={handleSwitchTools} className={getGearClass} />
         </div>
         <div ref={bodyRef}>

@@ -13,7 +13,7 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   const dispatch = useDispatch()
   const { questions, questionInWork } = useSelector(selectEditor)
   const { duration } = useSelector(selectApp)
-  const { away, home, deadline } = questions[id]
+  const { away, home, deadline, score } = questions[id]
 
   // animate
 
@@ -40,8 +40,8 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   const handleEditQuestion = (id: number) => {
     triggerFade()
     const { away, home, total, deadline } = questions[id]
-    dispatch(editorActions.setQuestionInWork({ away, home, total, id, deadline }))
-    dispatch(editorActions.setQuestionCompare({ away, home, total, id, deadline }))
+    dispatch(editorActions.setQuestionInWork({ away, home, total, id, deadline, score }))
+    dispatch(editorActions.setQuestionCompare({ away, home, total, id, deadline, score }))
   }
 
   const handleDeleteQuestion = (id: number) => {
@@ -62,7 +62,8 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
       <div className="editor-question__desc">
         {away} @ {home}
       </div>
-      <div>{drawDeadline(deadline)}</div>
+      <div className="editor-question__score">{score}</div>
+      <div className="editor-question__date">{drawDeadline(deadline)}</div>
       <div className="editor-question__buttons">
         {id === questionInWork.id ? (
           <FaBan className="editor-question__edit editor-btn__green faBan" onClick={handleClearQuestion} />

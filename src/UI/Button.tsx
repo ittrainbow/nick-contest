@@ -4,15 +4,14 @@ type ButtonProps = {
   onClick: () => void
   disabled?: boolean
   className?: string
-  minWidth?: number
   children: ReactNode
 }
 
-export const Button = ({ onClick, disabled = false, className = '', children, minWidth = 40 }: ButtonProps) => {
+export const Button = ({ onClick, disabled = false, className = '', children }: ButtonProps) => {
   const classes = ('button ' + className).trim()
 
   return (
-    <button onClick={onClick} disabled={disabled} className={classes} style={{ minWidth }}>
+    <button onClick={onClick} disabled={disabled} className={classes} >
       {children}
     </button>
   )

@@ -4,24 +4,23 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { answersActions, resultsActions, userActions } from '../../redux/slices'
-import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
-import { OtherUser, Button, Switch } from '../../UI'
+import { selectAnswers, selectApp, selectCompare, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
+import { answersActions } from '../../redux/slices'
 import { useChanges, useFade } from '../../hooks'
 import * as TYPES from '../../redux/storetypes'
 import { i18n, LocaleType } from '../../locale'
-import { IStore, WeekType } from '../../types'
+import { OtherUser, Button } from '../../UI'
+import { WeekType } from '../../types'
 import { WeekQuestion } from '.'
 
 export const Week = () => {
   const dispatch = useDispatch()
   const { selectedWeek, currentWeek, isItYou, duration, tabActive } = useSelector(selectApp)
-  const { admin, adminAsPlayer, uid } = useSelector(selectUser)
+  const { uid } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
-  const answers = useSelector((store: IStore) => store.answers)
-  const results = useSelector((store: IStore) => store.results)
-  const weeks = useSelector((store: IStore) => store.weeks)
-  const compare = useSelector((store: IStore) => store.compare)
+  const answers = useSelector(selectAnswers)
+  const weeks = useSelector(selectWeeks)
+  const compare = useSelector(selectCompare)
   const containerRef = useRef<HTMLDivElement>(null)
   const { name, questions } = weeks[selectedWeek] || ({} as WeekType)
 
@@ -38,10 +37,6 @@ export const Week = () => {
     // eslint-disable-next-line
   }, [tabActive, triggerFade])
 
-  // helpers
-
-  const adm = admin && !adminAsPlayer
-
   // action handlers
 
   const handleSubmit = async () => {
@@ -50,33 +45,20 @@ export const Week = () => {
     const toastFailure = () => toast.error(failureMsg)
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
 
-    const type = adm ? TYPES.SUBMIT_RESULTS : TYPES.SUBMIT_ANSWERS
-    const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
-
-    dispatch({ type, payload })
+    dispatch({ type: TYPES.SUBMIT_ANSWERS, payload: { selectedWeek, answers, uid, toaster, firstData } })
   }
 
   const handleDiscard = () => {
-    admin && dispatch(resultsActions.updateResults({ results: compare.results, selectedWeek }))
-    dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
+    dispatch(answersActions.updateAnswers({ answers: compare, uid }))
   }
-
-  const handleAdminAsPlayer = () => {
-    dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
-  }
-
-  // render styles and locales
 
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n('buttons') as LocaleType
-  const { successMsg, failureMsg, playerMsg, adminMsg } = i18n('week') as LocaleType
+  const { successMsg, failureMsg } = i18n('week') as LocaleType
 
   return currentWeek > -1 ? (
     <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
-        {admin && isItYou ? (
-          <Switch onChange={handleAdminAsPlayer} checked={adminAsPlayer} messageOn={playerMsg} messageOff={adminMsg} />
-        ) : null}
       </div>
       <OtherUser containerRef={containerRef} />
       <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />

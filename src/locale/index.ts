@@ -73,14 +73,15 @@ export const i18n = (component: string): LocaleType | undefined => {
   const tableHeaderhMsg = 'after '
   const tableNoGamesMsg = 'Standings'
   const tableAnswersMsg = 'Answers'
+  const tableStandings = 'Standings'
 
   const weekNameMsg = 'Week name'
   const weekQuestionMsg = 'Game'
-  const weekTotalMsg = 'Total'
   const weekActivityMsg = 'Active'
   const weekDeleteMsg = 'Delete week'
   const weekAwayMsg = 'Away team'
   const weekHomeMsg = 'Home team'
+  const weekScoreMsg = 'Score'
 
   const otherUser1msg = 'Press this pad to go back to your profile'
   const otherUser2msg = `You're now looking at profile of `
@@ -94,7 +95,7 @@ export const i18n = (component: string): LocaleType | undefined => {
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
 
     case 'editor': {
-      return { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg, weekDeleteMsg, weekAwayMsg, weekHomeMsg }
+      return { weekNameMsg, weekQuestionMsg, weekScoreMsg, weekActivityMsg, weekDeleteMsg, weekAwayMsg, weekHomeMsg }
     }
 
     case 'otheruser':
@@ -118,7 +119,8 @@ export const i18n = (component: string): LocaleType | undefined => {
         tableHeaderhMsg,
         tableSearchMsg,
         tableNoGamesMsg,
-        tableAnswersMsg
+        tableAnswersMsg,
+        tableStandings
       }
 
     case 'ticks':

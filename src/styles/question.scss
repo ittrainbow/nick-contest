@@ -14,12 +14,6 @@
   box-sizing: border-box;
   transition: 0.22s ease-in-out;
 
-  &__admplayer {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
   &__desc {
     flex-grow: 1;
     display: flex;
@@ -38,13 +32,32 @@
     padding-top: 1px;
   }
 
-  &__deadline {
-    transition: 0.22s ease-in-out;
-    font-size: 12px;
-    justify-content: center;
+  &__info {
+    width: 75px;
+    display: flex;
     align-items: center;
-    padding-top: 1px;
-    white-space: nowrap;
+    justify-content: center;
+
+    &__deadline,
+    &__score {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__score {
+      width: 70px;
+      border-radius: 5px;
+      height: 36px;
+    }
+
+    &__deadline {
+      transition: 0.22s ease-in-out;
+      font-size: 13px;
+      padding-top: 1px;
+      white-space: nowrap;
+      opacity: 0.7;
+    }
   }
 
   &__actions {
@@ -52,14 +65,16 @@
     flex-direction: row;
     gap: 1px;
   }
+}
 
+.result-class {
   &__red {
-    border: 1.5px solid $base-question-red;
+    border: 1px solid $base-question-red;
     border-left-width: 0.32rem;
   }
 
   &__green {
-    border: 1.5px solid $base-question-green;
+    border: 1px solid $base-question-green;
     border-left-width: 0.32rem;
   }
 
@@ -87,31 +102,35 @@
   &__btn:active {
     transition: 0.22s ease-in-out;
   }
-}
 
-.yn-correct {
-  color: $base-question-green;
-}
-
-.yn-wrong {
-  color: $base-question-red;
-}
-
-.yn-black,
-.yn-dark {
-  background-color: $base-itembg-active;
-  color: $base-black;
-}
-
-.yn-black {
-  opacity: 1;
-}
-
-.yn-dark {
-  border: 1px solid $base-itembg;
-}
-
-.yn-grey {
-  color: $base-question-grey;
-  opacity: 0.5;
+  &__correct {
+    color: $base-question-green;
+    background-color: $base-itembg-active;
+    color: $base-black;
+  }
+  
+  &__wrong {
+    color: $base-question-red;
+    background-color: $base-itembg-active;
+    color: $base-black;
+  }
+  
+  &__black,
+  &__dark {
+    background-color: $base-itembg-active;
+    color: $base-black;
+  }
+  
+  &__black {
+    opacity: 1;
+  }
+  
+  &__dark {
+    border: 1px solid $base-itembg;
+  }
+  
+  &__grey {
+    color: $base-question-grey;
+    opacity: 0.5;
+  }
 }

@@ -1,17 +1,18 @@
-import { IUserStandings, IAnswers, IPlayers, AnswersType } from '../types'
+import { IUserStandings, IAnswers, IPlayers, IWeeks } from '../types'
+import { getResultFromScore } from './scoresHelpers'
 
 type TableCreatorType = {
   answers: IAnswers
   players: IPlayers
-  results: AnswersType
   fullSeason: boolean
+  weeks: IWeeks
 }
 
 type FetchObjectType<T> = {
   [key: number | string]: T
 }
 
-export const getTable = ({ answers, players, results, fullSeason }: TableCreatorType) => {
+export const getTable = ({ answers, players, fullSeason, weeks }: TableCreatorType) => {
   const userList = Object.keys(players)
   const object: FetchObjectType<IUserStandings> = {}
   userList.forEach((el) => {
@@ -20,22 +21,24 @@ export const getTable = ({ answers, players, results, fullSeason }: TableCreator
     let resultsTotal = 0
     const uid = el
     const { name } = players[el]
-    const lastWeek = Number(Object.keys(results).splice(-1))
+    const lastWeek = Number(Object.keys(weeks).splice(-1))
     const ans = answers && answers[el] ? answers[el] : {}
-    Object.keys(results)
+    Object.keys(weeks)
       .map((el) => Number(el))
       .filter((el) => {
         return fullSeason ? el >= 0 : el === lastWeek
       })
       .forEach((el) => {
         const subAns = ans ? ans[el] : null
-        results[el] &&
-          Object.keys(results[el])
+        weeks[el] &&
+          Object.keys(weeks[el].questions)
             .map((el) => Number(el))
             .forEach((i) => {
-              resultsTotal++
+              const { score } = weeks[el].questions[i]
+              const result = getResultFromScore(score)
+              !!score.length && result > 0 && resultsTotal++
               subAns && subAns[i] && ansTotal++
-              subAns && subAns[i] && subAns[i] === results[el][i] && ansCorrect++
+              subAns && subAns[i] && subAns[i] === result && ansCorrect++
             })
       })
 
@@ -66,11 +69,9 @@ export const getTable = ({ answers, players, results, fullSeason }: TableCreator
 }
 
 export const getTableRowParams = (el: IUserStandings) => {
-  const { name, ansCorrect, ansTotal, position, resultsTotal, uid } = el
-  const answers = ansCorrect + '/' + ansTotal
-  const correct = ansTotal !== 0 ? (ansCorrect / ansTotal).toFixed(3) : '0.000'
-  const isNinety = (ansTotal * 100) / resultsTotal
-  const ninety = !isNaN(isNinety) ? isNinety.toFixed(0) + '%' : '-'
+  const { name, ansCorrect, position, resultsTotal, uid } = el
+  const userAnswers = ansCorrect + '/' + resultsTotal
+  const correct = resultsTotal !== 0 ? (ansCorrect / resultsTotal).toFixed(3) : '0.000'
 
-  return { name, answers, correct, ninety, position, uid }
+  return { name, userAnswers, correct, position, uid }
 }

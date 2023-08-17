@@ -37,7 +37,6 @@ function* deleteWeekSaga(action: ActionType<number>) {
   yield put(appActions.setLoading(true))
   try {
     yield call(deleteDBDocument, 'weeks', weekId)
-    yield call(deleteDBDocument, 'results', weekId)
     yield call(setNextAndCurrentWeeksSaga)
     yield put(editorActions.clearEditor())
   } catch (error) {

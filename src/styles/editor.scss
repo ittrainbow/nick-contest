@@ -25,7 +25,7 @@
   align-items: center;
   background-color: $base-itembg;
   border: 1px solid $base-itemborder;
-  gap: 3px;
+  gap: 5px;
   padding: 3px;
   margin-bottom: 5px;
   border-radius: 5px;
@@ -35,6 +35,10 @@
     align-items: center;
     flex-grow: 1;
     padding: 3px 5px;
+  }
+
+  &__score {
+    padding: 0 7px;
   }
 
   &__buttons {

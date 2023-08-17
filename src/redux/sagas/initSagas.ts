@@ -1,7 +1,7 @@
 import { take, all, call, put } from 'redux-saga/effects'
 
-import { appActions, aboutActions, weeksActions, resultsActions } from '../slices'
-import { IAbout, IWeeks, AnswersType, IPlayers } from '../../types'
+import { appActions, aboutActions, weeksActions } from '../slices'
+import { IAbout, IWeeks, IPlayers } from '../../types'
 import { getWeeksIDs } from '../../helpers'
 import { getDBCollection } from '../../db'
 import { INIT_APP } from '../storetypes'
@@ -11,17 +11,6 @@ function* fetchAboutSaga() {
   try {
     const about: IAbout = yield call(getDBCollection, 'about')
     yield put(aboutActions.setAbout(about))
-  } catch (error) {
-    if (error instanceof Error) {
-      yield put(appActions.setError(error.message))
-    }
-  }
-}
-
-function* fetchResultsSaga() {
-  try {
-    const response: AnswersType = yield call(getDBCollection, 'results')
-    yield put(resultsActions.setResults(response))
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -58,7 +47,7 @@ export function* initSaga() {
   while (true) {
     yield take(INIT_APP)
     yield put(appActions.setLoading(true))
-    yield all([fetchAboutSaga(), fetchWeeksSaga(), fetchResultsSaga()])
+    yield all([fetchAboutSaga(), fetchWeeksSaga()])
     yield call(fetchStandingsSaga)
     yield put(appActions.setLoading(false))
   }

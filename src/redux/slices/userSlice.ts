@@ -10,10 +10,9 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<IUser>) {
-      const { admin, name, adminAsPlayer, buddies } = action.payload
+      const { admin, name, buddies } = action.payload
       state.admin = admin
       state.name = name
-      state.adminAsPlayer = adminAsPlayer
       state.buddies = buddies
     },
 
@@ -21,11 +20,7 @@ export const userSlice = createSlice({
       const { name } = action.payload
       state.name = name
     },
-
-    setAdminAsPlayer(state, action: PayloadAction<boolean>) {
-      state.adminAsPlayer = action.payload
-    },
-
+    
     setUid(state, action: PayloadAction<string>) {
       state.uid = action.payload
     },
