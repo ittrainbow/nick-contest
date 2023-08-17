@@ -6,7 +6,7 @@ import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
 import { selectAnswers, selectApp, selectUser } from '../../redux/selectors'
 import { getTableRowParams } from '../../helpers'
 import { appActions } from '../../redux/slices'
-import { AnswersType, IUserStandings } from '../../types'
+import { IUserStandings } from '../../types'
 
 type StandingsRowType = {
   el: IUserStandings

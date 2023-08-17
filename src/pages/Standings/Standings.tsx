@@ -2,18 +2,17 @@ import { useRef, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { BsGearFill } from 'react-icons/bs'
 
+import { selectApp, selectStandings, selectTools, selectUser } from '../../redux/selectors'
 import { StandingsTools, StandingsHeader, StandingsArrows, StandingsRow } from '.'
-import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
 import { i18n, LocaleType } from '../../locale'
 import { useFade } from '../../hooks'
 import { OtherUser } from '../../UI'
-import { IStore } from '../../types'
 
 export const Standings = () => {
   const dispatch = useDispatch()
   const { showTools, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
-  const user = useSelector((store: IStore) => store.user)
+  const user = useSelector(selectUser)
   const { tabActive, duration } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
   const { buddies } = user

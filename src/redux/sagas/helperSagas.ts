@@ -1,12 +1,13 @@
 import { select, put, call } from 'redux-saga/effects'
 
-import { IUserStandings, IStore, IAnswers, IPlayers, IWeeks } from '../../types'
+import { IUserStandings, IAnswers, IPlayers, IWeeks } from '../../types'
 import { standingsActions } from '../slices'
 import { getDBCollection } from '../../db'
+import { selectWeeks } from '../selectors'
 import { getTable } from '../../helpers'
 
 export function* createStandingsSaga(players: IPlayers) {
-  const weeks: IWeeks = yield select((store: IStore) => store.weeks)
+  const weeks: IWeeks = yield select(selectWeeks)
   const answers: IAnswers = yield call(getDBCollection, 'answers')
 
   const seasonArray: IUserStandings[] = getTable({ answers, players, fullSeason: true, weeks })

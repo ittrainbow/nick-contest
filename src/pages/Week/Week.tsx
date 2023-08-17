@@ -4,13 +4,13 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
+import { selectAnswers, selectApp, selectCompare, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
 import { answersActions } from '../../redux/slices'
-import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
 import { useChanges, useFade } from '../../hooks'
 import * as TYPES from '../../redux/storetypes'
 import { i18n, LocaleType } from '../../locale'
-import { IStore, WeekType } from '../../types'
 import { OtherUser, Button } from '../../UI'
+import { WeekType } from '../../types'
 import { WeekQuestion } from '.'
 
 export const Week = () => {
@@ -18,9 +18,9 @@ export const Week = () => {
   const { selectedWeek, currentWeek, isItYou, duration, tabActive } = useSelector(selectApp)
   const { uid } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
-  const answers = useSelector((store: IStore) => store.answers)
-  const weeks = useSelector((store: IStore) => store.weeks)
-  const compare = useSelector((store: IStore) => store.compare)
+  const answers = useSelector(selectAnswers)
+  const weeks = useSelector(selectWeeks)
+  const compare = useSelector(selectCompare)
   const containerRef = useRef<HTMLDivElement>(null)
   const { name, questions } = weeks[selectedWeek] || ({} as WeekType)
 
@@ -59,9 +59,6 @@ export const Week = () => {
     <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
-        {/* {admin && isItYou ? (
-          <Switch onChange={handleAdminAsPlayer} checked={adminAsPlayer} messageOn={playerMsg} messageOff={adminMsg} />
-        ) : null} */}
       </div>
       <OtherUser containerRef={containerRef} />
       <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
