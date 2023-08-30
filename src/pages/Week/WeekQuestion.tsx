@@ -45,7 +45,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
 
   const buttonData = answers[isItYou ? uid : otherUserUID]
   const drawActivity = (!isItYou && outdated) || isItYou
-  const result = getResultFromScore(score)
+  const result = getResultFromScore(score.trim())
   const activity = drawActivity && buttonData && buttonData[selectedWeek] ? buttonData[selectedWeek][id] : 0
 
   const handleClick = (props: YesNoHandlePropsType) => {

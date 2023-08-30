@@ -35,7 +35,7 @@ export const getTable = ({ answers, players, fullSeason, weeks }: TableCreatorTy
             .map((el) => Number(el))
             .forEach((i) => {
               const { score } = weeks[el].questions[i]
-              const result = getResultFromScore(score)
+              const result = getResultFromScore(score.trim())
               !!score.length && result > 0 && resultsTotal++
               subAns && subAns[i] && ansTotal++
               subAns && subAns[i] && subAns[i] === result && ansCorrect++

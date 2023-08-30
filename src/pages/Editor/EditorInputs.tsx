@@ -32,10 +32,6 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
     // eslint-disable-next-line
   }, [pathname])
 
-  useEffect(() => {
-    questionInWork.id !== null && questionRef.current?.focus()
-  }, [questionInWork])
-
   const getDeadline = (deadline: number) => {
     return moment(deadline || new Date().getTime())
       .format()
@@ -53,24 +49,21 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   }
 
   const handleSetAway = (e: ChangeInputType) => {
-    const { value } = e.target
-    const away = value.substring(0, 120)
+    const { value: away } = e.target
     const data = { ...questionInWork, away }
 
     dispatch(editorActions.setQuestionInWork(data))
   }
 
   const handleSetHome = (e: ChangeInputType) => {
-    const { value } = e.target
-    const home = value.substring(0, 120)
+    const { value: home } = e.target
     const data = { ...questionInWork, home }
 
     dispatch(editorActions.setQuestionInWork(data))
   }
 
   const handleSetScore = (e: ChangeInputType) => {
-    const { value } = e.target
-    const score = value.substring(0, 120)
+    const { value: score } = e.target
     const data = { ...questionInWork, score }
 
     dispatch(editorActions.setQuestionInWork(data))
@@ -92,7 +85,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
       setTimeout(() => {
         const questionToWrite = { ...questionInWork }
         delete questionToWrite.id
-        const setId = id === null ? getNewQuestionId(questions) : (id as number)
+        const setId = id === (null || undefined) ? getNewQuestionId(questions) : (id as number)
         const obj: QuestionsType = structuredClone(questions)
         obj[setId] = questionToWrite
         dispatch(editorActions.clearQuestionInWorkWithDeadline(deadline))

@@ -6,6 +6,7 @@ import { selectApp, selectLocation, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
 import { useFade } from '../hooks'
 import { OtherUser } from '../UI'
+import { LocaleType, i18n } from '../locale'
 
 export const WeekList = () => {
   const navigate = useNavigate()
@@ -40,10 +41,13 @@ export const WeekList = () => {
 
   // locale render and classes
 
+  const { weekListMsg, weekListEditorMsg } = i18n('weeklist') as LocaleType
+
   const showOtherUserBar = !isItYou && !editor && !pathname.includes('calendar')
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
+      <div className="weeklist__header">{editor ? weekListEditorMsg : weekListMsg}</div>
       {showOtherUserBar && <OtherUser containerRef={containerRef} />}
       {Object.keys(weeks)
         .map((el) => Number(el))
@@ -53,8 +57,8 @@ export const WeekList = () => {
           const { name } = weeks[el]
           const selectedWeek = Number(el)
           return (
-            <div key={selectedWeek} className="week" onClick={() => handleClick(selectedWeek)}>
-              <div className="week__desc">{name}</div>
+            <div key={selectedWeek} className="weeklist" onClick={() => handleClick(selectedWeek)}>
+              <div className="weeklist__desc">{name}</div>
             </div>
           )
         })}

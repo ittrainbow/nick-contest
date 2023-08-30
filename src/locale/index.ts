@@ -29,14 +29,14 @@ export const i18n = (component: string): LocaleType | undefined => {
   const passwordWrongMsg = 'Check password'
 
   const buttonChangesMsg = 'No changes'
-  const buttonCancelMsg = 'Cancel'
+  const buttonCancelMsg = 'Discard'
   const buttonSaveMsg = 'Save'
   const buttonLogoutMsg = 'Logout'
   const buttonProfileMsg = 'Edit profile'
   const buttonDetailsMsg = 'Detailed'
   const buttonDeleteWeekMsg = 'Delete'
   const buttonRegisterMsg = 'Signup'
-  const buttonRegisterGoogleMsg = 'Google signup'
+  const buttonRegisterGoogleMsg = 'Google Signup'
   const buttonLoginMsg = 'Login'
   const buttonLoginGoogleMsg = 'Googel Login'
   const buttonRecoverMsg = 'Send recovery email'
@@ -83,6 +83,9 @@ export const i18n = (component: string): LocaleType | undefined => {
   const weekHomeMsg = 'Home team'
   const weekScoreMsg = 'Score'
 
+  const weekListMsg = 'Schedule'
+  const weekListEditorMsg = 'Pick week to edit'
+
   const otherUser1msg = 'Press this pad to go back to your profile'
   const otherUser2msg = `You're now looking at profile of `
   const otherUser3msg = 'Answers for the games that not started yet are hidden'
@@ -100,6 +103,9 @@ export const i18n = (component: string): LocaleType | undefined => {
 
     case 'otheruser':
       return { otherUser1msg, otherUser2msg, otherUser3msg }
+
+    case 'weeklist':
+      return { weekListMsg, weekListEditorMsg }
 
     case 'week':
       return { playerMsg, adminMsg, successMsg, failureMsg }

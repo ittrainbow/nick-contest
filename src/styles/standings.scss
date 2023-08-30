@@ -32,13 +32,11 @@
 
 .standings {
   &__tools {
-    border: 1px solid $base-itemborder;
     border-radius: 5px;
-    padding: 3px 5px;
     margin-bottom: 5px;
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 10px;
   }
 
   &__switchers {
@@ -64,6 +62,7 @@
 
   &__button {
     height: 36px;
+    width: 65px;
   }
 
   &__header,
