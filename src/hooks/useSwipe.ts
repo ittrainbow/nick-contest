@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { appActions, editorActions, toolsActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
-import { swipeHelper } from '../helpers'
 import { useMenu } from './useMenu'
 
 export const useSwipe = () => {
@@ -13,6 +12,26 @@ export const useSwipe = () => {
   const navigate = useNavigate()
   const { tabActive, duration, editor, currentWeek, selectedWeek } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
+
+  type SwipeHelperProps = {
+    moveX: number
+    canSwipeLeft: boolean
+    canSwipeRight: boolean
+  }
+
+  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight }: SwipeHelperProps) => {
+    const container = document.querySelector('.container')
+
+    if (moveX > 0 && canSwipeLeft) {
+      const list = container?.classList
+      list?.add('animate-fade-out-right')
+    }
+
+    if (moveX < 0 && canSwipeRight) {
+      const list = container?.classList
+      list?.add('animate-fade-out-left')
+    }
+  }
 
   useEffect(() => {
     let startX: number
@@ -42,9 +61,9 @@ export const useSwipe = () => {
 
         newTabActive === 4 &&
           editor &&
-          dispatch(appActions.setEditor(false)) &&
           dispatch(editorActions.clearEditor()) &&
-          dispatch(toolsActions.setShowTools(false))
+          dispatch(toolsActions.setShowTools(false)) &&
+          setTimeout(() => dispatch(appActions.setEditor(false)), duration)
 
         newTabActive === 2 &&
           selectedWeek !== currentWeek &&
@@ -63,7 +82,7 @@ export const useSwipe = () => {
       document.removeEventListener('touchend', listenerEnd)
     }
     // eslint-disable-next-line
-  }, [tabActive, admin, selectedWeek])
+  }, [tabActive, admin, selectedWeek, editor])
 
   return
 }

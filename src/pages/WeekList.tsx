@@ -32,11 +32,11 @@ export const WeekList = () => {
   const handleClick = (selectedWeek: number) => {
     triggerFade()
     dispatch(appActions.setSelectedWeek(selectedWeek))
-    const setEditor = () => {
-      dispatch(editorActions.setEditor(weeks[selectedWeek]))
+    const setEditorStateWithNavigate = () => {
+      dispatch(editorActions.setEditorState(weeks[selectedWeek]))
       navigate(`/editor/${selectedWeek}`)
     }
-    setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), duration)
+    setTimeout(() => (editor ? setEditorStateWithNavigate() : navigate(`/week/${selectedWeek}`)), duration)
   }
 
   // locale render and classes

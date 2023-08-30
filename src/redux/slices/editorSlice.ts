@@ -15,7 +15,7 @@ export const editorSlice = createSlice({
   name: 'editor',
   initialState,
   reducers: {
-    setEditor(state, action: PayloadAction<WeekType>) {
+    setEditorState(state, action: PayloadAction<WeekType>) {
       const { questions, name, active } = action.payload
       state.questions = questions
       state.name = name
