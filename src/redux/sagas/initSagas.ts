@@ -21,10 +21,10 @@ function* fetchAboutSaga() {
 function* fetchWeeksSaga() {
   try {
     const weeks: IWeeks = yield call(getDBCollection, 'weeks')
-    const lastWeek = Number(Object.keys(weeks).slice(-1))
-    yield put(appActions.setSelectedWeek(lastWeek))
+    const { currentWeek, nextWeek } = getWeeksIDs(weeks)
+    yield put(appActions.setSelectedWeek(currentWeek))
     yield put(weeksActions.setWeeks(weeks))
-    yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
+    yield put(appActions.setNextAndCurrentWeeks({ currentWeek, nextWeek }))
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
