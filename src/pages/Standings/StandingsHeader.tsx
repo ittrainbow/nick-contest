@@ -7,7 +7,7 @@ export const StandingsHeader = () => {
       <div className="col-zero">#</div>
       <div className="col-one"></div>
       <div className="col-two">{tableNameMsg}</div>
-      <div className="col-three">{tableAnswersMsg}</div>
+      <div className="col-three bold">{tableAnswersMsg}</div>
       <div className="col-four">%</div>
       {/* <div className="col-five">95%</div> */}
     </div>

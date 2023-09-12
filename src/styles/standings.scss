@@ -90,8 +90,7 @@
 .col-zero,
 .col-one,
 .col-three,
-.col-four,
-.col-five {
+.col-four {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,10 +120,12 @@
   }
 }
 
-.col-three,
-.col-four,
-.col-five {
-  width: 10%;
+.col-three {
+  width: 15%;
+}
+
+.col-four {
+  width: 9%;
   min-width: 60px;
 }
 
@@ -135,4 +136,8 @@
 .tierline {
   text-align: justify;
   padding-top: 15px;
+}
+
+.bold {
+  font-weight: bold;
 }
