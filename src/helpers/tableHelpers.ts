@@ -25,9 +25,7 @@ export const getTable = ({ answers, players, fullSeason, weeks }: TableCreatorTy
     const ans = answers && answers[el] ? answers[el] : {}
     Object.keys(weeks)
       .map((el) => Number(el))
-      .filter((el) => {
-        return fullSeason ? el >= 0 : el === lastWeek
-      })
+      .filter((el) => (fullSeason ? el >= 0 : el === lastWeek))
       .forEach((el) => {
         const subAns = ans ? ans[el] : null
         weeks[el] &&
@@ -37,7 +35,7 @@ export const getTable = ({ answers, players, fullSeason, weeks }: TableCreatorTy
               const { score } = weeks[el].questions[i]
               const result = getResultFromScore(score.trim())
               !!score.length && result > 0 && resultsTotal++
-              subAns && subAns[i] && ansTotal++
+              subAns && subAns[i] && !!score.length && ansTotal++
               subAns && subAns[i] && subAns[i] === result && ansCorrect++
             })
       })
@@ -69,8 +67,8 @@ export const getTable = ({ answers, players, fullSeason, weeks }: TableCreatorTy
 }
 
 export const getTableRowParams = (el: IUserStandings) => {
-  const { name, ansCorrect, position, resultsTotal, uid } = el
-  const userAnswers = ansCorrect + '/' + resultsTotal
+  const { name, ansCorrect, ansTotal, position, resultsTotal, uid } = el
+  const userAnswers = ansCorrect + '/' + ansTotal
   const correct = resultsTotal !== 0 ? (ansCorrect / resultsTotal).toFixed(3) : '0.000'
 
   return { name, userAnswers, correct, position, uid }
