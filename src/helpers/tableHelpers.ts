@@ -69,7 +69,7 @@ export const getTable = ({ answers, players, fullSeason, weeks }: TableCreatorTy
 export const getTableRowParams = (el: IUserStandings) => {
   const { name, ansCorrect, ansTotal, position, resultsTotal, uid } = el
   const userAnswers = ansCorrect + '/' + ansTotal
-  const correct = resultsTotal !== 0 ? (ansCorrect / ansTotal).toFixed(3) : '0.000'
+  const correct = resultsTotal !== 0 && ansTotal > 0 ? (ansCorrect / ansTotal).toFixed(3) : '0.000'
 
   return { name, userAnswers, correct, position, uid }
 }
