@@ -21,7 +21,11 @@ export const getTable = ({ answers, players, fullSeason, weeks }: TableCreatorTy
     let resultsTotal = 0
     const uid = el
     const { name } = players[el]
-    const lastWeek = Number(Object.keys(weeks).splice(-1))
+    const lastWeek = Number(
+      Object.keys(weeks)
+        .filter((week) => weeks[Number(week)].active)
+        .splice(-1)
+    )
     const ans = answers && answers[el] ? answers[el] : {}
     Object.keys(weeks)
       .map((el) => Number(el))
