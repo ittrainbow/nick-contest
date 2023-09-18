@@ -20,7 +20,7 @@
     align-items: center;
     padding: 3px;
     flex-direction: row;
-    gap: 5px;
+    gap: 3px;
   }
 
   &__teams {
@@ -28,12 +28,15 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 5px;
+    gap: 3px;
+  }
+
+  &__teams,
+  &__info {
     padding-top: 1px;
   }
 
   &__info {
-    width: 75px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -46,8 +49,7 @@
     }
 
     &__score {
-      width: 70px;
-      border-radius: 5px;
+      width: 66px;
       height: 36px;
     }
 
@@ -107,27 +109,27 @@
     background-color: $base-itembg-active;
     color: $base-black;
   }
-  
+
   &__wrong {
     color: $base-question-red;
     background-color: $base-itembg-active;
     color: $base-black;
   }
-  
+
   &__black,
   &__dark {
     background-color: $base-itembg-active;
     color: $base-black;
   }
-  
+
   &__black {
     opacity: 1;
   }
-  
+
   &__dark {
     border: 1px solid $base-itembg;
   }
-  
+
   &__grey {
     color: $base-question-grey;
     opacity: 0.5;
