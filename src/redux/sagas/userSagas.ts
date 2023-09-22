@@ -6,6 +6,7 @@ import { ActionType, IUser, IUserStore, AnswersType, IPlayers } from '../../type
 import { getObjectsEquality } from '../../helpers'
 import { createStandingsSaga } from '.'
 import * as TYPES from '../storetypes'
+import { concatAndrewMordenAnswers, morden } from '../../helpers/andrewMorden'
 
 type UserUpdateType = {
   locale: 'ua' | 'ru'
@@ -117,8 +118,17 @@ function* fetchOtherUserSaga(action: ActionType<string>) {
   try {
     const otherUserAnswers: AnswersType = yield select((store) => store.answers[uid])
     if (!otherUserAnswers) {
-      const response: AnswersType = yield call(getDBDocument, 'answers', uid)
-      yield put(answersActions.updateAnswers({ answers: response, uid }))
+      const isMorden = morden.includes(uid)
+      const responseOne: AnswersType = yield call(getDBDocument, 'answers', uid)
+      let responseTwo: AnswersType = {}
+
+      if (isMorden) {
+        const otherMorden = morden.filter((id) => id !== uid)[0]
+        responseTwo = yield call(getDBDocument, 'answers', otherMorden)
+      }
+
+      const answers = concatAndrewMordenAnswers(responseOne, responseTwo)
+      yield put(answersActions.updateAnswers({ answers, uid }))
     }
   } catch (error) {
     if (error instanceof Error) {

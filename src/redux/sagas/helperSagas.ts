@@ -6,9 +6,14 @@ import { getDBCollection } from '../../db'
 import { selectWeeks } from '../selectors'
 import { getTable } from '../../helpers'
 
-export function* createStandingsSaga(players: IPlayers) {
+import { getAndrewMordenAnswers, trimAndrewMordenAccounts } from '../../helpers/andrewMorden'
+
+export function* createStandingsSaga(playersPayload: IPlayers) {
   const weeks: IWeeks = yield select(selectWeeks)
-  const answers: IAnswers = yield call(getDBCollection, 'answers')
+  const answersPayload: IAnswers = yield call(getDBCollection, 'answers')
+
+  const answers = getAndrewMordenAnswers(answersPayload)
+  const players = trimAndrewMordenAccounts(playersPayload)
 
   const seasonArray: IUserStandings[] = getTable({ answers, players, fullSeason: true, weeks })
   const weekArray: IUserStandings[] = getTable({ answers, players, fullSeason: false, weeks })
@@ -17,5 +22,3 @@ export function* createStandingsSaga(players: IPlayers) {
 
   yield put(standingsActions.setStandings({ season, week }))
 }
-
-export function* writeUserToStoreSaga() {}
