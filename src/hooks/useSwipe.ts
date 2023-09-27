@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { appActions, editorActions, toolsActions } from '../redux/slices'
-import { selectApp, selectUser } from '../redux/selectors'
+import { selectApp, selectEditor, selectUser } from '../redux/selectors'
 import { useMenu } from './useMenu'
 
 export const useSwipe = () => {
@@ -12,6 +12,8 @@ export const useSwipe = () => {
   const navigate = useNavigate()
   const { tabActive, duration, editor, currentWeek, selectedWeek } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
+  const { questionInWork } = useSelector(selectEditor)
+  const { away, home } = questionInWork
 
   type SwipeHelperProps = {
     moveX: number
@@ -52,25 +54,27 @@ export const useSwipe = () => {
         const limit = admin ? 6 : 4
         const canSwipeLeft = tabActive > 0
         const canSwipeRight = tabActive < limit
+        const canSwipe = !away && !home
         const newTabActive =
           moveX < 0 ? (canSwipeRight ? tabActive + 1 : tabActive) : canSwipeLeft ? tabActive - 1 : tabActive
 
-        swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
+        if (canSwipe) {
+          swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
+          newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
 
-        newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
+          newTabActive === 4 &&
+            editor &&
+            dispatch(editorActions.clearEditor()) &&
+            dispatch(toolsActions.setShowTools(false)) &&
+            setTimeout(() => dispatch(appActions.setEditor(false)), duration)
 
-        newTabActive === 4 &&
-          editor &&
-          dispatch(editorActions.clearEditor()) &&
-          dispatch(toolsActions.setShowTools(false)) &&
-          setTimeout(() => dispatch(appActions.setEditor(false)), duration)
+          newTabActive === 2 &&
+            selectedWeek !== currentWeek &&
+            setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
 
-        newTabActive === 2 &&
-          selectedWeek !== currentWeek &&
-          setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
-
-        dispatch(appActions.setTabActive(newTabActive))
-        setTimeout(() => navigate(menu[newTabActive].path), duration)
+          dispatch(appActions.setTabActive(newTabActive))
+          setTimeout(() => navigate(menu[newTabActive].path), duration)
+        }
       }
     }
 
@@ -82,7 +86,7 @@ export const useSwipe = () => {
       document.removeEventListener('touchend', listenerEnd)
     }
     // eslint-disable-next-line
-  }, [tabActive, admin, selectedWeek, editor])
+  }, [tabActive, admin, selectedWeek, editor, questionInWork])
 
   return
 }
