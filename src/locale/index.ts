@@ -38,7 +38,7 @@ export const i18n = (component: string): LocaleType | undefined => {
   const buttonRegisterMsg = 'Signup'
   const buttonRegisterGoogleMsg = 'Google signup'
   const buttonLoginMsg = 'Login'
-  const buttonLoginGoogleMsg = 'Googel Login'
+  const buttonLoginGoogleMsg = 'Google Login'
   const buttonRecoverMsg = 'Send recovery email'
   const buttonDeleteYesMsg = 'Yes'
   const buttonDeleteNoMsg = 'No'
