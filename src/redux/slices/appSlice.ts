@@ -5,8 +5,6 @@ import { IApp } from '../../types'
 type SetStandingsType = {
   otherUserUID: string
   otherUserName: string
-  isItYou: boolean
-  tabActive: number
 }
 
 const initialState: IApp = {
@@ -79,11 +77,11 @@ export const appSlice = createSlice({
     },
 
     setOtherUserFromStandings(state, action: PayloadAction<SetStandingsType>) {
-      const { otherUserName, otherUserUID, isItYou, tabActive } = action.payload
+      const { otherUserName, otherUserUID } = action.payload
       state.otherUserName = otherUserName
       state.otherUserUID = otherUserUID
-      state.isItYou = isItYou
-      state.tabActive = tabActive
+      state.isItYou = false
+      state.tabActive = 2
     }
   }
 })

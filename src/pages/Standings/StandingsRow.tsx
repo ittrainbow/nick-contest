@@ -27,10 +27,9 @@ export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
     if (uid && otherUserUID !== uid) {
       fade()
       setTimeout(() => {
-        const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
-        dispatch(appActions.setOtherUserFromStandings(otherUser))
+        dispatch(appActions.setOtherUserFromStandings({ otherUserName, otherUserUID }))
         !answers[otherUserUID] && dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
-        navigate('/season')
+        navigate('/week')
       }, duration)
     }
   }
