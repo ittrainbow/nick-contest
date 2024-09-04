@@ -31,11 +31,11 @@ function* updateProfileSaga(action: ActionType<UserUpdateType>) {
   yield put(appActions.setLoading(true))
 
   const { payload } = action
-  const { uid, name, locale } = payload
+  const { uid, name } = payload
 
   try {
     const response: IUser = yield call(getDBDocument, 'users', uid)
-    const data = { ...response, name, locale }
+    const data = { ...response, name }
     yield call(writeDBDocument, 'users', uid, data)
   } catch (error) {
     if (error instanceof Error) {
@@ -43,6 +43,8 @@ function* updateProfileSaga(action: ActionType<UserUpdateType>) {
     }
   }
 
+  const players: IPlayers = yield call(getDBCollection, 'users')
+  yield call(createStandingsSaga, players)
   yield put(appActions.setLoading(false))
 }
 
