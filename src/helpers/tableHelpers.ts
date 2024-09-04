@@ -1,4 +1,4 @@
-import { IUserStandings, IAnswers, IPlayers, IWeeks } from '../types'
+import { IAnswers, IPlayers, IUserStandings, IWeeks } from '../types'
 import { getResultFromScore } from './scoresHelpers'
 
 type TableCreatorType = {
@@ -39,7 +39,10 @@ export const getTable = ({ answers, players, fullSeason, weeks }: TableCreatorTy
               const { score } = weeks[el].questions[i]
               const result = getResultFromScore(score.trim())
               !!score.length && result > 0 && resultsTotal++
-              subAns && subAns[i] && !!score.length && ansTotal++
+              subAns &&
+                subAns[i] &&
+                // && !!score.length
+                ansTotal++
               subAns && subAns[i] && subAns[i] === result && ansCorrect++
             })
       })
@@ -50,17 +53,19 @@ export const getTable = ({ answers, players, fullSeason, weeks }: TableCreatorTy
 
   const array: IUserStandings[] = Object.keys(object).map((el) => object[el])
 
-  const table = array.sort((a: IUserStandings, b: IUserStandings) => {
-    return a.ansCorrect < b.ansCorrect
-      ? 1
-      : a.ansCorrect > b.ansCorrect
-      ? -1
-      : a.correct < b.correct
-      ? 1
-      : a.correct > b.correct
-      ? -1
-      : 0
-  })
+  const table = array
+    .sort((a: IUserStandings, b: IUserStandings) => {
+      return a.ansCorrect < b.ansCorrect
+        ? 1
+        : a.ansCorrect > b.ansCorrect
+        ? -1
+        : a.correct < b.correct
+        ? 1
+        : a.correct > b.correct
+        ? -1
+        : 0
+    })
+    .filter((row) => row.ansTotal > 0)
 
   table.forEach((_, index) => {
     const samePosition = index > 0 && table[index].correct === table[index - 1].correct
