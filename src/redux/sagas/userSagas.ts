@@ -1,12 +1,12 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 
-import { writeDBDocument, getDBDocument, updateDBDocument, getDBCollection } from '../../db'
-import { appActions, answersActions, userActions, compareActions } from '../slices'
-import { ActionType, IUser, IUserStore, AnswersType, IPlayers } from '../../types'
-import { getObjectsEquality } from '../../helpers'
 import { createStandingsSaga } from '.'
-import * as TYPES from '../storetypes'
+import { getDBCollection, getDBDocument, updateDBDocument, writeDBDocument } from '../../db'
+import { getObjectsEquality } from '../../helpers'
 import { concatAndrewMordenAnswers, morden } from '../../helpers/andrewMorden'
+import { ActionType, AnswersType, IPlayers, IUser, IUserStore } from '../../types'
+import { answersActions, appActions, compareActions, userActions } from '../slices'
+import * as TYPES from '../storetypes'
 
 type UserUpdateType = {
   locale: 'ua' | 'ru'
@@ -110,6 +110,8 @@ function* submitAnswersSaga(action: ActionType<SubmitAnswersType>) {
       yield put(appActions.setError(error.message))
     }
   }
+  const players: IPlayers = yield call(getDBCollection, 'users')
+  yield call(createStandingsSaga, players)
   yield put(appActions.setLoading(false))
 }
 
