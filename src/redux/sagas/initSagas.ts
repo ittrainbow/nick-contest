@@ -1,11 +1,11 @@
-import { take, all, call, put } from 'redux-saga/effects'
+import { all, call, put, take } from 'redux-saga/effects'
 
-import { appActions, aboutActions, weeksActions } from '../slices'
-import { IAbout, IWeeks, IPlayers } from '../../types'
-import { getWeeksIDs } from '../../helpers'
-import { getDBCollection } from '../../db'
-import { INIT_APP } from '../storetypes'
 import { createStandingsSaga } from '.'
+import { getDBCollection } from '../../db'
+import { getWeeksIDs } from '../../helpers'
+import { IAbout, IPlayers, IWeeks } from '../../types'
+import { aboutActions, appActions, weeksActions } from '../slices'
+import { INIT_APP } from '../storetypes'
 
 function* fetchAboutSaga() {
   try {
@@ -20,7 +20,10 @@ function* fetchAboutSaga() {
 
 function* fetchWeeksSaga() {
   try {
-    const weeks: IWeeks = yield call(getDBCollection, 'weeks')
+    const weeksFetched: IWeeks = yield call(getDBCollection, 'weeks')
+    const weeks: IWeeks = Object.fromEntries(Object.entries(weeksFetched).filter(([key]) => parseInt(key) > 35))
+    // const weeks: IWeeks = Object.fromEntries(Object.entries(weeksFetched))
+    // console.log(123, weeks2)
     const { currentWeek, nextWeek } = getWeeksIDs(weeks)
     yield put(appActions.setSelectedWeek(currentWeek))
     yield put(weeksActions.setWeeks(weeks))

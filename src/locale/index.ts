@@ -16,8 +16,8 @@ export const i18n = (component: string): LocaleType | undefined => {
   const loginIntro = 'Signed up?'
   const loginMsg = 'Login'
   const regIntro = 'Not signed up yet?'
-  const regMsg = 'SignUp'
-  const forgotMsg = 'Forget password?'
+  const regMsg = 'Sign Up'
+  const forgotMsg = 'Forgot password?'
   const regNameMsg = 'Username'
   const regNameAlert = 'Check username'
   const regEmailAlert = 'Check email'
@@ -35,8 +35,8 @@ export const i18n = (component: string): LocaleType | undefined => {
   const buttonProfileMsg = 'Edit profile'
   const buttonDetailsMsg = 'Detailed'
   const buttonDeleteWeekMsg = 'Delete'
-  const buttonRegisterMsg = 'Signup'
-  const buttonRegisterGoogleMsg = 'Google signup'
+  const buttonRegisterMsg = 'Sign Up'
+  const buttonRegisterGoogleMsg = 'Google Sign Up'
   const buttonLoginMsg = 'Login'
   const buttonLoginGoogleMsg = 'Google Login'
   const buttonRecoverMsg = 'Send recovery email'
@@ -56,8 +56,8 @@ export const i18n = (component: string): LocaleType | undefined => {
 
   const playerMsg = 'Player'
   const adminMsg = 'Admin'
-  const successMsg = 'Save success'
-  const failureMsg = 'Save failure'
+  const successMsg = 'Save successful'
+  const failureMsg = 'Save failed'
 
   const tableNameMsg = 'Player'
   const tableAllMsg = 'Total'
@@ -66,8 +66,9 @@ export const i18n = (component: string): LocaleType | undefined => {
   const tableAllUsersMsg = 'All players'
   const tableOnlyWeekMsg = 'Last week'
   const tableAllSeasonMsg = 'Season'
-  const tablePSOne = 'Standings will be renewed after specifying the results. Player with most correct answers is atop. Tiebreaker is correct answers percentage.'
-  const tablePSTwo = 'Pick a player to see his answers.'
+  const tablePSOne =
+    'Standings will be renewed after specifying the results. Player with the most correct answers is at the top. Tiebreaker is correct answers percentage.'
+  const tablePSTwo = 'Pick a player to see their answers.'
   const tableClearBtn = 'Clear'
   const tableSearchMsg = 'Find player'
   const tableHeaderhMsg = 'after '
@@ -87,8 +88,8 @@ export const i18n = (component: string): LocaleType | undefined => {
   const weekListEditorMsg = 'Pick week to edit'
 
   const otherUser1msg = 'Press this pad to go back to your profile'
-  const otherUser2msg = `You're now looking at profile of `
-  const otherUser3msg = 'Answers for the games that not started yet are hidden'
+  const otherUser2msg = `You're now looking at the profile of `
+  const otherUser3msg = 'Answers for games that have not started yet are hidden'
 
   switch (component) {
     case 'about':
