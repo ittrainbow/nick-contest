@@ -71,14 +71,13 @@ export const About = () => {
             </span>
 
             <span className="about-paragraph">
-              <span className="bold">Determining the Winner: </span>The overall winner is the player with the most
-              correct picks at the end of the NFL regular season.
+              <span className="bold">Contest Champion: </span>The overall champ is the player with the most correct
+              picks at the end of the NFL regular season.
             </span>
             <span className="about-paragraph">
-              <span className="bold">Tiebreaker: </span>If players are tied for the most correct picks, the winner will
-              be determined by highest accuracy percentage, or, in other words, less incorrect answers. This means a
-              player with fewer attempts will win the tiebreaker over a player with more attempts and the same number of
-              correct answers.
+              <span className="bold">Tiebreaker: </span>If two or more players are tied with the number of correct
+              picks, the player with the highest accuracy percentage, or, in other words, fewest total picks attempted,
+              will be ranked higher.
             </span>
             <span className="about-paragraph">Good luck.</span>
           </div>
