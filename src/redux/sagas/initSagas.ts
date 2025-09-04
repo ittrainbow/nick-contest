@@ -22,8 +22,6 @@ function* fetchWeeksSaga() {
   try {
     const weeksFetched: IWeeks = yield call(getDBCollection, 'weeks')
     const weeks: IWeeks = Object.fromEntries(Object.entries(weeksFetched).filter(([key]) => parseInt(key) > 35))
-    // const weeks: IWeeks = Object.fromEntries(Object.entries(weeksFetched))
-    // console.log(123, weeks2)
     const { currentWeek, nextWeek } = getWeeksIDs(weeks)
     yield put(appActions.setSelectedWeek(currentWeek))
     yield put(weeksActions.setWeeks(weeks))
