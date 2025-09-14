@@ -67,8 +67,8 @@ export const i18n = (component: string): LocaleType | undefined => {
   const tableOnlyWeekMsg = 'Last week'
   const tableAllSeasonMsg = 'Season'
   const tablePSOne =
-    'Standings will be renewed after specifying the results. Player with the most correct answers is at the top. Tiebreaker is correct answers percentage.'
-  const tablePSTwo = 'Pick a player to see their answers.'
+    'The standings will update once the results are finalized. The player with the most correct answers will be ranked at the top. The tiebreaker is the percentage of correct answers.'
+  const tablePSTwo = 'Pick a player to see his answers.'
   const tableClearBtn = 'Clear'
   const tableSearchMsg = 'Find player'
   const tableHeaderhMsg = 'after '
