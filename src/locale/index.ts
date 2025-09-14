@@ -56,8 +56,8 @@ export const i18n = (component: string): LocaleType | undefined => {
 
   const playerMsg = 'Player'
   const adminMsg = 'Admin'
-  const successMsg = 'Save successful'
-  const failureMsg = 'Save failed'
+  const successMsg = 'Saved successfuly'
+  const failureMsg = 'Failed to save'
 
   const tableNameMsg = 'Player'
   const tableAllMsg = 'Total'
